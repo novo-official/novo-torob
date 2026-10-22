@@ -1,0 +1,51 @@
+{
+  "at": "2026-10-22T16:14:45.557Z",
+  "mode": "mock only; UI-driven steps without narration or pauses; machine-specific",
+  "viewport": "390x844",
+  "scenes": [
+    {
+      "scene": "00 home + standing disclaimer",
+      "ms": 596
+    },
+    {
+      "scene": "01 known model → product (recorded price, not today's)",
+      "ms": 1395
+    },
+    {
+      "scene": "02 need → 3 questions → catalog cards + evidence",
+      "ms": 1126
+    },
+    {
+      "scene": "03 ambiguous variant → explicit choice required (identity not auto-confirmed)",
+      "ms": 556
+    },
+    {
+      "scene": "04 sellers: list + map (default origin, labelled)",
+      "ms": 2577
+    },
+    {
+      "scene": "05 compare 2 sellers (price/identity/hours/distance)",
+      "ms": 381
+    },
+    {
+      "scene": "06 manual inquiry: copy → user-reported reply (unverified)",
+      "ms": 682
+    },
+    {
+      "scene": "07 DEMO simulation: every message tagged, nothing persisted",
+      "ms": 821
+    },
+    {
+      "scene": "08 mission: visit-hours check + reported price change recovery",
+      "ms": 3319
+    },
+    {
+      "scene": "09 no result → honest coverage + sourced areas, no seller invented",
+      "ms": 657
+    }
+  ],
+  "totalMs": 12356,
+  "nonGetRequests": [
+    "POST /api/agent/turn"
+  ]
+}

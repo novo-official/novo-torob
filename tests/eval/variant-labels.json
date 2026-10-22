@@ -1,0 +1,643 @@
+{
+ "meta": {
+  "labelSource": "assistant-judged (heuristic): each pair was read once by the assistant; NOT verified by a domain expert",
+  "sampling": "seeded random (20261022): 30 MISMATCH, 20 UNCONFIRMED, 20 not-flagged-with-compatible-keys",
+  "labels": {
+   "different_variant": "titles clearly denote different sellable variants",
+   "same_variant": "titles denote the same product (spacing/format/prefix differences only)",
+   "unclear": "cannot tell from titles alone"
+  }
+ },
+ "pairs": [
+  {
+   "i": 0,
+   "engineVerdict": "VARIANT_MODEL_MISMATCH",
+   "offerId": "offer_8cf61c96f44645c817b7b676",
+   "productId": "product_11aadd30daa9bfb29451759a",
+   "productTitle": "نوک هویه سر کج سانشاین مدل SS-C210-IS",
+   "sellerTitle": "نوک هویه هوای گرم سرکج SUNSHINE SS-210-IS",
+   "label": "unclear"
+  },
+  {
+   "i": 1,
+   "engineVerdict": "VARIANT_MODEL_MISMATCH",
+   "offerId": "offer_36359efae8b236afb526ba76",
+   "productId": "product_2fe25094f0a3a12079837051",
+   "productTitle": "ساعت مچی مردانه جولیوس مدل JAH-110D بند چرم مصنوعی",
+   "sellerTitle": "ساعت مچی عقربه ای مردانه جولیوس مدل JAH-110C",
+   "label": "different_variant"
+  },
+  {
+   "i": 2,
+   "engineVerdict": "VARIANT_MODEL_MISMATCH",
+   "offerId": "offer_8cddc790c9477664dcf00cff",
+   "productId": "product_4002eccec6a2eb080c6556ed",
+   "productTitle": "چراغ مگنتی سقفی کروی ماه 6 وات شعاع مدل SH-MG-05-E-150",
+   "sellerTitle": "چراغ آویز مون لایت SH-ULT-MG-05-E-150",
+   "label": "unclear"
+  },
+  {
+   "i": 3,
+   "engineVerdict": "VARIANT_MODEL_MISMATCH",
+   "offerId": "offer_5d681b3d364aa92647e9565c",
+   "productId": "product_7c9a61939a2d32e8f5fd3cde",
+   "productTitle": "باتری قلمی کملیون مدل CR123A",
+   "sellerTitle": "باتری لیتیومی کملیون CAMELION CR123",
+   "label": "same_variant"
+  },
+  {
+   "i": 4,
+   "engineVerdict": "VARIANT_MODEL_MISMATCH",
+   "offerId": "offer_1efb9df990135946b590a9fb",
+   "productId": "product_8963375f0a53bb6a628542f4",
+   "productTitle": "دوربین مداربسته بالت تحت شبکه هایک‌ویژن مدل DS-2CD2663G2-IZS",
+   "sellerTitle": "دوربین مداربسته هایک ویژن مدل DS-2CD2666G2-IZS",
+   "label": "different_variant"
+  },
+  {
+   "i": 5,
+   "engineVerdict": "VARIANT_MODEL_MISMATCH",
+   "offerId": "offer_5e23faa2748975efb69b252d",
+   "productId": "product_a874613e53a4fd18d38a980e",
+   "productTitle": "کابل شارژ سامسونگ مدل EP-DX510 طول ۱.۸ متر ۵ آمپر Type-C",
+   "sellerTitle": "کابل USB-C به تایپ سی سامسونگ DX510J مدل 1.8 متری - 5 آمپر (ویتنام) - اصالت کالا: (تهیه شده از Samsung Store دبی) امکان استعلام شماره سریال با دستگاه JC - گارانتی: مادام العمر - رنگ: مشکی",
+   "label": "unclear"
+  },
+  {
+   "i": 6,
+   "engineVerdict": "VARIANT_MODEL_MISMATCH",
+   "offerId": "offer_3acb4acb61825b517e5157b7",
+   "productId": "product_086a48e98a80cb44075c7f81",
+   "productTitle": "کفکش راناب مدل RP8/32T ظرفیت ۳۲ متری ۳ اینچ سه فاز",
+   "sellerTitle": "کفکش 2 اینچ 32 متری راناب (تکفاز و سه فاز) مدل RP6-32 - فروشگاه نیکسا رووش",
+   "label": "different_variant"
+  },
+  {
+   "i": 7,
+   "engineVerdict": "VARIANT_MODEL_MISMATCH",
+   "offerId": "offer_b94ad5dcb1f5342504f77b44",
+   "productId": "product_85535123ce9d794f95aaf64c",
+   "productTitle": "تریستور BT169",
+   "sellerTitle": "BT169D",
+   "label": "different_variant"
+  },
+  {
+   "i": 8,
+   "engineVerdict": "VARIANT_MODEL_MISMATCH",
+   "offerId": "offer_5be62c22bf45bddb81516813",
+   "productId": "product_860571085f8738ac0545e0d1",
+   "productTitle": "سنسور باد لاستیک استیل میت Steel Mate TP-S9I",
+   "sellerTitle": "سنسور باد لاستیک TPMS Steelmate TPS91",
+   "label": "same_variant"
+  },
+  {
+   "i": 9,
+   "engineVerdict": "VARIANT_MODEL_MISMATCH",
+   "offerId": "offer_5beaef0f1dd98ea3c1b61bc9",
+   "productId": "product_7a2f6d7b912e40698ab6cd36",
+   "productTitle": "لجنکش توان 15 متری 2 اینچ کاتردار سه فاز tavan tak TPB 15/6-3HP",
+   "sellerTitle": "پمپ لجن کش توان تک 15متری سه فاز پروانه چدنی تک کانال - تیپ TPB 15/6/3PH",
+   "label": "same_variant"
+  },
+  {
+   "i": 10,
+   "engineVerdict": "VARIANT_MODEL_MISMATCH",
+   "offerId": "offer_b9e619879c4f00364f5b1939",
+   "productId": "product_6a30f3a225f5b3a724277f87",
+   "productTitle": "هواکش صنعتی آکسیال دمنده مدل  VIF-25V2S سایز ۲۵",
+   "sellerTitle": "هواکش صنعتی آکسیال گرد (طرح آلمان) مدل VIF-20V2S",
+   "label": "different_variant"
+  },
+  {
+   "i": 11,
+   "engineVerdict": "VARIANT_MODEL_MISMATCH",
+   "offerId": "offer_758cedaa6c76de88b14afda1",
+   "productId": "product_b7675b397381d992af67cdb1",
+   "productTitle": "دوربین مداربسته هایک ویژن مدل DS-2CE10DF3T-F کیفیت ۲ مگاپیکسل",
+   "sellerTitle": "دوربین 2 مگاپیکسلی هایک ویژن مدل DS-2CE10DF3T-PF",
+   "label": "different_variant"
+  },
+  {
+   "i": 12,
+   "engineVerdict": "VARIANT_MODEL_MISMATCH",
+   "offerId": "offer_935142611833186188bc31c8",
+   "productId": "product_50e975b6775c247177db4dec",
+   "productTitle": "شارژر شیائومی مدل MDY 12 ES توان 67 وات دو پین همراه کابل",
+   "sellerTitle": "شارژر شیائومی مدل MDY-12-EZ توان 67 وات دو پین - اصل / اداپتور به همراه کابل",
+   "label": "different_variant"
+  },
+  {
+   "i": 13,
+   "engineVerdict": "VARIANT_MODEL_MISMATCH",
+   "offerId": "offer_62a93a19dd9e97aca69c6957",
+   "productId": "product_652d711af0937de8ce1fbef4",
+   "productTitle": "سه پایه نگهدارنده گوشی مک دودو مدل TB621 آلومینیومی",
+   "sellerTitle": "هولدر و سه پایه چند کاره مگنتی مک دودو Mcdodo TB-6210",
+   "label": "different_variant"
+  },
+  {
+   "i": 14,
+   "engineVerdict": "VARIANT_MODEL_MISMATCH",
+   "offerId": "offer_38f9ff7e83103d49458e84ff",
+   "productId": "product_b6dcb14366f39115d0a52eec",
+   "productTitle": "کلید حرارتی 65-48 اشنایدر GV3P60",
+   "sellerTitle": "کلید حرارتی GV3P65 اشنایدر رنج 48 تا 65 آمپر",
+   "label": "unclear"
+  },
+  {
+   "i": 15,
+   "engineVerdict": "VARIANT_MODEL_MISMATCH",
+   "offerId": "offer_17d86e50d6527f34d68631b9",
+   "productId": "product_18072a36f5384ee9e77d4102",
+   "productTitle": "دوربین مدار بسته داهوا مدل DH-HAC-T2A51P-U-IL-A دام ۵ مگاپیکسل",
+   "sellerTitle": "دوربین داهوا مدل HAC-T2A51-U-IL-A",
+   "label": "different_variant"
+  },
+  {
+   "i": 16,
+   "engineVerdict": "VARIANT_MODEL_MISMATCH",
+   "offerId": "offer_9cd4f046ac141f2fd4323467",
+   "productId": "product_e11d24b074b09ec0826cb0cb",
+   "productTitle": "کنتاکتور اشنایدر مدل LC1D50M7 ظرفیت ۵۰ آمپر بوبین ۲۲۰ ولت ۲۲ کیلووات",
+   "sellerTitle": "کنتاکتور 220 ولت LC1D95AM7 اشنایدر",
+   "label": "different_variant"
+  },
+  {
+   "i": 17,
+   "engineVerdict": "VARIANT_MODEL_MISMATCH",
+   "offerId": "offer_0fa54cbb6fad686a87c3b9a2",
+   "productId": "product_30743466a0523d7f7f382fa6",
+   "productTitle": "سروو موتور دیجیتال MG996R دنده فلزی زاویه چرخش ۱۸۰ درجه",
+   "sellerTitle": "سروو موتور TowerPro MG996 Servo",
+   "label": "different_variant"
+  },
+  {
+   "i": 18,
+   "engineVerdict": "VARIANT_MODEL_MISMATCH",
+   "offerId": "offer_393126a6204d0719352f1f49",
+   "productId": "product_dcde71c0d7a96a8e8a69fd31",
+   "productTitle": "دوربین شلنگی آندوسکوپی شیلنگی چاه لوله صنعتی موبایلی تمام فنر 15 متری اتوفوکوس درجه 1 مدل MN154",
+   "sellerTitle": "دوربین آندوسکوپی شلنگی آندوسکپی شیلنگی چاه لوله صنعتی موبایلی تمام فنر 15 متری اتوفوکوس اصلی درجه 1 مدل MN156",
+   "label": "unclear"
+  },
+  {
+   "i": 19,
+   "engineVerdict": "VARIANT_MODEL_MISMATCH",
+   "offerId": "offer_e94e797f87a2ee10f8ba2038",
+   "productId": "product_08424bf464c743e3efd56249",
+   "productTitle": "عینک آفتابی پلاریزه موسکات مدل SGA-581014",
+   "sellerTitle": "عینک پلاریزه زنانه سپوری مدل SGT-581014",
+   "label": "different_variant"
+  },
+  {
+   "i": 20,
+   "engineVerdict": "VARIANT_MODEL_MISMATCH",
+   "offerId": "offer_c56dd59f52f7c8c618de5860",
+   "productId": "product_0ad6f37127b053ad4503fb16",
+   "productTitle": "ترازوی دیجیتال تشخیصی بی ول مدل WK-168BT بلوتوث دار ظرفیت ۱۸۰ کیلوگرم",
+   "sellerTitle": "ترازوی دیجیتال بلوتوثی WK/TH-168BT",
+   "label": "unclear"
+  },
+  {
+   "i": 21,
+   "engineVerdict": "VARIANT_MODEL_MISMATCH",
+   "offerId": "offer_c15f232ae7c43be9bed1e85c",
+   "productId": "product_3bbdbb3da0c300a5da31e9e7",
+   "productTitle": "اینورتر فندکی پاورولوژی مدل PWCUQC044",
+   "sellerTitle": "اینورتر 300 واتی پاورولوژی مدل Powerology PWC044",
+   "label": "unclear"
+  },
+  {
+   "i": 22,
+   "engineVerdict": "VARIANT_MODEL_MISMATCH",
+   "offerId": "offer_52e49f5ec99061a81fd07648",
+   "productId": "product_7b1950dc26e96a2af95613f6",
+   "productTitle": "باتری لیتیوم فسفات آهن Marsriva مدل MR-LFP24-100-WMD ظرفیت ۱۰۲ آمپر ساعت ۲۴ ولت",
+   "sellerTitle": "باتری لیتیوم مارسریوا مدل MR-LFP48-100-WMD ظرفیت ۵.۲۲ کیلووات ساعت",
+   "label": "different_variant"
+  },
+  {
+   "i": 23,
+   "engineVerdict": "VARIANT_MODEL_MISMATCH",
+   "offerId": "offer_b3322d717ca985b53e789a33",
+   "productId": "product_bcc246eac6dcd58b00b50209",
+   "productTitle": "پاوربانک مک دودو مدل MC-024 ظرفیت 10000 میلی آمپر ساعت",
+   "sellerTitle": "پاوربانک 10000 مک دودو مدل MC-0241",
+   "label": "different_variant"
+  },
+  {
+   "i": 24,
+   "engineVerdict": "VARIANT_MODEL_MISMATCH",
+   "offerId": "offer_db012a2f488839077adb4fe2",
+   "productId": "product_ed4291f6e6fbf331a432f7a6",
+   "productTitle": "ساکشن نکسومد مدل TTP110 ظرفیت تک شیشه ای",
+   "sellerTitle": "ساکشن نکسومد مدل TTP10-R01 (PLUSE)",
+   "label": "different_variant"
+  },
+  {
+   "i": 25,
+   "engineVerdict": "VARIANT_MODEL_MISMATCH",
+   "offerId": "offer_b017a513f47b651cf7effec4",
+   "productId": "product_f3f2efed241794f6b3d81807",
+   "productTitle": "ماوس بی سیم تسکو مدل TM731W",
+   "sellerTitle": "موس TM 731 W تسکو",
+   "label": "same_variant"
+  },
+  {
+   "i": 26,
+   "engineVerdict": "VARIANT_MODEL_MISMATCH",
+   "offerId": "offer_b1d6cb7a6b64cbbccca46bb8",
+   "productId": "product_1d4478b9aeed062fc29195cb",
+   "productTitle": "فیلتر آبگیر گازوئیل فیلیتگارد FS1006",
+   "sellerTitle": "فیلترآبگیرگازوئیل فیلیتگاردFS1216اصلی",
+   "label": "different_variant"
+  },
+  {
+   "i": 27,
+   "engineVerdict": "VARIANT_MODEL_MISMATCH",
+   "offerId": "offer_29f4de94774d5ab82eaeda66",
+   "productId": "product_27bff8d48a6b43d9086a157c",
+   "productTitle": "دستگاه چسب گرم AX-T30 سایز A3",
+   "sellerTitle": "دستگاه چسب گرم رومیزی AX T30-A3",
+   "label": "same_variant"
+  },
+  {
+   "i": 28,
+   "engineVerdict": "VARIANT_MODEL_MISMATCH",
+   "offerId": "offer_517d167399997a1fdce10a24",
+   "productId": "product_8086f680b1cee2cad8d622da",
+   "productTitle": "تلفن تحت شبکه پاناسونیک کارکرده KX-NT546",
+   "sellerTitle": "تلفن دیجیتال پاناسونیک مدل kx-DT546 (استوک در حد با گارانتی تعویض)",
+   "label": "different_variant"
+  },
+  {
+   "i": 29,
+   "engineVerdict": "VARIANT_MODEL_MISMATCH",
+   "offerId": "offer_8e6ec77753add2867564c1af",
+   "productId": "product_18b77681a7dabbdfc6e20cd6",
+   "productTitle": "فیش اسپیکون نوتریک Neutrik NL4FX",
+   "sellerTitle": "کانکتور اسپیکون مدل نوتریک Neutrik NL4FXX-W-S",
+   "label": "different_variant"
+  },
+  {
+   "i": 30,
+   "engineVerdict": "VARIANT_MODEL_UNCONFIRMED",
+   "offerId": "offer_e0da3c50a1a65ee166af83ab",
+   "productId": "product_adfc015d1bac85b1c3e89106",
+   "productTitle": "استپر موتور اچ کیو ام مدل 110HS300 گشتاور ۳۰۰ کیلوگرم سانتی‌متر",
+   "sellerTitle": "استپ موتور 110LA99-300 (8A 1.8° 300kg/cm)",
+   "label": "unclear"
+  },
+  {
+   "i": 31,
+   "engineVerdict": "VARIANT_MODEL_UNCONFIRMED",
+   "offerId": "offer_43e65058a86e30ddc4ab75ca",
+   "productId": "product_b4d36b52281d922415b0e1a2",
+   "productTitle": "چراغ ریلی شعاع مدل SH416 ظرفیت ۲۸ وات",
+   "sellerTitle": "چراغ ریلی 28 وات شعاع SH-416-28W",
+   "label": "same_variant"
+  },
+  {
+   "i": 32,
+   "engineVerdict": "VARIANT_MODEL_UNCONFIRMED",
+   "offerId": "offer_975380de09dbef622c50fda0",
+   "productId": "product_cf3dda70f367d039e82a0514",
+   "productTitle": "نگهدارنده گردنی TELESIN مدل MNM-001",
+   "sellerTitle": "هولدر گردنی برای دوربین‌های اکشن و گوشی مدل SCS-NH001",
+   "label": "unclear"
+  },
+  {
+   "i": 33,
+   "engineVerdict": "VARIANT_MODEL_UNCONFIRMED",
+   "offerId": "offer_da3fbfd235a396d7475c7071",
+   "productId": "product_f4842ce5ba16ddf819a79e2c",
+   "productTitle": "موتور برق بنزینی هیوندای مدل HG-5356 ظرفیت ۳ کیلووات تک فاز",
+   "sellerTitle": "موتور برق 2.5 کیلووات بنزینی سایلنت تک فاز هندلی اینورتری رویالیتی مدل RT3300",
+   "label": "different_variant"
+  },
+  {
+   "i": 34,
+   "engineVerdict": "VARIANT_MODEL_UNCONFIRMED",
+   "offerId": "offer_5ba2420e2b6981b163ec6bff",
+   "productId": "product_89b5a41a0a102aa850e89cf8",
+   "productTitle": "صندلی کارشناسی نیلپر  OCT740K _ SK740K",
+   "sellerTitle": "قیمت و خرید صندلی کارمندی نیلپر مدل NOCT 740K پایه فولادی",
+   "label": "same_variant"
+  },
+  {
+   "i": 35,
+   "engineVerdict": "VARIANT_MODEL_UNCONFIRMED",
+   "offerId": "offer_31fdf4f9a952ab5c8041432a",
+   "productId": "product_f13cfc9afb53b53b2e387bc4",
+   "productTitle": "دوربین مدار بسته آیمو مدل IPC-S2XP-6M0WED دو لنز ۶ مگاپیکسل",
+   "sellerTitle": "دوربین مداربسته بیسیم بیبی کم دولنز آیمو مدل IMOU-RANGER-DUAL-IPC-S2XP-6M0WED",
+   "label": "same_variant"
+  },
+  {
+   "i": 36,
+   "engineVerdict": "VARIANT_MODEL_UNCONFIRMED",
+   "offerId": "offer_e1456f8a6b90125ce20bca6b",
+   "productId": "product_bceeb6baf728919e02397e7a",
+   "productTitle": "مبل اداری نیلپر مدل OSS851N3 ظرفیت ۳ نفر",
+   "sellerTitle": "قیمت و خرید مبلمان اداری نیلپر مدل NOSS851N3",
+   "label": "same_variant"
+  },
+  {
+   "i": 37,
+   "engineVerdict": "VARIANT_MODEL_UNCONFIRMED",
+   "offerId": "offer_5de9c90b415844638a508f2e",
+   "productId": "product_053690bc9793672ac477462b",
+   "productTitle": "تاچ و ال سی دی هوآوی Nova 2 Plus با فریم مشکی",
+   "sellerTitle": "ال سی دی LCD HUAWEI Nova2Plus",
+   "label": "same_variant"
+  },
+  {
+   "i": 38,
+   "engineVerdict": "VARIANT_MODEL_UNCONFIRMED",
+   "offerId": "offer_600ba8584bb0cf9db805d16d",
+   "productId": "product_117cc280de6baa54babb8118",
+   "productTitle": "چشمی دزدگیر پارادوکس مدل 476 پرو",
+   "sellerTitle": "چشم،سنسور دزدگیر پارادوکس مدل PRO-476",
+   "label": "same_variant"
+  },
+  {
+   "i": 39,
+   "engineVerdict": "VARIANT_MODEL_UNCONFIRMED",
+   "offerId": "offer_9309e5de2341b4c8a9c7bdea",
+   "productId": "product_2854a1afbf7a4ba301ec8415",
+   "productTitle": "اينورتر سه فاز INVT GD10 توان 0.75KW",
+   "sellerTitle": "اينورتر سه فاز توان 0.75KW کد GD10-0R7G-4-B",
+   "label": "same_variant"
+  },
+  {
+   "i": 40,
+   "engineVerdict": "VARIANT_MODEL_UNCONFIRMED",
+   "offerId": "offer_00cf62e7255ea0c09c9513f8",
+   "productId": "product_2c1ccdc6a2aae0ac80eb879f",
+   "productTitle": "پوش باتن استارت باکالیت اماس مدل *B100D",
+   "sellerTitle": "پوش باتن استارت باکالیت اماس مدل *D100B",
+   "label": "different_variant"
+  },
+  {
+   "i": 41,
+   "engineVerdict": "VARIANT_MODEL_UNCONFIRMED",
+   "offerId": "offer_86ff386b7dfaa862165bbe62",
+   "productId": "product_8de6244fe0de0c031dfa8851",
+   "productTitle": "کلید محافظ جان اشنایدر مدل A9R41463 ظرفیت ۶۳ آمپر",
+   "sellerTitle": "کلید محافظ جان چهار فاز 80 آمپر اشنایدر A9R11480",
+   "label": "different_variant"
+  },
+  {
+   "i": 42,
+   "engineVerdict": "VARIANT_MODEL_UNCONFIRMED",
+   "offerId": "offer_a5a20fbec131f272cb76b2b6",
+   "productId": "product_078fa1a4cae2a38d2fb021ca",
+   "productTitle": "هواکش صنعتی دمنده مدل VIA-30C4S  پروانه فلزی سایز ۳۰ سانت",
+   "sellerTitle": "هواکش فلزی خانگی دمنده مدل VMA-C4S - 30 سانت",
+   "label": "different_variant"
+  },
+  {
+   "i": 43,
+   "engineVerdict": "VARIANT_MODEL_UNCONFIRMED",
+   "offerId": "offer_bd2bb0ae4ca3b990966a37c6",
+   "productId": "product_95619d0eaba1e1566c6cf0ed",
+   "productTitle": "پمپ آب الکتروژن مدل CB210 ظرفیت ۲ اسب دو پروانه تک فاز",
+   "sellerTitle": "پمپ 2اسب2پروانه ژنرا پمپ مدل2CPM68 (پروانه برنج)",
+   "label": "different_variant"
+  },
+  {
+   "i": 44,
+   "engineVerdict": "VARIANT_MODEL_UNCONFIRMED",
+   "offerId": "offer_177b903ae9bcb89245e42906",
+   "productId": "product_0bc78711fefa3222b9a9784f",
+   "productTitle": "خازن 22 نانو فاراد 22NF SMD 50V 10% 1206",
+   "sellerTitle": "خازن CAP 22NF 1206 50V 10%",
+   "label": "same_variant"
+  },
+  {
+   "i": 45,
+   "engineVerdict": "VARIANT_MODEL_UNCONFIRMED",
+   "offerId": "offer_1a9fb46fd711892cade0204d",
+   "productId": "product_56ea89c7183800bf0c811b81",
+   "productTitle": "تاچ ال سی دی گوشی سامسونگ گلکسی M32/M325 - مشکی / بافریم",
+   "sellerTitle": "تاچ و ال سی دی سامسونگ 4g LCD SAM M32",
+   "label": "same_variant"
+  },
+  {
+   "i": 46,
+   "engineVerdict": "VARIANT_MODEL_UNCONFIRMED",
+   "offerId": "offer_ed9936ce044b9d8141da696c",
+   "productId": "product_661eb24c47ae364cd4080150",
+   "productTitle": "ترمینال توزیع 2 پل مدل ENVDB-207/125AE",
+   "sellerTitle": "ترمینال توزیع FJ-207/100B",
+   "label": "different_variant"
+  },
+  {
+   "i": 47,
+   "engineVerdict": "VARIANT_MODEL_UNCONFIRMED",
+   "offerId": "offer_9ce0f8bf47c7b3bfd81ec8aa",
+   "productId": "product_b866aa56bfa4c77fae98b4b0",
+   "productTitle": "شارژر سامسونگ مدل EP-TA800 توان 25 وات سه پین",
+   "sellerTitle": "شارژر کلگی PD 3PIN سفید SAMSUNG 25W کپی",
+   "label": "unclear"
+  },
+  {
+   "i": 48,
+   "engineVerdict": "VARIANT_MODEL_UNCONFIRMED",
+   "offerId": "offer_ef895e941a6c37e335b5bd74",
+   "productId": "product_08d34398368538b009a2ad16",
+   "productTitle": "کارت گرافیک ایسوس TUF Gaming GTX1650 OC حافظه ۴ گیگابایت GDDR6",
+   "sellerTitle": "Asus 1650 tuf 4G OC کارت گرافیک استوک",
+   "label": "same_variant"
+  },
+  {
+   "i": 49,
+   "engineVerdict": "VARIANT_MODEL_UNCONFIRMED",
+   "offerId": "offer_b56fb6f17940e10441f313e2",
+   "productId": "product_8ab9cd649987196e09117be7",
+   "productTitle": "برد توسعه مینی STM32F103C8T6 مدل Blue Pill",
+   "sellerTitle": "BOARD 32F103C8T6 MINIMUM SYSTEM ماژول",
+   "label": "same_variant"
+  },
+  {
+   "i": 50,
+   "engineVerdict": "COMPATIBLE (no variant flag)",
+   "offerId": "offer_718810e4759dcd171f312714",
+   "productId": "product_3a4d55ee1324466fcf5cb285",
+   "productTitle": "اسپیکر بلوتوثی کی برود مدل KTS1199S",
+   "sellerTitle": "اسپیکر چمدانی بلوتوثی کی برود KTS-1199S + میکروفون kbroad",
+   "label": "same_variant"
+  },
+  {
+   "i": 51,
+   "engineVerdict": "COMPATIBLE (no variant flag)",
+   "offerId": "offer_db8065202311361bb2019372",
+   "productId": "product_3b4d67f32feb2ae5eda62ffc",
+   "productTitle": "مقاومت RES 150",
+   "sellerTitle": "مقاومت RES 150K 1206 1% SMD",
+   "label": "different_variant"
+  },
+  {
+   "i": 52,
+   "engineVerdict": "COMPATIBLE (no variant flag)",
+   "offerId": "offer_292405eb797c9a6068c8652d",
+   "productId": "product_59bf6292b1ff66a3a47d6e0b",
+   "productTitle": "هواکش صنعتی ایلکا مدل VIK-35A4S ظرفیت ۳۵ سانت با قاب",
+   "sellerTitle": "هواکش صنعتی 35 سانت 140 وات ایلکا فلزی مدل VIK-35A4S",
+   "label": "same_variant"
+  },
+  {
+   "i": 53,
+   "engineVerdict": "COMPATIBLE (no variant flag)",
+   "offerId": "offer_1b86696fe2f00ba600ac5160",
+   "productId": "product_086913dbe3f7cded1f498ecb",
+   "productTitle": "برد I/Q کنترلر دی اس پی DSP ریچ اتو (برد ورودی و خروجی A11-A18-B11-B18)",
+   "sellerTitle": "برد I/Q کنترلر دی اس پی DSP ریچ اتو (برد ورودی و خروجی A11-A18-B11-B18)",
+   "label": "same_variant"
+  },
+  {
+   "i": 54,
+   "engineVerdict": "COMPATIBLE (no variant flag)",
+   "offerId": "offer_38b5fbe1120eefcd3469d0e3",
+   "productId": "product_b09f5442ee18259e7f70de0f",
+   "productTitle": "فیلتر روغن دیزل ژنراتور ولوو TAD-530GE / 3831236",
+   "sellerTitle": "فیلتر روغن دیزل ژنراتور ولوو TAD-530GE / 3831236",
+   "label": "same_variant"
+  },
+  {
+   "i": 55,
+   "engineVerdict": "COMPATIBLE (no variant flag)",
+   "offerId": "offer_55c778e204a2d951b1c691f0",
+   "productId": "product_1418e54c92b3dec7699eb14f",
+   "productTitle": "کنترلر رطوبت مدل FX3H-00 دوتک کره",
+   "sellerTitle": "کنترلر رطوبت مدل FX3H-00 دوتک کره",
+   "label": "same_variant"
+  },
+  {
+   "i": 56,
+   "engineVerdict": "COMPATIBLE (no variant flag)",
+   "offerId": "offer_581b8f1b4d49de956700b26c",
+   "productId": "product_02a1cd49aa2ced9adb502a41",
+   "productTitle": "دریل ستونی ویوارکس مدل VR5516-DP سایز ۱۶ میلیمتر",
+   "sellerTitle": "دریل ستونی 16 میلیمتر ویوارکس مدل VR5516-DP",
+   "label": "same_variant"
+  },
+  {
+   "i": 57,
+   "engineVerdict": "COMPATIBLE (no variant flag)",
+   "offerId": "offer_7d3550610facd7b196abc92e",
+   "productId": "product_1aadca3f976960120d5003cb",
+   "productTitle": "جعبه کلید فرمان اماس BOS3PY",
+   "sellerTitle": "جعبه کلید فرمان اماس BOS3PY",
+   "label": "same_variant"
+  },
+  {
+   "i": 58,
+   "engineVerdict": "COMPATIBLE (no variant flag)",
+   "offerId": "offer_7a474950db66e3a5ad6639ad",
+   "productId": "product_ed8d06e46e47523b73f447da",
+   "productTitle": "شیر برقی پنوماتیک SMC مدل SY 3220",
+   "sellerTitle": "شیر برقی پنوماتیک SMC مدل SY 3220",
+   "label": "same_variant"
+  },
+  {
+   "i": 59,
+   "engineVerdict": "COMPATIBLE (no variant flag)",
+   "offerId": "offer_83fe44429a1cea4aa495efef",
+   "productId": "product_2e213e23e541a67f25cbeb95",
+   "productTitle": "پاوربانک 22.5 وات انکر مدل A110E ظرفیت 20000 میلی آمپر ساعت",
+   "sellerTitle": "پاوربانک انکر A110E ظرفیت 20000 میلی‌آمپر ساعت",
+   "label": "same_variant"
+  },
+  {
+   "i": 60,
+   "engineVerdict": "COMPATIBLE (no variant flag)",
+   "offerId": "offer_0ae1157eda2b71767664c34d",
+   "productId": "product_d088e19dd72c3c85871a2751",
+   "productTitle": "دستگاه DVR هایک ویژن DS-7216HQHI-K1",
+   "sellerTitle": "دستگاه DVR هایک ویژن DS-7216HQHI-K1",
+   "label": "same_variant"
+  },
+  {
+   "i": 61,
+   "engineVerdict": "COMPATIBLE (no variant flag)",
+   "offerId": "offer_afde1fbef0e746cb09c3c2ca",
+   "productId": "product_297248ac439941aeed5eeabc",
+   "productTitle": "ترانزیستور IRF9Z34N ORG",
+   "sellerTitle": "ماسفت IRF9Z34N",
+   "label": "same_variant"
+  },
+  {
+   "i": 62,
+   "engineVerdict": "COMPATIBLE (no variant flag)",
+   "offerId": "offer_95ba05934b6a9aa7f10138a0",
+   "productId": "product_91b27d98a9f1f3c1de8feb8c",
+   "productTitle": "لپ تاپ گیمینگ اچ‌پی OMEN WF0020NIA پردازنده i7 ۱۳۷۰۰HX رم ۱۶ گیگابایت SSD ۵۱۲ گیگابایت گرافیک RTX ۳۰۵۰",
+   "sellerTitle": "لپ تاپ گیمینگ اچ‌پی OMEN WF0020NIA پردازنده i7 ۱۳۷۰۰HX رم ۱۶ گیگابایت SSD ۵۱۲ گیگابایت گرافیک RTX ۳۰۵۰",
+   "label": "same_variant"
+  },
+  {
+   "i": 63,
+   "engineVerdict": "COMPATIBLE (no variant flag)",
+   "offerId": "offer_9bbb1ec8625d5a8c53d3a486",
+   "productId": "product_5a52920dd94f17aeddd40d97",
+   "productTitle": "ضبط تصویری ناکامیچی NA 1200S",
+   "sellerTitle": "ضبط تصویری ناکامیچی NA 1200S",
+   "label": "same_variant"
+  },
+  {
+   "i": 64,
+   "engineVerdict": "COMPATIBLE (no variant flag)",
+   "offerId": "offer_ed62aa2529412ec69ae474b3",
+   "productId": "product_af1175134023550f31c1b519",
+   "productTitle": "ماژول آمپلی فایر بلوتوثی SOS مدل BT502T",
+   "sellerTitle": "ماژول آمپلی فایر بلوتوثی SOS مدل BT502T",
+   "label": "same_variant"
+  },
+  {
+   "i": 65,
+   "engineVerdict": "COMPATIBLE (no variant flag)",
+   "offerId": "offer_fb2d3141e64a8449291140c7",
+   "productId": "product_a2669ba6fabcb7e506a4650a",
+   "productTitle": "مولتی متر دیجیتال هیوکی مدل DT4281",
+   "sellerTitle": "مولتی متر دیجیتال هیوکی dt4281",
+   "label": "same_variant"
+  },
+  {
+   "i": 66,
+   "engineVerdict": "COMPATIBLE (no variant flag)",
+   "offerId": "offer_70931dd30bc5b0933605998f",
+   "productId": "product_f35392328632923e2fdb7cea",
+   "productTitle": "باتری شیائومی مدل Poco C40",
+   "sellerTitle": "باتری اصلی شیائومی پوکو سی ۴۰ | Xiaomi Poco C40",
+   "label": "same_variant"
+  },
+  {
+   "i": 67,
+   "engineVerdict": "COMPATIBLE (no variant flag)",
+   "offerId": "offer_185ca85cbd480629cc8a1794",
+   "productId": "product_eff48e1a2c1c0a699882ace1",
+   "productTitle": "کابل HDMI کی نت مدل K-CH200030 طول ۳ متر ۴K ورژن ۲.۰",
+   "sellerTitle": "کابل HDMI 4k ورژن 2 کی نت مدل K-CH200030 طول 3 متر",
+   "label": "same_variant"
+  },
+  {
+   "i": 68,
+   "engineVerdict": "COMPATIBLE (no variant flag)",
+   "offerId": "offer_2122cac437e4540bfcc2db06",
+   "productId": "product_0c70b610a2921d9f4f078b1f",
+   "productTitle": "چراغ سقفی روکار شعاع مدل SH6530M",
+   "sellerTitle": "چراغ سقفى روکار SH-6530M شعاع",
+   "label": "same_variant"
+  },
+  {
+   "i": 69,
+   "engineVerdict": "COMPATIBLE (no variant flag)",
+   "offerId": "offer_c20b1a0ed0d0319c2b93c948",
+   "productId": "product_7a1c39e44bc7aed0652a5636",
+   "productTitle": "باتری دوربین کانن مدل NB-10L",
+   "sellerTitle": "باتری دوربین کانن مدل NB-10L ا Canon NB-10L Lithium-Ion Battery Pack اصلی شرکتی",
+   "label": "same_variant"
+  }
+ ]
+}

@@ -1,0 +1,24 @@
+description,last_price_changed_at,offer_id,price_toman,product_id,seller_title,shop_id,warranty
+,2026-10-10T08:00:00.000000+00:00,offer_fx_01,12000000,product_fx_contactor,کنتاکتور 220 ولت LC1D95AM7 اشنایدر,shop_fx_01,null
+,2026-10-10T08:00:00.000000+00:00,offer_fx_02,8000000,product_fx_contactor,کنتاکتور 220 ولت LC1D50AM7 اشنایدر,shop_fx_01,null
+,2026-10-11T08:00:00.000000+00:00,offer_fx_03,4200000,product_fx_camera,دوربین مدار بسته داهوا مدل DH-HAC-HDW1200CLQP,shop_fx_02,"{""description"":null,""period_months"":24,""provider"":""شرکتی""}"
+,2026-10-12T08:00:00.000000+00:00,offer_fx_04,4300000,product_fx_camera,دوربین داهوا HDW1200CLQP-IL-A,shop_fx_03,null
+,2026-10-12T08:00:00.000000+00:00,offer_fx_05,4300000,product_fx_camera,دوربین داهوا HDW1200CLQP-IL-A,shop_fx_03,null
+,2026-10-12T08:00:00.000000+00:00,offer_fx_06,null,product_fx_camera,دوربین مدار بسته داهوا DH-HAC-HDW1200CLQP-IL-A,shop_fx_04,null
+,2026-05-01T08:00:00.000000+00:00,offer_fx_07,4100000,product_fx_camera,دوربین داهوا DH-HAC-HDW1200CLQP-IL-A,shop_fx_01,null
+,null,offer_fx_08,3900000,product_fx_camera,دوربین داهوا DH-HAC-HFW1200CMP-IL-A (مدل دیگر),shop_fx_01,null
+,2026-09-20T08:00:00.000000+00:00,offer_fx_09,39000,product_fx_wire,سیم افشان 2.5 خراسان (قیمت متری),shop_fx_01,null
+,2026-09-21T08:00:00.000000+00:00,offer_fx_10,3900000,product_fx_wire,سیم افشان 2.5 خراسان حلقه 100 متری,shop_fx_02,null
+,2026-09-22T08:00:00.000000+00:00,offer_fx_11,null,product_fx_wire,سیم افشان 2.5 خراسان,shop_fx_03,null
+,2026-10-10T08:00:00.000000+00:00,offer_fx_12,14450000,product_fx_pump,پمپ آب الکتروژن مدل CM100,shop_fx_01,null
+,2026-10-10T08:00:00.000000+00:00,offer_fx_13,14920000,product_fx_pump,پمپ آب الکتروژن مدل CM100,shop_fx_02,null
+,2026-10-10T08:00:00.000000+00:00,offer_fx_14,15500000,product_fx_pump,پمپ آب الکتروژن مدل CM100,shop_fx_03,null
+,2026-10-10T08:00:00.000000+00:00,offer_fx_15,15200000,product_fx_pump,پمپ آب الکتروژن مدل CM100,shop_fx_04,null
+,2026-10-10T08:00:00.000000+00:00,offer_fx_16,14900000,product_fx_pump,پمپ آب الکتروژن مدل CM100,shop_fx_06,null
+,2026-10-10T08:00:00.000000+00:00,offer_fx_17,900000000,product_fx_pump,پمپ آب الکتروژن CM100 (اشتباه تایپی؟),shop_fx_06,null
+,2026-10-10T08:00:00.000000+00:00,offer_fx_18,200000,product_fx_pump,پمپ آب الکتروژن CM100 مدل,shop_fx_01,null
+,2026-10-10T08:00:00.000000+00:00,offer_fx_19,733518940747298944,product_fx_pump,پمپ الکتروژن,shop_fx_02,null
+,2026-10-01T08:00:00.000000+00:00,offer_fx_20,1000000,product_fx_badjson,محصول با JSON خراب,shop_fx_06,{bad warranty
+"توضیح
+چندخطی",2026-10-01T08:00:00.000000+00:00,offer_fx_21,500000,product_fx_multiline,"محصول «چندخطی»
+عنوان دوم",shop_fx_06,null

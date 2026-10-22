@@ -1,0 +1,8 @@
+brand_name,category_name,image_urls,model,persian_title,product_id,specs
+null,رله,[],null,کنتاکتور 220 ولت LC1D95AM7 اشنایدر,product_fx_contactor,[]
+داهوا,دوربین مدار بسته,"[""https://images.example/a.jpg"",""javascript:alert(1)""]",null,دوربین مدار بسته داهوا مدل DH-HAC-HDW1200CLQP-IL-A,product_fx_camera,"[{""key"":""رزولوشن"",""section"":""مشخصات کلی"",""value"":""۲ مگاپیکسل""},{""key"":""برند"",""section"":""مشخصات کلی"",""value"":""Dahua""}]"
+null,سیم و کابل برق ساختمان,[],null,سیم افشان ۲٫۵ خراسان,product_fx_wire,[]
+الکتروژن,پمپ آب,[],CM100,پمپ آب الکتروژن مدل CM100,product_fx_pump,"[{""key"":""رزولوشن"",""section"":""مشخصات کلی"",""value"":""۲ مگاپیکسل""},{""key"":""برند"",""section"":""مشخصات کلی"",""value"":""Dahua""}]"
+null,متفرقه,not json,null,محصول با JSON خراب,product_fx_badjson,{oops
+null,متفرقه,[],null,"محصول «چندخطی»
+با خط دوم و ي عربی كيبورد",product_fx_multiline,[]

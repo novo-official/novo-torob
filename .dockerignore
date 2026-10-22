@@ -1,0 +1,15 @@
+.git
+.data
+data
+node_modules
+.next
+coverage
+test-results
+playwright-report
+docs/qa
+*.sqlite
+*.zip
+*.mp4
+.env
+.env.*
+!.env.example

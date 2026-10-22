@@ -1,0 +1,363 @@
+{
+  "at": "2026-10-22T16:17:06.973Z",
+  "note": "FAKE secrets, local sink only; no outbound LLM request is possible",
+  "variants": [
+    {
+      "name": "live-looking-complete (all conditions but the code lock)",
+      "turn": [
+        [
+          503,
+          "AGENT_LIVE_LOCKED"
+        ],
+        [
+          503,
+          "AGENT_LIVE_LOCKED"
+        ],
+        [
+          503,
+          "AGENT_LIVE_LOCKED"
+        ]
+      ],
+      "statusEnabled": false,
+      "providerId": "locked",
+      "isLanguageModel": false,
+      "uiLocked": true,
+      "uiNoMockFallback": true,
+      "sinkConnections": 0
+    },
+    {
+      "name": "malformed approval id",
+      "turn": [
+        [
+          503,
+          "AGENT_LIVE_LOCKED"
+        ],
+        [
+          503,
+          "AGENT_LIVE_LOCKED"
+        ],
+        [
+          503,
+          "AGENT_LIVE_LOCKED"
+        ]
+      ],
+      "statusEnabled": false,
+      "providerId": "locked",
+      "isLanguageModel": false,
+      "uiLocked": true,
+      "uiNoMockFallback": true,
+      "sinkConnections": 0
+    },
+    {
+      "name": "forged shape (lowercase)",
+      "turn": [
+        [
+          503,
+          "AGENT_LIVE_LOCKED"
+        ],
+        [
+          503,
+          "AGENT_LIVE_LOCKED"
+        ],
+        [
+          503,
+          "AGENT_LIVE_LOCKED"
+        ]
+      ],
+      "statusEnabled": false,
+      "providerId": "locked",
+      "isLanguageModel": false,
+      "uiLocked": true,
+      "uiNoMockFallback": true,
+      "sinkConnections": 0
+    },
+    {
+      "name": "expired approval",
+      "turn": [
+        [
+          503,
+          "AGENT_LIVE_LOCKED"
+        ],
+        [
+          503,
+          "AGENT_LIVE_LOCKED"
+        ],
+        [
+          503,
+          "AGENT_LIVE_LOCKED"
+        ]
+      ],
+      "statusEnabled": false,
+      "providerId": "locked",
+      "isLanguageModel": false,
+      "uiLocked": true,
+      "uiNoMockFallback": true,
+      "sinkConnections": 0
+    },
+    {
+      "name": "approval valid for > 72 h",
+      "turn": [
+        [
+          503,
+          "AGENT_LIVE_LOCKED"
+        ],
+        [
+          503,
+          "AGENT_LIVE_LOCKED"
+        ],
+        [
+          503,
+          "AGENT_LIVE_LOCKED"
+        ]
+      ],
+      "statusEnabled": false,
+      "providerId": "locked",
+      "isLanguageModel": false,
+      "uiLocked": true,
+      "uiNoMockFallback": true,
+      "sinkConnections": 0
+    },
+    {
+      "name": "kill switch engaged",
+      "turn": [
+        [
+          503,
+          "AGENT_LIVE_LOCKED"
+        ],
+        [
+          503,
+          "AGENT_LIVE_LOCKED"
+        ],
+        [
+          503,
+          "AGENT_LIVE_LOCKED"
+        ]
+      ],
+      "statusEnabled": false,
+      "providerId": "locked",
+      "isLanguageModel": false,
+      "uiLocked": true,
+      "uiNoMockFallback": true,
+      "sinkConnections": 0
+    },
+    {
+      "name": "model not allowlisted",
+      "turn": [
+        [
+          503,
+          "AGENT_LIVE_LOCKED"
+        ],
+        [
+          503,
+          "AGENT_LIVE_LOCKED"
+        ],
+        [
+          503,
+          "AGENT_LIVE_LOCKED"
+        ]
+      ],
+      "statusEnabled": false,
+      "providerId": "locked",
+      "isLanguageModel": false,
+      "uiLocked": true,
+      "uiNoMockFallback": true,
+      "sinkConnections": 0
+    },
+    {
+      "name": "key only (no approval at all)",
+      "turn": [
+        [
+          503,
+          "AGENT_LIVE_LOCKED"
+        ],
+        [
+          503,
+          "AGENT_LIVE_LOCKED"
+        ],
+        [
+          503,
+          "AGENT_LIVE_LOCKED"
+        ]
+      ],
+      "statusEnabled": false,
+      "providerId": "locked",
+      "isLanguageModel": false,
+      "uiLocked": true,
+      "uiNoMockFallback": true,
+      "sinkConnections": 0
+    },
+    {
+      "name": "mock (explicit)",
+      "statusEnabled": true,
+      "providerId": "mock",
+      "labelFa": "حالت آفلاین/نمایشی — برنامه‌ریز قطعی، نه مدل زبانی",
+      "isLanguageModel": false,
+      "turnStatus": 400,
+      "uiBannerProvider": "mock",
+      "uiDisabledCard": false,
+      "sinkConnections": 0
+    },
+    {
+      "name": "disabled",
+      "statusEnabled": false,
+      "providerId": "none",
+      "labelFa": "دستیار غیرفعال است",
+      "isLanguageModel": false,
+      "turnStatus": 503,
+      "uiBannerProvider": null,
+      "uiDisabledCard": true,
+      "sinkConnections": 0
+    }
+  ],
+  "headers": {
+    "/": {
+      "status": 200,
+      "cache": "private, no-cache, no-store, max-age=0, must-revalidate",
+      "csp": true,
+      "xcto": "nosniff",
+      "xfo": "DENY"
+    },
+    "/assistant": {
+      "status": 200,
+      "cache": "private, no-cache, no-store, max-age=0, must-revalidate",
+      "csp": true,
+      "xcto": "nosniff",
+      "xfo": "DENY"
+    },
+    "/missions": {
+      "status": 200,
+      "cache": "private, no-cache, no-store, max-age=0, must-revalidate",
+      "csp": true,
+      "xcto": "nosniff",
+      "xfo": "DENY"
+    },
+    "/missions/new": {
+      "status": 200,
+      "cache": "private, no-cache, no-store, max-age=0, must-revalidate",
+      "csp": true,
+      "xcto": "nosniff",
+      "xfo": "DENY"
+    },
+    "/sellers": {
+      "status": 200,
+      "cache": "private, no-cache, no-store, max-age=0, must-revalidate",
+      "csp": true,
+      "xcto": "nosniff",
+      "xfo": "DENY"
+    },
+    "/compare": {
+      "status": 200,
+      "cache": "private, no-cache, no-store, max-age=0, must-revalidate",
+      "csp": true,
+      "xcto": "nosniff",
+      "xfo": "DENY"
+    },
+    "/data": {
+      "status": 200,
+      "cache": "private, no-cache, no-store, max-age=0, must-revalidate",
+      "csp": true,
+      "xcto": "nosniff",
+      "xfo": "DENY"
+    },
+    "/products/:product": {
+      "status": 200,
+      "cache": "private, no-cache, no-store, max-age=0, must-revalidate",
+      "csp": true,
+      "xcto": "nosniff",
+      "xfo": "DENY"
+    },
+    "/shops/:shop": {
+      "status": 200,
+      "cache": "private, no-cache, no-store, max-age=0, must-revalidate",
+      "csp": true,
+      "xcto": "nosniff",
+      "xfo": "DENY"
+    },
+    "/api/health": {
+      "status": 200,
+      "cache": "no-store",
+      "csp": true,
+      "xcto": "nosniff",
+      "xfo": "DENY"
+    },
+    "/api/ready": {
+      "status": 200,
+      "cache": "no-store",
+      "csp": true,
+      "xcto": "nosniff",
+      "xfo": "DENY"
+    },
+    "/api/agent/status": {
+      "status": 200,
+      "cache": "no-store",
+      "csp": true,
+      "xcto": "nosniff",
+      "xfo": "DENY"
+    },
+    "/api/sellers?product=:product": {
+      "status": 200,
+      "cache": "no-store",
+      "csp": true,
+      "xcto": "nosniff",
+      "xfo": "DENY"
+    },
+    "/api/products/:product": {
+      "status": 200,
+      "cache": "no-store",
+      "csp": true,
+      "xcto": "nosniff",
+      "xfo": "DENY"
+    },
+    "/api/search?q=%D8%AF%D9%88%D8%B1%D8%A8%DB%8C%D9%86": {
+      "status": 200,
+      "cache": "no-store",
+      "csp": true,
+      "xcto": "nosniff",
+      "xfo": "DENY"
+    },
+    "/api/areas": {
+      "status": 400,
+      "cache": "no-store",
+      "csp": true,
+      "xcto": "nosniff",
+      "xfo": "DENY"
+    }
+  },
+  "csrf": {
+    "/api/sellers": {
+      "crossSiteFetchMetadata": 403,
+      "foreignOrigin": 403,
+      "textPlainSimpleForm": 415,
+      "noOriginNoFetchMetadata_sameShape": 400,
+      "oversize": 413
+    },
+    "/api/compare/sellers": {
+      "crossSiteFetchMetadata": 403,
+      "foreignOrigin": 403,
+      "textPlainSimpleForm": 415,
+      "noOriginNoFetchMetadata_sameShape": 400,
+      "oversize": 413
+    },
+    "/api/agent/turn": {
+      "crossSiteFetchMetadata": 403,
+      "foreignOrigin": 403,
+      "textPlainSimpleForm": 415,
+      "noOriginNoFetchMetadata_sameShape": 400,
+      "oversize": 413
+    }
+  },
+  "bundle": {
+    "filesScanned": 40,
+    "filesWithModelOrSecretStrings": 0
+  },
+  "csp": {
+    "nonceDiffersPerRequest": true,
+    "scriptSrc": "script-src 'self' 'nonce-<n>' 'strict-dynamic'",
+    "styleUnsafeInline": true
+  },
+  "logs": {
+    "lines": 50,
+    "containsFakeKey": false
+  },
+  "sinkTotalConnections": 0
+}

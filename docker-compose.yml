@@ -1,0 +1,31 @@
+# Local production-like run:
+#   docker compose --profile tools run --rm importer     # build /data/app.sqlite from .data/torob-dataset.zip
+#   docker compose up -d --build app                      # serve on http://localhost:${APP_PORT:-3000}
+#   curl localhost:${APP_PORT:-3000}/api/health /api/ready
+services:
+  app:
+    build: { context: ., target: runner }
+    ports: ["${APP_PORT:-3000}:3000"]
+    environment:
+      DATABASE_PATH: /data/app.sqlite
+      # Phase 7 (all optional, server-side only; defaults = offline mock planner, no external evidence, no cost)
+      AGENT_PROVIDER: ${AGENT_PROVIDER:-mock}
+      AGENT_EVIDENCE_MODE: ${AGENT_EVIDENCE_MODE:-off}
+      AGENT_RATE_PER_MIN: ${AGENT_RATE_PER_MIN:-30}
+      # Phase 9: live model credentials are NOT passed through. A live provider is code-locked until the owner approves a capped live trial (Phase 10).
+    volumes:
+      - torob-data:/data:ro   # the server only reads; the importer is the only writer
+    restart: unless-stopped
+    read_only: true
+    tmpfs: ["/tmp"]
+    security_opt: ["no-new-privileges:true"]
+
+  importer:
+    profiles: ["tools"]
+    build: { context: ., target: tools }
+    volumes:
+      - torob-data:/data
+      - ./.data:/source:ro     # original dataset, mounted read-only
+
+volumes:
+  torob-data:

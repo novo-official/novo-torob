@@ -1,0 +1,119 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #f5f7f6;
+  --surface: #ffffff;
+  --surface-2: #eaf0ef;
+  --ink: #10222a;
+  --ink-2: #41555e;
+  --line: #d6dfdd;
+  --brand: #0a5c70;
+  --brand-hover: #084a5b;
+  --brand-ink: #ffffff;
+  --brand-soft: #dff0f2;
+  --brand-soft-ink: #07495a;
+  --warn-bg: #fff3d6;
+  --warn-ink: #6a4300;
+  --warn-line: #ecd29a;
+  --danger-bg: #fde8e6;
+  --danger-ink: #8a1f17;
+  --ok-bg: #def4e8;
+  --ok-ink: #0d5a34;
+  --ring: #0a5c70;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0b1418;
+    --surface: #121e24;
+    --surface-2: #19282f;
+    --ink: #e8f0f2;
+    --ink-2: #a7bac1;
+    --line: #28404a;
+    --brand: #5cc4d8;
+    --brand-hover: #7fd3e3;
+    --brand-ink: #062a33;
+    --brand-soft: #123741;
+    --brand-soft-ink: #9ddcea;
+    --warn-bg: #3a2c0c;
+    --warn-ink: #f2d18a;
+    --warn-line: #5e4713;
+    --danger-bg: #3d1714;
+    --danger-ink: #f5b3ad;
+    --ok-bg: #0f3322;
+    --ok-ink: #9be0bc;
+    --ring: #5cc4d8;
+  }
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-line: var(--line);
+  --color-brand: var(--brand);
+  --color-brand-hover: var(--brand-hover);
+  --color-brand-ink: var(--brand-ink);
+  --color-brand-soft: var(--brand-soft);
+  --color-brand-soft-ink: var(--brand-soft-ink);
+  --color-warn-bg: var(--warn-bg);
+  --color-warn-ink: var(--warn-ink);
+  --color-warn-line: var(--warn-line);
+  --color-danger-bg: var(--danger-bg);
+  --color-danger-ink: var(--danger-ink);
+  --color-ok-bg: var(--ok-bg);
+  --color-ok-ink: var(--ok-ink);
+  --font-sans: "Vazirmatn Variable", "Vazirmatn", "Noto Sans Arabic", system-ui, sans-serif;
+  --radius-card: 1rem;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  line-height: 1.8;
+  overflow-x: hidden;
+}
+
+:focus-visible {
+  outline: 3px solid var(--ring);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: none; }
+}
+
+.rise {
+  animation: rise 0.24s ease-out both;
+  animation-delay: var(--rise-delay, 0s);
+}
+
+/* ---- Phase 4 map pins: distinct SHAPES per meaning (never colour alone) ---- */
+.map-pin-host { background: transparent; border: 0; }
+.pin { display: grid; place-items: center; box-sizing: border-box; font: 700 13px/1 var(--font-sans); color: #fff; }
+.pin-shop { width: 26px; height: 26px; border-radius: 9999px; background: #0a5c70; border: 3px solid #fff; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.45); }
+.pin-group { width: 32px; height: 32px; outline: 2px dashed #0a5c70; outline-offset: 2px; }
+.pin-area { width: 24px; height: 24px; background: #b45309; border: 3px solid #fff; border-radius: 4px; transform: rotate(45deg); box-shadow: 0 1px 4px rgba(0, 0, 0, 0.45); }
+.pin-area i { width: 6px; height: 6px; background: #fff; border-radius: 9999px; }
+.pin-origin { width: 22px; height: 22px; border-radius: 9999px; background: #1d4ed8; border: 4px solid #fff; box-shadow: 0 0 0 3px #1d4ed8; }
+.pin-selected { box-shadow: 0 0 0 4px rgba(250, 204, 21, 0.95), 0 1px 4px rgba(0, 0, 0, 0.5); }
+.leaflet-container { font-family: var(--font-sans); }
+.leaflet-marker-icon:focus-visible { outline: 3px solid #facc15; outline-offset: 2px; }

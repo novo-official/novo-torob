@@ -1,0 +1,51 @@
+# dependencies
+node_modules/
+
+# dataset & media (never commit; provided out-of-band)
+.data/
+*.zip
+*.mp4
+
+# secrets / env
+.env
+.env.*
+!.env.example
+
+# local databases
+*.db
+*.sqlite
+*.sqlite3
+*.db-journal
+*.db-wal
+*.db-shm
+/data/
+
+# build & caches
+.next/
+out/
+build/
+dist/
+coverage/
+*.tsbuildinfo
+next-env.d.ts
+.eslintcache
+.cache/
+.turbo/
+
+# test artifacts (screenshots are kept under docs/qa/)
+playwright-report/
+test-results/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.log
+
+# synthetic test fixtures are tracked on purpose
+!tests/fixtures/zips/*.zip
+!tests/fixtures/csv/*.csv
+
+# live-trial stop switch flag (never commit)
+.live-kill

@@ -1,0 +1,39 @@
+# Caddy 2 — single instance. Caddy obtains/renews the TLS certificate automatically for <DOMAIN> (DNS must already point here).
+<DOMAIN> {
+	encode zstd gzip
+	# Caddy OVERWRITES X-Forwarded-For with the real peer address (it never trusts a client-supplied value here),
+	# which is why the app may run with TRUST_PROXY_HEADERS=1 BEHIND this proxy only.
+	reverse_proxy 127.0.0.1:3000 {
+		header_up Host {host}
+		header_up X-Forwarded-For {remote_host}
+		header_up X-Forwarded-Proto {scheme}
+		health_uri /api/health
+		health_interval 15s
+	}
+	header {
+		Strict-Transport-Security "max-age=31536000"
+		-Server
+	}
+	# the app already sets CSP (per-request nonce), X-Frame-Options, nosniff, Referrer-Policy, Permissions-Policy — do NOT override them here.
+	request_body {
+		max_size 64KB
+	}
+	log {
+		output file /var/log/caddy/hamghadam.log {
+			roll_size 10MiB
+			roll_keep 5
+			roll_keep_for 168h
+		}
+		# no query strings or bodies in access logs: coordinates and search text must not be persisted
+		format filter {
+			wrap json
+			fields {
+				request>uri query {
+					delete
+				}
+				request>headers delete
+			}
+		}
+	}
+}
+# any other Host header is refused by default (Caddy only serves configured names)

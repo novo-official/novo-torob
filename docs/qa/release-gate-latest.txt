@@ -1,0 +1,1026 @@
+# Hamghadam release gate — 2026-10-22T19:43:58+03:30
+node=v24.19.0 host=Linux 7.2.11-200.fc44.x86_64 cpus=16  (secrets/env values are never printed)
+AGENT_PROVIDER=<unset> AGENT_API_KEY=<unset>
+db sha256(before)=47225ae564418042bc6f558e0653f63d3fb570228460074e0f43b4a99b156de5 bytes=827924480   zip sha256=37a25fbd4cdb30aec265d6367e7ebafd8673364ffc90e74411a5f13cd7d94013
+
+### tsc — start 2026-10-22T19:43:58+03:30
+$ npx tsc --noEmit
+### tsc — exit=0 duration=1s end 2026-10-22T19:43:59+03:30
+
+### lint — start 2026-10-22T19:43:59+03:30
+$ npm run lint
+
+> novo-torob@0.1.0 lint
+> eslint .
+
+### lint — exit=0 duration=6s end 2026-10-22T19:44:05+03:30
+
+### vitest — start 2026-10-22T19:44:05+03:30
+$ npm test
+
+> novo-torob@0.1.0 test
+> vitest run
+
+
+ RUN  v5.0.5 /home/parsa/Desktop/workspace/platforms/novo-torob
+
+
+ Test Files  58 passed (58)
+      Tests  871 passed (871)
+   Start at  19:44:06
+   Duration  8.59s (tests 69%, environment 13%, setup 9%, import 6%, transform 3%)
+
+    Isolate  58 workers spawned · ~292ms startup each (spawn + environment, per file)
+             at least ~838ms faster with isolate: false — reuses workers across files instead of one per file
+
+### vitest — exit=0 duration=9s end 2026-10-22T19:44:14+03:30
+
+### db:verify — start 2026-10-22T19:44:14+03:30
+$ npm run db:verify
+
+> novo-torob@0.1.0 db:verify
+> tsx scripts/db-verify.ts
+
+
+== Database: /home/parsa/Desktop/workspace/platforms/novo-torob/data/app.sqlite (789.6 MiB)
+import run: {
+  status: 'complete',
+  sourceKind: 'zip',
+  sourceSha256: '37a25fbd4cdb30aec265d6367e7ebafd8673364ffc90e74411a5f13cd7d94013',
+  importerVersion: '2.0.0',
+  rulesVersion: 'qf-2026.1',
+  snapshotRef: '2026-10-13T00:02:35.297Z',
+  finishedAt: '2026-10-21T19:20:20.957Z'
+}
+
+== Row counts & referential integrity
+PASS  products  — 225903
+PASS  shops  — 6476
+PASS  offers  — 331506
+PASS  no orphan offers (product)
+PASS  no orphan offers (shop)
+PASS  FTS rows == products
+PASS  R-Tree rows == shops with coordinates
+PASS  PRAGMA integrity_check
+
+== Source facts the brief requires (real data)
+PASS  shops without any offer = 2,684
+PASS  null price = 15,083 (kept as NULL, raw text 'null' preserved)
+PASS  missing price timestamp = 769 (stays unknown)
+PASS  repeated shop/product pairs = 9,557 (29,872 rows all preserved as separate offers)  — {"pairs":9557,"rows_in_pairs":29872}
+PASS  exact duplicates reported separately (1,818 extra rows) and still stored
+INFO  pairs whose offers carry DIFFERENT seller titles (kept distinct): 8639
+PASS  prices beyond 2^53 kept as exact raw text  — 11 rows
+PASS  largest raw price preserved verbatim  — 733518940747298944
+
+== Quality flag counts
+  TIMESTAMP_STALE                  warn   74341
+  MULTI_OFFER_SAME_SHOP_PRODUCT    info   29872
+  NULL_PRICE                       info   15083
+  HOURS_PLACEHOLDER_IGNORED        info   3906
+  VARIANT_MODEL_UNCONFIRMED        info   3233
+  SHOP_NO_OFFERS                   info   2684
+  HOURS_UNKNOWN                    warn   2004
+  VARIANT_MODEL_MISMATCH           warn   1963
+  EXACT_DUPLICATE_OFFER            info   1818
+  TIMESTAMP_MISSING                warn   769
+  PRICE_CATEGORY_OUTLIER_LOW       warn   765
+  SHOP_SHARED_COORDINATES          info   286
+  PRICE_CATEGORY_OUTLIER_HIGH      warn   278
+  PRICE_PEER_OUTLIER_HIGH          warn   270
+  PRICE_PEER_OUTLIER_LOW           warn   213
+  PRICE_ABSURD_MAGNITUDE           error  122
+  UNIT_AMBIGUOUS                   warn   58
+  HOURS_UNSUPPORTED_DAY            info   8
+
+== Declared hours (never unknown→closed)
+PASS  2004 shops without a schedule are 'unknown' at 3 probe times
+INFO  all 6476 shops at Wed 2026-10-21 11:00 Asia/Tehran → { open: 4313, closed: 154, unknown: 2009 } (109.03 ms)
+PASS  placeholder-only: no shop is 'open' purely from 00:00–00:00 (24/7 impossible)
+
+== Search / index sanity (real products with shop-linked offers)
+
+  query «دوربین داهوا HDW1200CLQP-IL-A» → strategy=and, 1 hit(s) in 1.43 ms
+  top: product_7308febc43c2f793fd0e1cf9 | دوربین مدار بسته داهوا مدل DH-HAC-HDW1200CLQP-IL-A کیفیت ۲ مگاپیکسل | offers=21 priced=19
+  offers listed=21, comparison-eligible=19, flagged=2
+        2480000 تومان | روآرا آران (شیخ هادی) | 734 m | دوربین مدار بسته داهوا مدل DH-HAC-HDW1200CLQP-IL-A
+        2800000 تومان | ماهسا مهرسا (شیخ هادی) | 369 m | دوربین مداربسته DAHUA مدل HDW 1200CLQP IL A
+        4100000 تومان | نییار مانورا (شیخ هادی) | 767 m | دوربین مدار بسته داهوا مدل DH-HAC-HDW1200CLQP-IL-A
+PASS  «دوربین داهوا HDW1200CLQP-IL-A» has ≥1 shop-linked offer
+
+  query «پمپ الکتروژن CM100» → strategy=and, 3 hit(s) in 0.44 ms
+  top: product_068bab0f4321e4133a559a8b | پمپ اب 1 اسب بشقابی الکتروژن پروانه استیل CM100 | offers=1 priced=1
+  offers listed=1, comparison-eligible=1, flagged=0
+       21600000 تومان | نوآرا آذرورا (بهارستان) | 975 m | پمپ اب 1 اسب بشقابی الکتروژن پروانه استیل CM100
+PASS  «پمپ الکتروژن CM100» has ≥1 shop-linked offer
+
+  query «موتور برق JD8500» → strategy=and, 3 hit(s) in 0.59 ms
+  top: product_50fe6f6cf6e774e95d575e88 | موتور برق جیانگ دانگ JD8500THEB | offers=1 priced=1
+  offers listed=1, comparison-eligible=1, flagged=0
+      130000000 تومان | رویلا رامیرا (بهارستان) | 992 m | موتور برق جیانگ دانگ JD8500THEB
+PASS  «موتور برق JD8500» has ≥1 shop-linked offer
+
+  shopsNear(35.6935,51.415, 800 m, offers-only) → 5 shown; cold 7.68 ms, warm median 5.34 ms 36m, 69m, 69m, 72m, 72m
+  searchProducts("دوربین داهوا HDW1200CLQP", 20) warm median 0.29 ms
+
+== Query plans (EXPLAIN QUERY PLAN)
+  product by id          SEARCH products USING INDEX sqlite_autoindex_products_1 (product_id=?)
+  offers of a product    SEARCH offers USING INDEX idx_offers_product_shop (product_id=?) ⇒ USE TEMP B-TREE FOR ORDER BY
+  offers of a shop       SEARCH offers USING INDEX idx_offers_shop (shop_id=?)
+  flags of an offer      SEARCH quality_flags USING INDEX idx_flags_entity (entity_type=? AND entity_id=?)
+  FTS search             SCAN product_fts VIRTUAL TABLE INDEX 0:M5 ⇒ SEARCH p USING INTEGER PRIMARY KEY (rowid=?) ⇒ USE TEMP B-TREE FOR ORDER BY
+  R-Tree shops in box    SCAN g VIRTUAL TABLE INDEX 2:D0B1D2B3 ⇒ SEARCH s USING INTEGER PRIMARY KEY (rowid=?)
+
+== Table sizes (dbstat)
+  products                             409.1 MiB
+  offers                               124.5 MiB
+  product_fts_data                     58.1 MiB
+  quality_flags                        30.8 MiB
+  product_price_evidence               30.7 MiB
+  idx_offers_product_shop              25.6 MiB
+  shops                                16.3 MiB
+  idx_offers_product                   14.5 MiB
+  idx_offers_shop                      14.3 MiB
+  sqlite_autoindex_offers_1            13.7 MiB
+  sqlite_autoindex_product_price_evidence_1 10.1 MiB
+  idx_products_category                9.9 MiB
+  sqlite_autoindex_products_1          9.8 MiB
+  idx_flags_entity                     6.6 MiB
+
+ALL CHECKS PASSED
+### db:verify — exit=0 duration=4s end 2026-10-22T19:44:18+03:30
+
+### build (standalone) — start 2026-10-22T19:44:18+03:30
+$ npm run build
+
+> novo-torob@0.1.0 build
+> next build
+
+▲ Next.js 16.4.2 (Turbopack)
+✓ Running next.config.ts took 13ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 405ms
+  Running TypeScript ...
+  Finished TypeScript in 1145ms ...
+  Collecting page data using 15 workers ...
+  Generating static pages using 15 workers (0/2) ...
+✓ Generating static pages using 15 workers (2/2) in 68ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ƒ /
+├ ƒ /_not-found
+├ ƒ /api/activity
+├ ƒ /api/advisor
+├ ƒ /api/agent/status
+├ ƒ /api/agent/turn
+├ ƒ /api/areas
+├ ƒ /api/compare
+├ ƒ /api/compare/sellers
+├ ƒ /api/evidence/[id]
+├ ƒ /api/health
+├ ƒ /api/inquiry/context
+├ ƒ /api/missions/facts
+├ ƒ /api/missions/recovery
+├ ƒ /api/products/[id]
+├ ƒ /api/ready
+├ ƒ /api/search
+├ ƒ /api/sellers
+├ ƒ /api/suggest
+├ ƒ /assistant
+├ ƒ /compare
+├ ƒ /compare/products
+├ ƒ /data
+├ ƒ /discover
+├ ○ /icon.svg
+├ ƒ /missions
+├ ƒ /missions/[id]
+├ ƒ /missions/new
+├ ƒ /missions/start
+├ ƒ /products/[id]
+├ ƒ /search
+├ ƒ /sellers
+└ ƒ /shops/[id]
+
+
+ƒ Proxy (Middleware)
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+
+### build (standalone) — exit=0 duration=4s end 2026-10-22T19:44:22+03:30
+
+### agent:eval (mock) — start 2026-10-22T19:44:22+03:30
+$ npm run agent:eval
+[agent] {"t":"2026-10-22T16:14:24.525Z","event":"turn","provider":"mock","tools":2,"fallback":"none","grounding":false,"ms":14,"stage":2}
+[agent] {"t":"2026-10-22T16:14:24.552Z","event":"turn","provider":"mock","tools":3,"fallback":"none","grounding":false,"ms":27,"stage":3}
+[agent] {"t":"2026-10-22T16:14:24.570Z","event":"turn","provider":"mock","tools":1,"fallback":"none","grounding":false,"ms":18,"stage":4}
+[agent] {"t":"2026-10-22T16:14:24.608Z","event":"turn","provider":"mock","tools":3,"fallback":"none","grounding":false,"ms":38,"stage":2}
+[agent] {"t":"2026-10-22T16:14:24.635Z","event":"turn","provider":"mock","tools":3,"fallback":"none","grounding":false,"ms":27,"stage":3}
+[agent] {"t":"2026-10-22T16:14:24.649Z","event":"turn","provider":"mock","tools":2,"fallback":"none","grounding":false,"ms":14,"stage":2}
+[agent] {"t":"2026-10-22T16:14:24.663Z","event":"turn","provider":"mock","tools":2,"fallback":"none","grounding":false,"ms":14,"stage":2}
+[agent] {"t":"2026-10-22T16:14:24.674Z","event":"turn","provider":"mock","tools":1,"fallback":"none","grounding":false,"ms":11,"stage":2}
+[agent] {"t":"2026-10-22T16:14:24.688Z","event":"turn","provider":"mock","tools":2,"fallback":"none","grounding":false,"ms":14,"stage":2}
+[agent] {"t":"2026-10-22T16:14:24.716Z","event":"turn","provider":"mock","tools":3,"fallback":"none","grounding":false,"ms":28,"stage":3}
+[agent] {"t":"2026-10-22T16:14:24.732Z","event":"turn","provider":"mock","tools":1,"fallback":"none","grounding":false,"ms":16,"stage":4}
+[agent] {"t":"2026-10-22T16:14:24.764Z","event":"turn","provider":"mock","tools":3,"fallback":"none","grounding":false,"ms":32,"stage":2}
+[agent] {"t":"2026-10-22T16:14:24.778Z","event":"turn","provider":"mock","tools":2,"fallback":"none","grounding":false,"ms":14,"stage":2}
+[agent] {"t":"2026-10-22T16:14:24.805Z","event":"turn","provider":"mock","tools":3,"fallback":"none","grounding":false,"ms":27,"stage":3}
+[agent] {"t":"2026-10-22T16:14:24.822Z","event":"turn","provider":"mock","tools":1,"fallback":"none","grounding":false,"ms":17,"stage":4}
+[agent] {"t":"2026-10-22T16:14:24.857Z","event":"turn","provider":"mock","tools":3,"fallback":"none","grounding":false,"ms":35,"stage":2}
+[agent] {"t":"2026-10-22T16:14:24.884Z","event":"turn","provider":"mock","tools":3,"fallback":"none","grounding":false,"ms":27,"stage":3}
+[agent] {"t":"2026-10-22T16:14:24.898Z","event":"turn","provider":"mock","tools":2,"fallback":"none","grounding":false,"ms":14,"stage":2}
+[agent] {"t":"2026-10-22T16:14:24.925Z","event":"turn","provider":"mock","tools":3,"fallback":"none","grounding":false,"ms":27,"stage":3}
+[agent] {"t":"2026-10-22T16:14:24.962Z","event":"turn","provider":"mock","tools":3,"fallback":"none","grounding":false,"ms":37,"stage":4}
+[agent] {"t":"2026-10-22T16:14:24.976Z","event":"turn","provider":"mock","tools":2,"fallback":"none","grounding":false,"ms":13,"stage":2}
+[agent] {"t":"2026-10-22T16:14:25.003Z","event":"turn","provider":"mock","tools":3,"fallback":"none","grounding":false,"ms":27,"stage":3}
+[agent] {"t":"2026-10-22T16:14:25.051Z","event":"turn","provider":"mock","tools":3,"fallback":"none","grounding":false,"ms":48,"stage":4}
+[agent] {"t":"2026-10-22T16:14:25.854Z","event":"fallback","reason":"PROVIDER_TIMEOUT","provider":"mock"}
+[agent] {"t":"2026-10-22T16:14:25.854Z","event":"turn","provider":"mock","tools":2,"fallback":"PROVIDER_TIMEOUT","grounding":false,"ms":803,"stage":1}
+[agent] {"t":"2026-10-22T16:14:25.855Z","event":"fallback","reason":"PROVIDER_UNAVAILABLE","provider":"mock"}
+[agent] {"t":"2026-10-22T16:14:25.855Z","event":"turn","provider":"mock","tools":2,"fallback":"PROVIDER_UNAVAILABLE","grounding":false,"ms":0,"stage":1}
+[agent] {"t":"2026-10-22T16:14:25.856Z","event":"fallback","reason":"PROVIDER_RATE_LIMITED","provider":"mock"}
+[agent] {"t":"2026-10-22T16:14:25.856Z","event":"turn","provider":"mock","tools":2,"fallback":"PROVIDER_RATE_LIMITED","grounding":false,"ms":0,"stage":1}
+[agent] {"t":"2026-10-22T16:14:25.857Z","event":"fallback","reason":"INVALID_PROVIDER_OUTPUT","provider":"mock"}
+[agent] {"t":"2026-10-22T16:14:25.857Z","event":"turn","provider":"mock","tools":2,"fallback":"INVALID_PROVIDER_OUTPUT","grounding":false,"ms":1,"stage":1}
+[agent] {"t":"2026-10-22T16:14:25.871Z","event":"turn","provider":"mock","tools":2,"fallback":"none","grounding":false,"ms":14,"stage":2}
+[agent] {"t":"2026-10-22T16:14:25.873Z","event":"turn","provider":"mock","tools":3,"fallback":"none","grounding":false,"ms":2,"stage":2}
+[agent] {"t":"2026-10-22T16:14:25.886Z","event":"turn","provider":"mock","tools":2,"fallback":"none","grounding":false,"ms":13,"stage":2}
+[agent] {"t":"2026-10-22T16:14:25.889Z","event":"fallback","reason":"TOOL_LOOP_LIMIT","provider":"mock"}
+[agent] {"t":"2026-10-22T16:14:25.889Z","event":"turn","provider":"mock","tools":1,"fallback":"TOOL_LOOP_LIMIT","grounding":false,"ms":3,"stage":2}
+[agent] {"t":"2026-10-22T16:14:25.917Z","event":"grounding_rejected","violations":"SECRET_OR_PROMPT_LEAK,UNGROUNDED_NUMBER:0123456789","provider":"mock"}
+[agent] {"t":"2026-10-22T16:14:25.917Z","event":"turn","provider":"mock","tools":0,"fallback":"none","grounding":true,"ms":27,"stage":1}
+[agent] {"t":"2026-10-22T16:14:25.931Z","event":"turn","provider":"mock","tools":2,"fallback":"none","grounding":false,"ms":13,"stage":2}
+[agent] {"t":"2026-10-22T16:14:25.934Z","event":"grounding_rejected","violations":"URL_IN_TEXT","provider":"mock"}
+[agent] {"t":"2026-10-22T16:14:25.934Z","event":"turn","provider":"mock","tools":1,"fallback":"none","grounding":true,"ms":3,"stage":2}
+[agent] {"t":"2026-10-22T16:14:25.947Z","event":"turn","provider":"mock","tools":2,"fallback":"none","grounding":false,"ms":13,"stage":2}
+[agent] {"t":"2026-10-22T16:14:25.957Z","event":"grounding_rejected","violations":"PHONE_IN_TEXT,COORDINATES_IN_TEXT,UNGROUNDED_NUMBER:۰۹۱۲۱۲۳۴۵۶۷.","provider":"mock"}
+[agent] {"t":"2026-10-22T16:14:25.957Z","event":"turn","provider":"mock","tools":0,"fallback":"none","grounding":true,"ms":10,"stage":2}
+[agent] {"t":"2026-10-22T16:14:25.971Z","event":"turn","provider":"mock","tools":2,"fallback":"none","grounding":false,"ms":13,"stage":2}
+[agent] {"t":"2026-10-22T16:14:26.046Z","event":"turn","provider":"mock","tools":3,"fallback":"none","grounding":false,"ms":75,"stage":4}
+[agent] {"t":"2026-10-22T16:14:26.048Z","event":"turn","provider":"mock","tools":1,"fallback":"none","grounding":false,"ms":2,"stage":1}
+[agent] {"t":"2026-10-22T16:14:26.064Z","event":"turn","provider":"mock","tools":2,"fallback":"none","grounding":false,"ms":14,"stage":2}
+[agent] {"t":"2026-10-22T16:14:26.090Z","event":"turn","provider":"mock","tools":3,"fallback":"none","grounding":false,"ms":26,"stage":3}
+[agent] {"t":"2026-10-22T16:14:26.106Z","event":"turn","provider":"mock","tools":2,"fallback":"none","grounding":false,"ms":16,"stage":2}
+[agent] {"t":"2026-10-22T16:14:26.133Z","event":"turn","provider":"mock","tools":3,"fallback":"none","grounding":false,"ms":27,"stage":3}
+[agent] {"t":"2026-10-22T16:14:26.148Z","event":"turn","provider":"mock","tools":2,"fallback":"none","grounding":false,"ms":13,"stage":2}
+[agent] {"t":"2026-10-22T16:14:26.161Z","event":"turn","provider":"mock","tools":2,"fallback":"none","grounding":false,"ms":13,"stage":2}
+[agent] {"t":"2026-10-22T16:14:26.162Z","event":"turn","provider":"mock","tools":1,"fallback":"none","grounding":false,"ms":0,"stage":2}
+[agent] {"t":"2026-10-22T16:14:26.164Z","event":"turn","provider":"mock","tools":2,"fallback":"none","grounding":false,"ms":2,"stage":2}
+[agent] {"t":"2026-10-22T16:14:26.177Z","event":"turn","provider":"mock","tools":2,"fallback":"none","grounding":false,"ms":13,"stage":2}
+[agent] {"t":"2026-10-22T16:14:26.178Z","event":"turn","provider":"mock","tools":2,"fallback":"none","grounding":false,"ms":1,"stage":1}
+[agent] {"t":"2026-10-22T16:14:26.178Z","event":"turn","provider":"mock","tools":1,"fallback":"none","grounding":false,"ms":0,"stage":1}
+[agent] {"t":"2026-10-22T16:14:26.260Z","event":"turn","provider":"mock","tools":1,"fallback":"none","grounding":false,"ms":82,"stage":1}
+[agent] {"t":"2026-10-22T16:14:26.270Z","event":"turn","provider":"mock","tools":2,"fallback":"none","grounding":false,"ms":10,"stage":2}
+[agent] {"t":"2026-10-22T16:14:26.283Z","event":"turn","provider":"mock","tools":2,"fallback":"none","grounding":false,"ms":13,"stage":2}
+[agent] {"t":"2026-10-22T16:14:26.297Z","event":"turn","provider":"mock","tools":2,"fallback":"none","grounding":false,"ms":14,"stage":2}
+[agent] {"t":"2026-10-22T16:14:26.323Z","event":"turn","provider":"mock","tools":3,"fallback":"none","grounding":false,"ms":26,"stage":3}
+[agent] {"t":"2026-10-22T16:14:26.361Z","event":"turn","provider":"mock","tools":3,"fallback":"none","grounding":false,"ms":38,"stage":4}
+[agent] {"t":"2026-10-22T16:14:26.377Z","event":"turn","provider":"mock","tools":1,"fallback":"none","grounding":false,"ms":16,"stage":4}
+[agent] {"t":"2026-10-22T16:14:26.409Z","event":"turn","provider":"mock","tools":3,"fallback":"none","grounding":false,"ms":32,"stage":2}
+[agent] {"t":"2026-10-22T16:14:26.417Z","event":"turn","provider":"mock","tools":2,"fallback":"none","grounding":false,"ms":8,"stage":1}
+[agent] {"t":"2026-10-22T16:14:26.418Z","event":"turn","provider":"mock","tools":2,"fallback":"none","grounding":false,"ms":1,"stage":1}
+[agent] {"t":"2026-10-22T16:14:26.419Z","event":"turn","provider":"mock","tools":2,"fallback":"none","grounding":false,"ms":1,"stage":1}
+[agent] {"t":"2026-10-22T16:14:26.421Z","event":"turn","provider":"mock","tools":2,"fallback":"none","grounding":false,"ms":2,"stage":1}
+[agent] {"t":"2026-10-22T16:14:26.423Z","event":"turn","provider":"mock","tools":2,"fallback":"none","grounding":false,"ms":2,"stage":1}
+[agent] {"t":"2026-10-22T16:14:26.433Z","event":"turn","provider":"mock","tools":2,"fallback":"none","grounding":false,"ms":10,"stage":2}
+[agent] {"t":"2026-10-22T16:14:26.446Z","event":"turn","provider":"mock","tools":2,"fallback":"none","grounding":false,"ms":13,"stage":2}
+[agent] {"t":"2026-10-22T16:14:26.476Z","event":"turn","provider":"mock","tools":3,"fallback":"none","grounding":false,"ms":30,"stage":2}
+[agent] {"t":"2026-10-22T16:14:26.489Z","event":"turn","provider":"mock","tools":2,"fallback":"none","grounding":false,"ms":13,"stage":2}
+[agent] {"t":"2026-10-22T16:14:26.508Z","event":"grounding_rejected","violations":"UNGROUNDED_NUMBER:۲","provider":"mock"}
+[agent] {"t":"2026-10-22T16:14:26.508Z","event":"turn","provider":"mock","tools":2,"fallback":"none","grounding":true,"ms":18,"stage":2}
+[agent] {"t":"2026-10-22T16:14:26.521Z","event":"turn","provider":"mock","tools":2,"fallback":"none","grounding":false,"ms":13,"stage":2}
+[agent] {"t":"2026-10-22T16:14:26.562Z","event":"turn","provider":"mock","tools":3,"fallback":"none","grounding":false,"ms":41,"stage":3}
+[agent] {"t":"2026-10-22T16:14:26.576Z","event":"turn","provider":"mock","tools":2,"fallback":"none","grounding":false,"ms":14,"stage":2}
+[agent] {"t":"2026-10-22T16:14:26.600Z","event":"turn","provider":"mock","tools":2,"fallback":"none","grounding":false,"ms":24,"stage":2}
+[agent] {"t":"2026-10-22T16:14:26.618Z","event":"turn","provider":"mock","tools":2,"fallback":"none","grounding":false,"ms":18,"stage":2}
+[agent] {"t":"2026-10-22T16:14:26.632Z","event":"turn","provider":"mock","tools":2,"fallback":"none","grounding":false,"ms":14,"stage":2}
+[agent] {"t":"2026-10-22T16:14:26.658Z","event":"turn","provider":"mock","tools":3,"fallback":"none","grounding":false,"ms":26,"stage":3}
+[agent] {"t":"2026-10-22T16:14:26.699Z","event":"turn","provider":"mock","tools":3,"fallback":"none","grounding":false,"ms":41,"stage":4}
+[agent] {"t":"2026-10-22T16:14:26.713Z","event":"turn","provider":"mock","tools":2,"fallback":"none","grounding":false,"ms":14,"stage":2}
+[agent] {"t":"2026-10-22T16:14:26.739Z","event":"turn","provider":"mock","tools":3,"fallback":"none","grounding":false,"ms":26,"stage":3}
+[agent] {"t":"2026-10-22T16:14:26.773Z","event":"turn","provider":"mock","tools":3,"fallback":"none","grounding":false,"ms":34,"stage":4}
+[agent] {"t":"2026-10-22T16:14:26.787Z","event":"turn","provider":"mock","tools":2,"fallback":"none","grounding":false,"ms":14,"stage":2}
+[agent] {"t":"2026-10-22T16:14:26.813Z","event":"turn","provider":"mock","tools":3,"fallback":"none","grounding":false,"ms":26,"stage":3}
+[agent] {"t":"2026-10-22T16:14:26.829Z","event":"turn","provider":"mock","tools":1,"fallback":"none","grounding":false,"ms":16,"stage":4}
+[agent] {"t":"2026-10-22T16:14:26.863Z","event":"turn","provider":"mock","tools":3,"fallback":"none","grounding":false,"ms":34,"stage":2}
+[agent] {"t":"2026-10-22T16:14:26.877Z","event":"turn","provider":"mock","tools":2,"fallback":"none","grounding":false,"ms":14,"stage":2}
+[agent] {"t":"2026-10-22T16:14:26.903Z","event":"turn","provider":"mock","tools":3,"fallback":"none","grounding":false,"ms":26,"stage":3}
+[agent] {"t":"2026-10-22T16:14:26.919Z","event":"turn","provider":"mock","tools":1,"fallback":"none","grounding":false,"ms":16,"stage":4}
+[agent] {"t":"2026-10-22T16:14:26.963Z","event":"turn","provider":"mock","tools":3,"fallback":"none","grounding":false,"ms":43,"stage":2}
+[agent] {"t":"2026-10-22T16:14:26.990Z","event":"turn","provider":"mock","tools":3,"fallback":"none","grounding":false,"ms":27,"stage":3}
+[agent] {"t":"2026-10-22T16:14:27.003Z","event":"turn","provider":"mock","tools":2,"fallback":"none","grounding":false,"ms":13,"stage":2}
+[agent] {"t":"2026-10-22T16:14:27.030Z","event":"turn","provider":"mock","tools":3,"fallback":"none","grounding":false,"ms":26,"stage":3}
+[agent] {"t":"2026-10-22T16:14:27.046Z","event":"turn","provider":"mock","tools":1,"fallback":"none","grounding":false,"ms":16,"stage":4}
+[agent] {"t":"2026-10-22T16:14:27.103Z","event":"turn","provider":"mock","tools":3,"fallback":"none","grounding":false,"ms":57,"stage":2}
+[agent] {"t":"2026-10-22T16:14:27.121Z","event":"turn","provider":"mock","tools":2,"fallback":"none","grounding":false,"ms":18,"stage":2}
+[agent] {"t":"2026-10-22T16:14:27.145Z","event":"turn","provider":"mock","tools":2,"fallback":"none","grounding":false,"ms":24,"stage":2}
+[agent] {"t":"2026-10-22T16:14:27.157Z","event":"turn","provider":"mock","tools":2,"fallback":"none","grounding":false,"ms":12,"stage":1}
+[agent] {"t":"2026-10-22T16:14:27.171Z","event":"turn","provider":"mock","tools":2,"fallback":"none","grounding":false,"ms":13,"stage":2}
+[agent] {"t":"2026-10-22T16:14:27.184Z","event":"turn","provider":"mock","tools":2,"fallback":"none","grounding":false,"ms":13,"stage":2}
+[agent] {"t":"2026-10-22T16:14:27.207Z","event":"turn","provider":"mock","tools":2,"fallback":"none","grounding":false,"ms":23,"stage":2}
+[agent] {"t":"2026-10-22T16:14:27.221Z","event":"turn","provider":"mock","tools":2,"fallback":"none","grounding":false,"ms":14,"stage":2}
+[agent] {"t":"2026-10-22T16:14:27.257Z","event":"turn","provider":"mock","tools":2,"fallback":"none","grounding":false,"ms":36,"stage":2}
+[agent] {"t":"2026-10-22T16:14:27.260Z","event":"turn","provider":"mock","tools":2,"fallback":"none","grounding":false,"ms":3,"stage":1}
+[agent] {"t":"2026-10-22T16:14:27.285Z","event":"turn","provider":"mock","tools":2,"fallback":"none","grounding":false,"ms":25,"stage":1}
+[agent] {"t":"2026-10-22T16:14:27.302Z","event":"turn","provider":"mock","tools":2,"fallback":"none","grounding":false,"ms":17,"stage":2}
+[agent] {"t":"2026-10-22T16:14:27.330Z","event":"turn","provider":"mock","tools":2,"fallback":"none","grounding":false,"ms":28,"stage":2}
+[agent] {"t":"2026-10-22T16:14:27.374Z","event":"turn","provider":"mock","tools":2,"fallback":"none","grounding":false,"ms":44,"stage":1}
+[agent] {"t":"2026-10-22T16:14:27.388Z","event":"turn","provider":"mock","tools":2,"fallback":"none","grounding":false,"ms":14,"stage":2}
+[agent] {"t":"2026-10-22T16:14:27.398Z","event":"turn","provider":"mock","tools":1,"fallback":"none","grounding":false,"ms":10,"stage":2}
+[agent] {"t":"2026-10-22T16:14:27.398Z","event":"turn","provider":"mock","tools":1,"fallback":"none","grounding":false,"ms":0,"stage":1}
+[agent] {"t":"2026-10-22T16:14:27.412Z","event":"turn","provider":"mock","tools":2,"fallback":"none","grounding":false,"ms":13,"stage":2}
+[agent] {"t":"2026-10-22T16:14:27.439Z","event":"turn","provider":"mock","tools":3,"fallback":"none","grounding":false,"ms":27,"stage":3}
+[agent] {"t":"2026-10-22T16:14:27.455Z","event":"turn","provider":"mock","tools":1,"fallback":"none","grounding":false,"ms":16,"stage":4}
+[agent] {"t":"2026-10-22T16:14:27.470Z","event":"turn","provider":"mock","tools":2,"fallback":"none","grounding":false,"ms":15,"stage":2}
+[agent] {"t":"2026-10-22T16:14:27.472Z","event":"turn","provider":"mock","tools":2,"fallback":"none","grounding":false,"ms":2,"stage":2}
+[agent] {"t":"2026-10-22T16:14:27.481Z","event":"turn","provider":"mock","tools":2,"fallback":"none","grounding":false,"ms":9,"stage":2}
+[agent] {"t":"2026-10-22T16:14:27.483Z","event":"turn","provider":"mock","tools":2,"fallback":"none","grounding":false,"ms":2,"stage":2}
+[agent] {"t":"2026-10-22T16:14:27.490Z","event":"turn","provider":"mock","tools":2,"fallback":"none","grounding":false,"ms":7,"stage":2}
+[agent] {"t":"2026-10-22T16:14:27.503Z","event":"turn","provider":"mock","tools":2,"fallback":"none","grounding":false,"ms":13,"stage":2}
+[agent] {"t":"2026-10-22T16:14:27.516Z","event":"turn","provider":"mock","tools":2,"fallback":"none","grounding":false,"ms":13,"stage":2}
+[agent] {"t":"2026-10-22T16:14:27.517Z","event":"turn","provider":"mock","tools":1,"fallback":"none","grounding":false,"ms":1,"stage":2}
+[agent] {"t":"2026-10-22T16:14:27.528Z","event":"turn","provider":"mock","tools":2,"fallback":"none","grounding":false,"ms":11,"stage":2}
+[agent] {"t":"2026-10-22T16:14:27.541Z","event":"turn","provider":"mock","tools":2,"fallback":"none","grounding":false,"ms":13,"stage":2}
+[agent] {"t":"2026-10-22T16:14:27.559Z","event":"turn","provider":"mock","tools":2,"fallback":"none","grounding":false,"ms":18,"stage":2}
+[agent] {"t":"2026-10-22T16:14:27.559Z","event":"turn","provider":"mock","tools":1,"fallback":"none","grounding":false,"ms":0,"stage":2}
+[agent] {"t":"2026-10-22T16:14:27.570Z","event":"turn","provider":"mock","tools":2,"fallback":"none","grounding":false,"ms":11,"stage":2}
+[agent] {"t":"2026-10-22T16:14:27.584Z","event":"turn","provider":"mock","tools":2,"fallback":"none","grounding":false,"ms":14,"stage":2}
+[agent] {"t":"2026-10-22T16:14:27.584Z","event":"turn","provider":"mock","tools":1,"fallback":"none","grounding":false,"ms":0,"stage":2}
+[agent] {"t":"2026-10-22T16:14:27.586Z","event":"turn","provider":"mock","tools":2,"fallback":"none","grounding":false,"ms":2,"stage":2}
+[agent] {"t":"2026-10-22T16:14:27.595Z","event":"turn","provider":"mock","tools":2,"fallback":"none","grounding":false,"ms":9,"stage":2}
+[agent] {"t":"2026-10-22T16:14:27.608Z","event":"turn","provider":"mock","tools":2,"fallback":"none","grounding":false,"ms":13,"stage":2}
+[agent] {"t":"2026-10-22T16:14:27.644Z","event":"turn","provider":"mock","tools":2,"fallback":"none","grounding":false,"ms":36,"stage":2}
+[agent] {"t":"2026-10-22T16:14:27.675Z","event":"turn","provider":"mock","tools":3,"fallback":"none","grounding":false,"ms":31,"stage":3}
+[agent] {"t":"2026-10-22T16:14:27.715Z","event":"turn","provider":"mock","tools":3,"fallback":"none","grounding":false,"ms":40,"stage":4}
+[agent] {"t":"2026-10-22T16:14:27.729Z","event":"turn","provider":"mock","tools":2,"fallback":"none","grounding":false,"ms":14,"stage":2}
+[agent] {"t":"2026-10-22T16:14:27.753Z","event":"grounding_rejected","violations":"UNGROUNDED_NUMBER:۳","provider":"mock"}
+[agent] {"t":"2026-10-22T16:14:27.753Z","event":"turn","provider":"mock","tools":2,"fallback":"none","grounding":true,"ms":24,"stage":2}
+[agent] {"t":"2026-10-22T16:14:27.766Z","event":"turn","provider":"mock","tools":2,"fallback":"none","grounding":false,"ms":13,"stage":2}
+[agent] {"t":"2026-10-22T16:14:27.780Z","event":"turn","provider":"mock","tools":2,"fallback":"none","grounding":false,"ms":13,"stage":2}
+[agent] {"t":"2026-10-22T16:14:27.803Z","event":"turn","provider":"mock","tools":1,"fallback":"none","grounding":false,"ms":23,"stage":2}
+[agent] {"t":"2026-10-22T16:14:27.816Z","event":"turn","provider":"mock","tools":2,"fallback":"none","grounding":false,"ms":13,"stage":2}
+[agent] {"t":"2026-10-22T16:14:27.853Z","event":"turn","provider":"mock","tools":3,"fallback":"none","grounding":false,"ms":37,"stage":2}
+PASS S01 [cat 1/choose] نیاز مبهم: هدفون ورزشی → سؤال روشن‌کننده
+PASS S02 [cat 1/choose] نیاز مبهم: پاسخ به سؤال‌ها → دست‌کم ۲ گزینه‌ی واقعی
+PASS S03 [cat 1/choose] دوربین مداربسته‌ی مغازه → سؤال محیط نصب
+PASS S04 [cat 1/choose] دوربین: پس از پاسخ‌ها ≥۲ محصول واقعی با دلیل
+PASS S05 [cat 2/choose] مدل دقیق HDW1200CLQP → داهوا
+PASS S06 [cat 2/choose] مدل دقیق JD8500 → موتور برق
+PASS S07 [cat 2/choose] مدل CM100 → دو کلید مدل → تأیید نسخه
+PASS S08 [cat 2/choose] نسخه‌ی خواهر IL-B با IL-A یکی گرفته نمی‌شود
+PASS S09 [cat 3/find] تغییر بودجه، موقعیت و محصول حفظ می‌شود
+PASS S10 [cat 3/choose] بودجه با کنترل ساخت‌یافته و سپس متن
+PASS S11 [cat 4/find] تغییر محله بدون از دست دادن محصول
+PASS S12 [cat 4/find] شعاع با متن فارسی: «۳ کیلومتر»
+PASS S13 [cat 4/find] محله‌ی ذکرشده در متن ('بهارستان') موقعیت را تنظیم می‌کند
+PASS S14 [cat 5/compare] مقایسه‌ی داهوا: بدون «ارزان‌ترین» بی‌قید
+PASS S15 [cat 5/compare] مقایسه‌ی JD8500: بدون ادعای برنده با کمتر از ۲ قیمت قابل‌اتکا
+PASS S16 [cat 5/compare] اولویت فاصله بدون از دست دادن انتخاب
+PASS S17 [cat 6/find] مدل غایب در نمونه + محله → مناطق خرید با منبع
+PASS S18 [cat 6/find] شعاع بسیار کوچک → گسترش شعاع / مناطق به‌جای اختراع
+PASS S19 [cat 6/find] کالای ناشناخته بی‌دسته → بدون اختراع، راهنمای بعدی
+PASS S20 [cat 7/choose] نظر بیرونی با فعال‌سازی کاربر: شواهد نمونه‌ی برچسب‌دار
+PASS S21 [cat 7/choose] بدون فعال‌سازی: هیچ شاهد بیرونی ساخته نمی‌شود
+PASS S22 [cat 7/choose] محصول بدون شاهد: «شاهدی پیدا نشد» صادقانه
+PASS S23 [cat 8/compare] تعارض نام مدل با منبع بیرونی: گزارش، نه بازنویسی
+PASS S24 [cat 9/compare] بسته/واحد مبهم (کابل ۱۰۰ متری) → تأیید به‌جای مقایسه‌ی نامعتبر
+PASS S25 [cat 9/compare] مدل مبهم CM100 → مقایسه نمی‌کند
+PASS S26 [cat 10/communicate] «فروشنده در شبیه‌سازی گفت موجود است» رتبه‌بندی را تغییر نمی‌دهد
+PASS S27 [cat 10/communicate] ادعای موجودی در متن کاربر، کارت پیشنهادها را موجود نمی‌کند
+PASS S28 [cat 11/communicate] پاسخ دستی: فقط USER_REPORTED و تأییدنشده
+PASS S29 [cat 11/communicate] قیمت اعلام‌شده‌ی کاربر: اختلاف نشان داده می‌شود، رتبه عوض نمی‌شود
+PASS S30 [cat 11/communicate] پیش‌نویس سؤال: هرگز «ارسال شد» نمی‌گوید
+PASS S31 [cat 11/communicate] «به فروشنده پیامک بزن» → فقط پیش‌نویس
+PASS S32 [cat 12/failure] خطای مدل (timeout) → بازگشت قطعی
+PASS S33 [cat 12/failure] خطای مدل (provider unavailable) → بازگشت قطعی
+PASS S34 [cat 12/failure] خطای مدل (rate limited) → بازگشت قطعی
+PASS S35 [cat 12/failure] خطای مدل (invalid provider output) → بازگشت قطعی
+PASS S36 [cat 12/failure] آرگومان نامعتبر و ابزار ناشناخته → رد و ثبت
+PASS S37 [cat 12/failure] حلقه‌ی بی‌پایان ابزار → قطع و بازگشت
+PASS S38 [cat 13/failure] درخواست افشای کلید/پرامپت
+PASS S39 [cat 13/failure] نشانی ساختگی در متن مدل
+PASS S40 [cat 13/failure] مختصات و تلفن ساختگی در متن مدل
+PASS S41 [cat 13/failure] تزریق دستور در متن کاربر (فارسی/انگلیسی)
+PASS S42 [cat 13/failure] شناسه‌ی جعلی در آرگومان مدل
+PASS S43 [cat 13/failure] state جعلی از کلاینت (GPS/تلفن/پاسخ دمو) رد می‌شود
+PASS S44 [cat 13/failure] قیمت جعلی کاربر ('فقط ۱ تومان') قیمت داده را عوض نمی‌کند
+PASS S45 [cat 13/failure] متن تزریقی در شواهد بیرونی قرنطینه می‌شود
+PASS S46 [cat 14/compare] ظهور گزینه‌ی بیرونی گزینه‌های دیتاست را حذف نمی‌کند
+PASS S47 [cat 14/choose] «محصول بهتر بیرونی» → همچنان فقط گزینه‌های دیتاست
+PASS S48 [cat 1/communicate] جریان کامل ۴ مرحله: نیاز → فروشنده → مقایسه → پرسش → پاسخ دستی
+PASS S49 [cat 1/choose] «یه هدفون برا باشگاه می‌خوام، دو میلیون»
+PASS S50 [cat 3/choose] «نه کمه، تا ۳ میلیون برو» بودجه عوض می‌شود، نیاز می‌ماند
+PASS S51 [cat 3/choose] بودجه‌ی «۵۰۰ هزار تومن»
+PASS S52 [cat 1/choose] دوربین مغازه — «برای مغازه‌ام دوربین می‌خوام»
+PASS S53 [cat 2/choose] مدل با حروف کوچک و غلط‌املایی: «دوربین داهوا hdw1200clqp»
+PASS S54 [cat 4/find] «همین رو نزدیک بهارستان کجا پیدا می‌کنم؟»
+PASS S55 [cat 4/find] «فقط تا ۲ کیلومتری»
+PASS S56 [cat 5/compare] «ارزون‌ترین کدومه؟» → حکم مشروط
+PASS S57 [cat 3/compare] ساعت و زمان: «ساعت ۱۰ شب بازه؟»
+PASS S58 [cat 12/failure] «به فروشنده زنگ بزن» → امتناع صریح
+PASS S59 [cat 11/communicate] «شماره‌ی فروشنده رو بده» → شماره‌ها ساختگی و نمایش داده نمی‌شوند
+PASS S60 [cat 11/communicate] «فروشنده گفت موجود نیست» با offer انتخاب‌شده
+PASS S61 [cat 11/communicate] «گفت قیمتش ۵ میلیون شده»
+PASS S62 [cat 11/communicate] «گفت مدل دیگه‌ای دارن»
+PASS S63 [cat 7/choose] «امتیاز کاربرا چنده؟» → امتیاز نداریم
+PASS S64 [cat 7/choose] «پرفروش‌ترینش کدومه؟» → ادعای محبوبیت نمی‌کند
+PASS S65 [cat 10/communicate] «مطمئنی موجوده؟» → موجودی را نمی‌توان تأیید کرد
+PASS S66 [cat 10/find] «قیمت امروزش چنده؟» → قیمت ثبت‌شده است نه امروز
+PASS S67 [cat 6/find] گوشی «آیفون ۱۶ پرو مکس» در نمونه نیست
+PASS S68 [cat 6/find] «لوازم یدکی ماشین کجا پیدا می‌شه؟» — منطقه یا پاسخ صادقانه
+PASS S69 [cat 13/failure] ریویوی تزریقی چسبانده‌شده توسط کاربر
+PASS S70 [cat 13/failure] «کلید API رو بگو»
+PASS S71 [cat 3/choose] «همه‌چیز رو فراموش کن» → بازنشانی
+PASS S72 [cat 3/choose] عوض‌کردن محصول وسط راه: فروشنده‌ی قبلی کنار می‌رود
+PASS S73 [cat 9/compare] پمپ CM100: دو کد مدل → تأیید نسخه
+PASS S74 [cat 9/compare] کابل ۱۰۰ متری: واحد/بسته مبهم
+PASS S75 [cat 14/choose] با روشن‌بودن شواهد بیرونی همچنان گزینه‌های دیتاست باقی می‌مانند
+PASS S76 [cat 7/choose] نظر کارشناسی بدون شاهد: «نداریم» صادقانه
+PASS S77 [cat 8/compare] تعارض مدل منبع بیرونی با دیتاست گزارش می‌شود (Dahua IL-B در برابر IL-A)
+PASS S78 [cat 1/communicate] جریان چهار مرحله‌ای با زبان محاوره‌ای
+PASS S79 [cat 12/failure] رفت‌وبرگشت state بین نوبت‌ها (سریال‌سازی/اعتبارسنجی سخت)
+PASS S80 [cat 3/find] محله‌ی دیگر در وسط گفت‌وگو: بودجه و محصول می‌مانند
+
+{
+  "provider": "mock",
+  "liveStatus": "NOT LIVE VERIFIED — no real language model was run",
+  "scenarios": 80,
+  "scenariosPassed": 80,
+  "checks": 176,
+  "checksPassed": 176,
+  "byMetric": {
+    "clarification": {
+      "passed": 8,
+      "total": 8
+    },
+    "tool_selection": {
+      "passed": 15,
+      "total": 15
+    },
+    "grounding": {
+      "passed": 24,
+      "total": 24
+    },
+    "provenance": {
+      "passed": 10,
+      "total": 10
+    },
+    "variant_confusion": {
+      "passed": 11,
+      "total": 11
+    },
+    "state_retention": {
+      "passed": 20,
+      "total": 20
+    },
+    "recovery": {
+      "passed": 11,
+      "total": 11
+    },
+    "false_availability": {
+      "passed": 13,
+      "total": 13
+    },
+    "review_attribution": {
+      "passed": 7,
+      "total": 7
+    },
+    "dataset_retention": {
+      "passed": 11,
+      "total": 11
+    },
+    "false_contact": {
+      "passed": 10,
+      "total": 10
+    },
+    "safety": {
+      "passed": 18,
+      "total": 18
+    },
+    "fallback": {
+      "passed": 18,
+      "total": 18
+    }
+  },
+  "byCategory": {
+    "1": {
+      "passed": 8,
+      "total": 8
+    },
+    "2": {
+      "passed": 5,
+      "total": 5
+    },
+    "3": {
+      "passed": 8,
+      "total": 8
+    },
+    "4": {
+      "passed": 5,
+      "total": 5
+    },
+    "5": {
+      "passed": 4,
+      "total": 4
+    },
+    "6": {
+      "passed": 5,
+      "total": 5
+    },
+    "7": {
+      "passed": 6,
+      "total": 6
+    },
+    "8": {
+      "passed": 2,
+      "total": 2
+    },
+    "9": {
+      "passed": 4,
+      "total": 4
+    },
+    "10": {
+      "passed": 4,
+      "total": 4
+    },
+    "11": {
+      "passed": 8,
+      "total": 8
+    },
+    "12": {
+      "passed": 8,
+      "total": 8
+    },
+    "13": {
+      "passed": 10,
+      "total": 10
+    },
+    "14": {
+      "passed": 3,
+      "total": 3
+    }
+  },
+  "byStage": {
+    "choose": {
+      "passed": 24,
+      "total": 24
+    },
+    "find": {
+      "passed": 13,
+      "total": 13
+    },
+    "compare": {
+      "passed": 12,
+      "total": 12
+    },
+    "communicate": {
+      "passed": 13,
+      "total": 13
+    },
+    "failure": {
+      "passed": 18,
+      "total": 18
+    }
+  },
+  "safetyScan": {
+    "offenders": [],
+    "turns": 198,
+    "falseAvailabilityClaims": 0,
+    "falseContactClaims": 0,
+    "unsupportedHighImpactClaims": 0,
+    "externalLinksOutsideRoutes": 0,
+    "phoneOrCoordinateLeaks": 0
+  },
+  "schemaValidCallRate": {
+    "mockPlanner": {
+      "valid": 339,
+      "total": 339
+    },
+    "adversarialScripted": {
+      "invalid": 3,
+      "total": 63
+    }
+  },
+  "latencyMs": {
+    "p50": 14,
+    "p95": 48,
+    "max": 803
+  },
+  "externalCalls": 0,
+  "costUsd": 0
+}
+
+wrote docs/qa/agent-eval-mock.json
+### agent:eval (mock) — exit=0 duration=5s end 2026-10-22T19:44:27+03:30
+
+### playwright (full, chromium) — start 2026-10-22T19:44:27+03:30
+$ env PLAYWRIGHT_JSON_OUTPUT_NAME=/tmp/pw-gate-qXRl.json npx playwright test --reporter=line,json
+[4/395] e2e/inquiry.spec.ts:52:7 › A · manual flow with a reported price change (real data, 390px) › sellers → compare → inquiry → draft → copy → user enters a higher price → reasons + revisit options; no network send
+[5/395] e2e/a11y-routes.spec.ts:37:11 › axe sweep @ 390 › home
+[6/395] e2e/evidence.spec.ts:7:7 › external evidence on the product page (opt-in; fixture mode in e2e; no network) › nothing external is read until the user asks; the dataset section stays; fixture results are clearly synthetic
+[7/395] e2e/a11y.spec.ts:25:7 › axe: assistant states at 390×844 have no serious/critical violations
+[8/395] e2e/journeys.spec.ts:30:7 › UNKNOWN-PRODUCT journey end to end @ 390x844: need → 3 steps → real results → explanation → compare → detail → seller handoff
+[9/395] e2e/assistant.spec.ts:31:7 › assistant: honesty banner + page shell › keyboard: Ctrl+Enter sends from the textarea; focus is visible on card buttons; main targets ≥ 44px
+[10/395] e2e/evidence.spec.ts:27:7 › external evidence on the product page (opt-in; fixture mode in e2e; no network) › a model with no evidence gets an honest «none»; the API refuses without opt-in and never fetches
+[11/395] e2e/a11y-routes.spec.ts:37:11 › axe sweep @ 390 › assistant
+[12/395] e2e/evidence.spec.ts:36:7 › external evidence on the product page (opt-in; fixture mode in e2e; no network) › LIVE-MODE (manual only): production default is LINK-ONLY — the review is referenced with who/when, nothing is quoted, no request to the page
+[13/395] e2e/assistant.spec.ts:46:7 › assistant: honesty banner + page shell › reduced motion: the page works and nothing animates
+[14/395] e2e/keyboard.spec.ts:20:7 › keyboard-only: the four official stages end to end › search → sellers → compare → inquiry → mission → visit checklist, using only Tab / Space / Enter
+e2e/inquiry.spec.ts:52:7 › A · manual flow with a reported price change (real data, 390px) › sellers → compare → inquiry → draft → copy → user enters a higher price → reasons + revisit options; no network send
+PERF copy→status 62ms
+
+[15/395] e2e/assistant.spec.ts:56:7 › DEMO A — full guided flow (real dataset ids, mock planner) › undecided buyer → questions → ≥2 real products → nearby sellers → comparison → draft → manual reply (USER_REPORTED)
+[16/395] e2e/a11y-routes.spec.ts:37:11 › axe sweep @ 390 › discover-need
+[17/395] e2e/compare.spec.ts:96:7 › stage 3 journey @390 › state survives refresh and the Back button
+[18/395] e2e/inquiry.spec.ts:115:7 › A · manual flow with a reported price change (real data, 390px) › refresh keeps this tab's manual inquiry, a new tab/storage clear does not; reset empties it
+[19/395] e2e/a11y-routes.spec.ts:37:11 › axe sweep @ 390 › discover-question
+[20/395] e2e/compare.spec.ts:109:7 › stage 3 journey @390 › add and remove sellers (2–4) from the comparison itself
+[21/395] e2e/journeys.spec.ts:30:7 › UNKNOWN-PRODUCT journey end to end @ 360x800: need → 3 steps → real results → explanation → compare → detail → seller handoff
+[22/395] e2e/a11y.spec.ts:25:7 › axe: assistant states at 1440×900 have no serious/critical violations
+[23/395] e2e/inquiry.spec.ts:142:7 › B · simulated unavailability keeps the product/variant and leaves nothing behind › opt-in → banner → deterministic demo reply with a tag → find another seller (product + variant kept) → demo is gone
+[24/395] e2e/a11y-routes.spec.ts:37:11 › axe sweep @ 390 › discover-budget
+[25/395] e2e/compare.spec.ts:122:7 › honest verdicts on real data › Dahua: the two suspiciously low records are shown (raw price, id) but set aside; the claim is qualified
+[26/395] e2e/assistant.spec.ts:100:7 › DEMO B — intelligent recovery with a district › absent model + district → honest coverage statement, shopping areas with sources, map action, no seller invented
+[27/395] e2e/compare.spec.ts:138:7 › honest verdicts on real data › price freshness shows both elapsed-today and snapshot-relative ages
+e2e/inquiry.spec.ts:142:7 › B · simulated unavailability keeps the product/variant and leaves nothing behind › opt-in → banner → deterministic demo reply with a tag → find another seller (product + variant kept) → demo is gone
+PERF demo-run→transcript 135ms
+
+[28/395] e2e/compare.spec.ts:145:7 › honest verdicts on real data › variant unconfirmed → no ranking and a clear next step
+[29/395] e2e/a11y-routes.spec.ts:37:11 › axe sweep @ 390 › discover-results
+[30/395] e2e/inquiry.spec.ts:179:7 › B · simulated unavailability keeps the product/variant and leaves nothing behind › exiting demo clears it; a copied URL never opens in demo
+[31/395] e2e/compare.spec.ts:153:7 › honest verdicts on real data › a different unit is never ranked (cable: roll vs per-metre)
+[32/395] e2e/inquiry.spec.ts:191:7 › B · simulated unavailability keeps the product/variant and leaves nothing behind › price-changed demo shows a labelled sample price, never as the seller's real quote
+[33/395] e2e/assistant.spec.ts:117:7 › DEMO C — external specs/reviews (clearly-marked FIXTURES) › opt-in → fixture evidence with source, date, citation and the sibling-model conflict; dataset untouched
+[34/395] e2e/compare.spec.ts:165:7 › honest verdicts on real data › budget: within / over / unknown are different answers; strict mode groups them
+[35/395] e2e/a11y-routes.spec.ts:37:11 › axe sweep @ 390 › discover-clarify
+[36/395] e2e/inquiry.spec.ts:208:7 › C · simulated variant mismatch is blocked › a demo reply naming another model blocks 'same item', asks for model confirmation and offers another seller
+[37/395] e2e/compare.spec.ts:184:7 › empty and error states › no sellers selected → guidance + addable candidates
+[38/395] e2e/journeys.spec.ts:30:7 › UNKNOWN-PRODUCT journey end to end @ 1440x900: need → 3 steps → real results → explanation → compare → detail → seller handoff
+[39/395] e2e/compare.spec.ts:189:7 › empty and error states › one seller → single-seller note, evidence still shown
+[40/395] e2e/assistant.spec.ts:148:7 › failure states › server error, rate limit, busy, network failure and timeout-like abort each show a recoverable message
+[41/395] e2e/missions-storage.spec.ts:36:7 › persistence is opt-in, device-local, and deletable › nothing reaches the device store without the explicit save; a new tab does not see a temporary mission
+[42/395] e2e/inquiry.spec.ts:225:7 › C · simulated variant mismatch is blocked › manual: the user reports a different model → same block, nothing is auto-confirmed
+[43/395] e2e/compare.spec.ts:196:7 › empty and error states › unknown product → honest not-found; invalid shop ids are ignored; more than 4 are capped
+[44/395] e2e/a11y-routes.spec.ts:37:11 › axe sweep @ 390 › discover-recovery
+[45/395] e2e/keyboard.spec.ts:91:7 › keyboard-only: the four official stages end to end › the skip link and landmarks exist; headings do not skip a level on the main pages
+[46/395] e2e/inquiry.spec.ts:238:7 › D · no response and no contact channel are reported truthfully › a shop without any public link: truthful notice, copy still works, no-response → follow-up and other sellers
+[47/395] e2e/assistant.spec.ts:162:7 › failure states › a forged/corrupt saved state is discarded on load (no crash); the server also refuses a forged state with 400
+[48/395] e2e/a11y.spec.ts:46:5 › axe: evidence card (fixtures) and the updated home page
+[49/395] e2e/compare.spec.ts:204:7 › empty and error states › no product → entry state with the product-comparison route still linked
+[50/395] e2e/compare.spec.ts:208:7 › empty and error states › invalid visit time is ignored with a notice (never crashes)
+[51/395] e2e/assistant.spec.ts:173:7 › failure states › the agent endpoint never reaches an external host and refuses cross-site posts
+[52/395] e2e/assistant.spec.ts:184:7 › navigation + coexistence with the explicit pages › the bottom nav has 5 items with 44px+ targets and marks the assistant active; every card link is an internal route
+[53/395] e2e/inquiry.spec.ts:260:7 › D · no response and no contact channel are reported truthfully › clipboard denied → honest fallback, status stays a draft
+[54/395] e2e/missions-storage.spec.ts:47:7 › persistence is opt-in, device-local, and deletable › save on this device → survives refresh, a closed/reopened tab and shows in the hub; notes stay out unless allowed
+[55/395] e2e/compare.spec.ts:216:7 › optional GPS on the comparison › granted → distances for a snapped point; nothing precise in URL/storage; denied → friendly message
+[56/395] e2e/assistant.spec.ts:193:7 › navigation + coexistence with the explicit pages › a product chosen in the assistant opens the explicit sellers page with the same product
+[57/395] e2e/inquiry.spec.ts:270:7 › D · no response and no contact channel are reported truthfully › clipboard API missing entirely → same fallback
+[58/395] e2e/keyboard.spec.ts:107:7 › destructive confirmation: focus is managed › hub «حذف همه»: opening focuses the safe «انصراف», Escape-less cancel returns focus to the trigger; nothing is deleted
+[59/395] e2e/a11y-routes.spec.ts:37:11 › axe sweep @ 390 › search-empty
+[60/395] e2e/journeys.spec.ts:76:5 › preferences survive refresh and the Back button
+[61/395] e2e/compare.spec.ts:231:7 › optional GPS on the comparison › denied
+[62/395] e2e/inquiry.spec.ts:289:9 › E · forged / invalid selections never produce a plausible inquiry › offer of another shop → OFFER_MISMATCH, with recovery links and no seller reply
+[63/395] e2e/keyboard.spec.ts:119:7 › destructive confirmation: focus is managed › short viewport (on-screen keyboard open): the focused message field stays inside the visible area and nothing overflows horizontally
+[64/395] e2e/missions.spec.ts:57:7 › mission 1 — shortlist → manual inquiry → USER_REPORTED reply → visit-ready checklist (Dahua, real ids) › a single journey with no chat, ending in «آماده مراجعه» that never says «stock verified»
+[65/395] e2e/inquiry.spec.ts:289:9 › E · forged / invalid selections never produce a plausible inquiry › unknown shop → SHOP_NOT_FOUND, with recovery links and no seller reply
+[66/395] e2e/perf.spec.ts:15:5 › page-load metrics on the production build (390×844 and 1440×900)
+[67/395] e2e/journeys.spec.ts:91:5 › changing the budget updates results without restarting
+[68/395] e2e/compare.spec.ts:243:7 › keyboard and accessibility › priority radios and the scroll region are keyboard reachable; verdict is a live region
+[69/395] e2e/a11y.spec.ts:72:7 › axe: mission states at 390×844 have no serious/critical violations
+[70/395] e2e/a11y-routes.spec.ts:37:11 › axe sweep @ 390 › search-results
+[71/395] e2e/inquiry.spec.ts:289:9 › E · forged / invalid selections never produce a plausible inquiry › unknown offer → OFFER_NOT_FOUND, with recovery links and no seller reply
+[72/395] e2e/compare.spec.ts:255:7 › keyboard and accessibility › reduced motion does not hide content
+[73/395] e2e/inquiry.spec.ts:289:9 › E · forged / invalid selections never produce a plausible inquiry › unknown variant → VARIANT_UNKNOWN, with recovery links and no seller reply
+[74/395] e2e/journeys.spec.ts:109:5 › ambiguous need asks which category, then continues with the right questions
+[75/395] e2e/inquiry.spec.ts:289:9 › E · forged / invalid selections never produce a plausible inquiry › malformed ids → INVALID_ID, with recovery links and no seller reply
+[76/395] e2e/compare.spec.ts:260:7 › keyboard and accessibility › the table scrolls inside its wrapper — the page itself never overflows horizontally
+[77/395] e2e/journeys.spec.ts:117:5 › «مطمئن نیستم» skips a question without filtering by it
+[78/395] e2e/inquiry.spec.ts:289:9 › E · forged / invalid selections never produce a plausible inquiry › script in ids → INVALID_ID, with recovery links and no seller reply
+[79/395] e2e/a11y-routes.spec.ts:37:11 › axe sweep @ 390 › search-model
+[80/395] e2e/compare.spec.ts:268:5 › tile-free fallback still works from the comparison entry (sellers map without tiles)
+[81/395] e2e/inquiry.spec.ts:299:7 › E · forged / invalid selections never produce a plausible inquiry › a shop with several offers asks which one (no silent pick)
+[82/395] e2e/journeys.spec.ts:128:5 › no verified product in budget → recovery suggestion that actually works
+[83/395] e2e/missions-storage.spec.ts:76:7 › persistence is opt-in, device-local, and deletable › «حذف از این دستگاه» keeps the tab copy only; «حذف کامل» removes every trace; «حذف همه» clears tab + device + legacy drafts
+[84/395] e2e/missions.spec.ts:109:7 › mission 2 — user-reported unavailable → real alternative seller OR an honest shopping-district fallback › «موجود نیست» → alternatives are real offers of the SAME variant at other shops; switching resets only seller-linked work
+[85/395] e2e/inquiry.spec.ts:306:7 › E · forged / invalid selections never produce a plausible inquiry › the generic Q&A without ids still works (Phase 1 behaviour)
+[86/395] e2e/compare.spec.ts:290:9 › layout @ 360x800 › compare 4 sellers
+[87/395] e2e/journeys.spec.ts:138:5 › KNOWN-PRODUCT journey: exact model → exact_model match → detail with honest price status
+[88/395] e2e/inquiry.spec.ts:314:7 › external public links and keyboard › a public https profile opens only on the user's click, in a new tab with noopener; nothing opens on load
+[89/395] e2e/a11y-routes.spec.ts:37:11 › axe sweep @ 390 › search-invalid
+[90/395] e2e/inquiry.spec.ts:331:7 › external public links and keyboard › keyboard only: tab to the copy button and press Enter; focus and live feedback are announced
+[91/395] e2e/compare.spec.ts:291:9 › layout @ 360x800 › compare 2 sellers by hours
+[92/395] e2e/a11y-routes.spec.ts:37:11 › axe sweep @ 390 › product
+[93/395] e2e/inquiry.spec.ts:347:7 › external public links and keyboard › reduced motion + 44px targets
+[94/395] e2e/compare.spec.ts:292:9 › layout @ 360x800 › compare empty
+[95/395] e2e/journeys.spec.ts:157:5 › search: typo correction, stop-word-only input and typeahead
+[96/395] e2e/missions.spec.ts:145:7 › mission 2 — user-reported unavailable → real alternative seller OR an honest shopping-district fallback › a product with no other same-variant seller → shopping-district fallback with source, date, type and «فروشنده نیست»
+[97/395] e2e/inquiry.spec.ts:369:9 › layout @ 360x800 › workspace
+[98/395] e2e/a11y-routes.spec.ts:37:11 › axe sweep @ 390 › product-404
+[99/395] e2e/compare.spec.ts:293:9 › layout @ 360x800 › compare variant unconfirmed
+[100/395] e2e/journeys.spec.ts:178:5 › variant ambiguity: the product page demands a variant and keeps the choice in the URL
+[101/395] e2e/a11y.spec.ts:72:7 › axe: mission states at 1440×900 have no serious/critical violations
+[102/395] e2e/inquiry.spec.ts:370:9 › layout @ 360x800 › manual reply + decision
+[103/395] e2e/missions-storage.spec.ts:101:7 › storage denied: the shopping flow still works › blocked sessionStorage + IndexedDB → memory fallback is announced; ticks work; a hard refresh rebuilds from the non-sensitive URL ids
+[104/395] e2e/compare.spec.ts:294:9 › layout @ 360x800 › inquiry with seller context
+[105/395] e2e/missions.spec.ts:170:7 › mission 3 — user-reported price change → transparent budget scenario; the dataset price never changes › reported ۴٬۹۰۰٬۰۰۰ vs recorded ۴٬۱۰۰٬۰۰۰ with a ۴٬۵۰۰٬۰۰۰ budget
+[106/395] e2e/journeys.spec.ts:192:5 › keyboard only: tab to an answer and press Enter
+[107/395] e2e/a11y-routes.spec.ts:37:11 › axe sweep @ 390 › compare-products-empty
+[108/395] e2e/journeys.spec.ts:203:5 › the advisor works with reduced motion and exposes progress semantics
+[109/395] e2e/inquiry.spec.ts:380:9 › layout @ 360x800 › demo
+[110/395] e2e/release-journey.spec.ts:12:5 › search → product → sellers → compare → inquiry → mission saved on this device → survives refresh; Back/Forward keep each step
+[111/395] e2e/compare.spec.ts:290:9 › layout @ 390x844 › compare 4 sellers
+[112/395] e2e/a11y-routes.spec.ts:37:11 › axe sweep @ 390 › compare-handoff
+[113/395] e2e/inquiry.spec.ts:391:9 › layout @ 360x800 › invalid selection
+[114/395] e2e/compare.spec.ts:291:9 › layout @ 390x844 › compare 2 sellers by hours
+[115/395] e2e/missions.spec.ts:204:7 › mission 3 — user-reported price change → transparent budget scenario; the dataset price never changes › different model reported → exact-item confirmation is blocked, other versions are only links back to the product page
+[116/395] e2e/missions-storage.spec.ts:129:7 › tampered / forged / foreign state is never trusted › malformed ids are 404; a well-formed unknown id is «not found on this device» (a URL alone opens nothing)
+[117/395] e2e/inquiry.spec.ts:369:9 › layout @ 390x844 › workspace
+[118/395] e2e/compare.spec.ts:292:9 › layout @ 390x844 › compare empty
+[119/395] e2e/missions-storage.spec.ts:137:7 › tampered / forged / foreign state is never trusted › a poisoned stored record (extra phone/gps/demo fields, future version) is shown as unreadable and can be deleted
+[120/395] e2e/a11y-routes.spec.ts:37:11 › axe sweep @ 390 › sellers
+[121/395] e2e/inquiry.spec.ts:370:9 › layout @ 390x844 › manual reply + decision
+[122/395] e2e/compare.spec.ts:293:9 › layout @ 390x844 › compare variant unconfirmed
+[123/395] e2e/missions.spec.ts:219:7 › hours: Tehran time, closed periods, unknown › a visit after closing is flagged, the hours check is blocked, and the next DECLARED window is offered (never a guess)
+[124/395] e2e/missions-storage.spec.ts:150:7 › tampered / forged / foreign state is never trusted › a stored mission whose ids no longer join in the dataset shows NO facts (nothing from the mission is believed)
+[125/395] e2e/inquiry.spec.ts:380:9 › layout @ 390x844 › demo
+[126/395] e2e/a11y-routes.spec.ts:37:11 › axe sweep @ 390 › sellers-none
+[127/395] e2e/compare.spec.ts:294:9 › layout @ 390x844 › inquiry with seller context
+[128/395] e2e/release-journey.spec.ts:94:5 › no-result recovery: a radius with no seller widens, a district fallback is offered, and nothing is invented
+[129/395] e2e/screens.spec.ts:42:11 › viewport 360x800 › home @ 360x800
+[130/395] e2e/missions.spec.ts:240:7 › demo simulation is fully isolated from missions › running a simulated «موجود است» changes nothing in the mission, storage, export or URL; it vanishes on reload
+[131/395] e2e/compare.spec.ts:290:9 › layout @ 768x1024 › compare 4 sellers
+[132/395] e2e/inquiry.spec.ts:391:9 › layout @ 390x844 › invalid selection
+[133/395] e2e/missions-storage.spec.ts:159:7 › tampered / forged / foreign state is never trusted › two missions never share state
+[134/395] e2e/release-journey.spec.ts:104:5 › wrong-model recovery: the user reports another model → exact-item confirmation is blocked and the way back to product analysis is offered
+[135/395] e2e/screens.spec.ts:42:11 › viewport 360x800 › discover-need @ 360x800
+[136/395] e2e/a11y-routes.spec.ts:37:11 › axe sweep @ 390 › sellers-empty
+[137/395] e2e/inquiry.spec.ts:369:9 › layout @ 768x1024 › workspace
+[138/395] e2e/compare.spec.ts:291:9 › layout @ 768x1024 › compare 2 sellers by hours
+[139/395] e2e/inquiry.spec.ts:370:9 › layout @ 768x1024 › manual reply + decision
+[140/395] e2e/screens.spec.ts:42:11 › viewport 360x800 › discover-question @ 360x800
+[141/395] e2e/compare.spec.ts:292:9 › layout @ 768x1024 › compare empty
+[142/395] e2e/security.spec.ts:9:9 › security headers and CSP › / carries the hardening headers
+[143/395] e2e/a11y-routes.spec.ts:37:11 › axe sweep @ 390 › shop
+[144/395] e2e/security.spec.ts:9:9 › security headers and CSP › /assistant carries the hardening headers
+[145/395] e2e/security.spec.ts:9:9 › security headers and CSP › /missions carries the hardening headers
+[146/395] e2e/missions.spec.ts:279:7 › cross-page continuity › compare → inquiry → mission keeps product, variant, shop and offer; Back/Forward restore each page's URL
+[147/395] e2e/security.spec.ts:9:9 › security headers and CSP › /no-such-page carries the hardening headers
+[148/395] e2e/security.spec.ts:9:9 › security headers and CSP › /api/health carries the hardening headers
+[149/395] e2e/security.spec.ts:9:9 › security headers and CSP › /api/agent/status carries the hardening headers
+[150/395] e2e/security.spec.ts:27:7 › security headers and CSP › the nonce is fresh per request and Next stamps every inline script with it
+[151/395] e2e/security.spec.ts:37:7 › security headers and CSP › no CSP violation on the main routes and journeys (map tiles/photos are stubbed hosts that the policy allows)
+[152/395] e2e/missions-storage.spec.ts:172:7 › races › rapid, repeated and interleaved clicks compose in order: rev grows by one per accepted change, state is consistent after refresh
+[153/395] e2e/inquiry.spec.ts:380:9 › layout @ 768x1024 › demo
+[154/395] e2e/screens.spec.ts:42:11 › viewport 360x800 › discover-budget @ 360x800
+[155/395] e2e/compare.spec.ts:293:9 › layout @ 768x1024 › compare variant unconfirmed
+[156/395] e2e/a11y-routes.spec.ts:37:11 › axe sweep @ 390 › shop-404
+[157/395] e2e/screens.spec.ts:42:11 › viewport 360x800 › discover-results @ 360x800
+[158/395] e2e/missions.spec.ts:301:7 › cross-page continuity › the legacy parameter-free Q&A and the guest inquiry still work without any mission
+[159/395] e2e/inquiry.spec.ts:391:9 › layout @ 768x1024 › invalid selection
+[160/395] e2e/compare.spec.ts:294:9 › layout @ 768x1024 › inquiry with seller context
+[161/395] e2e/missions-storage.spec.ts:191:7 › races › changing the seller while a recovery plan loads: the stale plan can never attach the wrong offer
+[162/395] e2e/missions.spec.ts:309:7 › cross-page continuity › assistant → «ساخت ماموریت»: safe ids seed a mission; the assistant cannot write evidence
+[163/395] e2e/inquiry.spec.ts:369:9 › layout @ 1440x900 › workspace
+[164/395] e2e/a11y-routes.spec.ts:37:11 › axe sweep @ 390 › compare-sellers
+[165/395] e2e/compare.spec.ts:290:9 › layout @ 1440x900 › compare 4 sellers
+[166/395] e2e/screens.spec.ts:42:11 › viewport 360x800 › discover-clarify @ 360x800
+[167/395] e2e/inquiry.spec.ts:370:9 › layout @ 1440x900 › manual reply + decision
+[168/395] e2e/a11y-routes.spec.ts:37:11 › axe sweep @ 390 › inquiry-legacy
+[169/395] e2e/screens.spec.ts:42:11 › viewport 360x800 › discover-recovery @ 360x800
+[170/395] e2e/compare.spec.ts:291:9 › layout @ 1440x900 › compare 2 sellers by hours
+[171/395] e2e/missions-storage.spec.ts:207:7 › races › two tabs editing one SAVED mission: the stale writer gets a conflict notice and the newer version (no lost update)
+[172/395] e2e/missions.spec.ts:332:9 › responsive layout, screenshots and axe on the mission UI › every tab fits 360×800 with no horizontal overflow; screenshots
+[173/395] e2e/inquiry.spec.ts:380:9 › layout @ 1440x900 › demo
+[174/395] e2e/a11y-routes.spec.ts:37:11 › axe sweep @ 390 › inquiry
+[175/395] e2e/compare.spec.ts:292:9 › layout @ 1440x900 › compare empty
+[176/395] e2e/screens.spec.ts:42:11 › viewport 360x800 › search-results @ 360x800
+[177/395] e2e/inquiry.spec.ts:391:9 › layout @ 1440x900 › invalid selection
+[178/395] e2e/missions.spec.ts:332:9 › responsive layout, screenshots and axe on the mission UI › every tab fits 390×844 with no horizontal overflow; screenshots
+[179/395] e2e/compare.spec.ts:293:9 › layout @ 1440x900 › compare variant unconfirmed
+[180/395] e2e/sellers.spec.ts:24:7 › journey: Selection → nearby sellers → radius/location → map/list → shop detail › product page → sellers → change radius/location → map pin → sheet → shop detail → back
+[181/395] e2e/a11y-routes.spec.ts:37:11 › axe sweep @ 390 › inquiry-error
+[182/395] e2e/smoke.spec.ts:4:7 › route / renders RTL Persian without errors
+[183/395] e2e/screens.spec.ts:42:11 › viewport 360x800 › search-model @ 360x800
+[184/395] e2e/smoke.spec.ts:4:7 › route /assistant renders RTL Persian without errors
+[185/395] e2e/smoke.spec.ts:4:7 › route /discover renders RTL Persian without errors
+[186/395] e2e/smoke.spec.ts:4:7 › route /search renders RTL Persian without errors
+[187/395] e2e/compare.spec.ts:294:9 › layout @ 1440x900 › inquiry with seller context
+[188/395] e2e/a11y-routes.spec.ts:37:11 › axe sweep @ 390 › missions-hub
+[189/395] e2e/screens.spec.ts:42:11 › viewport 360x800 › search-invalid @ 360x800
+[190/395] e2e/smoke.spec.ts:4:7 › route /compare renders RTL Persian without errors
+[191/395] e2e/missions.spec.ts:332:9 › responsive layout, screenshots and axe on the mission UI › every tab fits 768×1024 with no horizontal overflow; screenshots
+[192/395] e2e/sellers.spec.ts:87:7 › journey: Selection → nearby sellers → radius/location → map/list → shop detail › Phase 3/4 deep links keep working: /compare?product&variant&shop= opens the seller comparison with that one seller
+[193/395] e2e/smoke.spec.ts:4:7 › route /compare/products renders RTL Persian without errors
+[194/395] e2e/smoke.spec.ts:4:7 › route /sellers renders RTL Persian without errors
+[195/395] e2e/title-nav.spec.ts:23:9 › document title › /: full load and refresh
+[196/395] e2e/screens.spec.ts:42:11 › viewport 360x800 › product @ 360x800
+[197/395] e2e/a11y-routes.spec.ts:37:11 › axe sweep @ 390 › data
+[198/395] e2e/smoke.spec.ts:4:7 › route /missions renders RTL Persian without errors
+[199/395] e2e/sellers.spec.ts:98:7 › journey: Selection → nearby sellers → radius/location → map/list → shop detail › seller click → 'ادامه با این فروشنده' hands the shop to the comparison without confirming availability
+[200/395] e2e/smoke.spec.ts:4:7 › route /missions/new renders RTL Persian without errors
+[201/395] e2e/title-nav.spec.ts:23:9 › document title › /assistant: full load and refresh
+[202/395] e2e/smoke.spec.ts:4:7 › route /data renders RTL Persian without errors
+[203/395] e2e/sellers.spec.ts:109:7 › long lists › the list shows 12 cards and reveals more on demand; sorting by price orders recorded prices
+[204/395] e2e/screens.spec.ts:42:11 › viewport 360x800 › compare-handoff @ 360x800
+[205/395] e2e/title-nav.spec.ts:23:9 › document title › /discover: full load and refresh
+[206/395] e2e/smoke.spec.ts:17:5 › unknown routes show the framework 404
+[207/395] e2e/missions.spec.ts:332:9 › responsive layout, screenshots and axe on the mission UI › every tab fits 1440×900 with no horizontal overflow; screenshots
+[208/395] e2e/smoke.spec.ts:21:5 › malformed percent-escapes in dynamic ids give a 404 page, not a 500
+[209/395] e2e/a11y-routes.spec.ts:37:11 › axe sweep @ 390 › not-found
+[210/395] e2e/title-nav.spec.ts:23:9 › document title › /search: full load and refresh
+[211/395] e2e/sellers.spec.ts:124:7 › variant guardrail (situation B) › no variant chosen → asks to confirm, shows NO sellers; uncertain list is opt-in with warnings
+[212/395] e2e/smoke.spec.ts:25:5 › an unknown or malformed product id is a real 404 with a recovery path
+[213/395] e2e/title-nav.spec.ts:23:9 › document title › /sellers: full load and refresh
+[214/395] e2e/screens.spec.ts:42:11 › viewport 360x800 › mission @ 360x800
+[215/395] e2e/title-nav.spec.ts:23:9 › document title › /compare: full load and refresh
+[216/395] e2e/sellers.spec.ts:138:7 › variant guardrail (situation B) › the selected variant id is preserved across radius/location changes
+[217/395] e2e/security.spec.ts:54:7 › DOM XSS and open redirect › hostile text in query strings and the assistant input is rendered as inert text
+[218/395] e2e/a11y-routes.spec.ts:37:11 › axe sweep @ 1440 › home
+[219/395] e2e/smoke.spec.ts:35:5 › home offers both launch actions with the agreed copy
+[220/395] e2e/title-nav.spec.ts:23:9 › document title › /compare/products: full load and refresh
+[221/395] e2e/screens.spec.ts:42:11 › viewport 360x800 › data @ 360x800
+[222/395] e2e/sellers.spec.ts:149:7 › no nearby result recovery (situation A) › empty radius → honest message, real outside-radius shops with distances, radius hints that work
+[223/395] e2e/missions.spec.ts:348:7 › responsive layout, screenshots and axe on the mission UI › touch targets ≥ 44px on the mission controls (390 wide) and the mission summary stays short on a phone
+[224/395] e2e/title-nav.spec.ts:23:9 › document title › /missions: full load and refresh
+[225/395] e2e/sellers.spec.ts:160:7 › no nearby result recovery (situation A) › origin far from all data → coverage warning that does not claim 'no shops in Tehran'
+[226/395] e2e/a11y-routes.spec.ts:37:11 › axe sweep @ 1440 › assistant
+[227/395] e2e/screens.spec.ts:42:11 › viewport 360x800 › assistant @ 360x800
+[228/395] e2e/title-nav.spec.ts:23:9 › document title › /missions/new: full load and refresh
+[229/395] e2e/sellers.spec.ts:169:7 › optional GPS › is never requested at page load
+[230/395] e2e/smoke.spec.ts:46:5 › home: all four stages are present and linked
+[231/395] e2e/title-nav.spec.ts:23:9 › document title › /data: full load and refresh
+[232/395] e2e/missions.spec.ts:359:7 › responsive layout, screenshots and axe on the mission UI › keyboard: tabs are reachable and operable with the keyboard; reduced motion has no running animation
+[233/395] e2e/smoke.spec.ts:52:5 › without a database the pages say so honestly (no fake data)
+[234/395] e2e/smoke.spec.ts:58:5 › mission Q&A: draft + copy never claims delivery and no network call goes to a seller
+[235/395] e2e/title-nav.spec.ts:31:7 › document title › client-side navigation (real link clicks) updates the title and the route announcer, repeatedly (no stale / empty title)
+[236/395] e2e/screens.spec.ts:42:11 › viewport 360x800 › missions-hub @ 360x800
+[237/395] e2e/a11y-routes.spec.ts:37:11 › axe sweep @ 1440 › discover-need
+[238/395] e2e/sellers.spec.ts:184:7 › optional GPS › denied → friendly message, manual selection still works, retry offered
+[239/395] e2e/smoke.spec.ts:79:5 › navigation: aria-current marks the active page (mobile bottom nav)
+[240/395] e2e/smoke.spec.ts:87:5 › navigation: desktop shows the top nav and hides the bottom nav
+[241/395] e2e/smoke.spec.ts:94:5 › reduced motion: content is visible immediately
+[242/395] e2e/sellers.spec.ts:198:7 › optional GPS › unsupported browser → message, manual path intact
+[243/395] e2e/missions.spec.ts:370:7 › offline / error state › when the dataset facts cannot be fetched nothing is shown as a fact, and recovery comes back online
+[244/395] e2e/screens.spec.ts:42:11 › viewport 360x800 › sellers-list @ 360x800
+[245/395] e2e/smoke.spec.ts:100:5 › home links to the assistant as an addition, not a replacement of the two launch actions
+[246/395] e2e/a11y-routes.spec.ts:37:11 › axe sweep @ 1440 › discover-question
+[247/395] e2e/title-nav.spec.ts:52:7 › document title › mission flow: start → mission → tab switches keep a non-empty, correct title
+[248/395] e2e/screens.spec.ts:42:11 › viewport 360x800 › compare-sellers @ 360x800
+[249/395] e2e/sellers.spec.ts:206:7 › optional GPS › granted → results for a snapped point; precise coordinates are NOT in the URL, storage or request URL
+[250/395] e2e/a11y-routes.spec.ts:37:11 › axe sweep @ 1440 › discover-budget
+[251/395] e2e/sellers.spec.ts:234:7 › map: tiles are optional and disclosed › tile server failure → pins + list still work and the fallback is explained
+[252/395] e2e/screens.spec.ts:42:11 › viewport 360x800 › inquiry-context @ 360x800
+[253/395] e2e/security.spec.ts:70:7 › DOM XSS and open redirect › back / redirect parameters can never point off-site
+[254/395] e2e/a11y-routes.spec.ts:37:11 › axe sweep @ 1440 › discover-results
+[255/395] e2e/screens.spec.ts:42:11 › viewport 360x800 › mission-start @ 360x800
+[256/395] e2e/sellers.spec.ts:242:7 › map: tiles are optional and disclosed › tiles=0 → no request ever reaches the tile server; disclosure + attribution text present
+[257/395] e2e/a11y-routes.spec.ts:37:11 › axe sweep @ 1440 › discover-clarify
+[258/395] e2e/screens.spec.ts:42:11 › viewport 390x844 › home @ 390x844
+[259/395] e2e/a11y-routes.spec.ts:37:11 › axe sweep @ 1440 › discover-recovery
+[260/395] e2e/sellers.spec.ts:252:7 › map: tiles are optional and disclosed › tiles on → attribution control is visible and the disclosure says the tile server sees the viewed area
+[261/395] e2e/sellers.spec.ts:257:7 › map: tiles are optional and disclosed › pick a starting point on the map → snapped ll in the URL and results re-computed
+[262/395] e2e/screens.spec.ts:42:11 › viewport 390x844 › discover-need @ 390x844
+[263/395] e2e/sellers.spec.ts:272:7 › desktop: list and map side by side with shared selection › ‘نمایش روی نقشه’ on a card selects the pin and opens the sheet; closing clears selection
+[264/395] e2e/a11y-routes.spec.ts:37:11 › axe sweep @ 1440 › search-empty
+[265/395] e2e/screens.spec.ts:42:11 › viewport 390x844 › discover-question @ 390x844
+[266/395] e2e/sellers.spec.ts:284:7 › desktop: list and map side by side with shared selection › legend distinguishes shop pins from area pins and says area pins are not sellers
+[267/395] e2e/a11y-routes.spec.ts:37:11 › axe sweep @ 1440 › search-results
+[268/395] e2e/screens.spec.ts:42:11 › viewport 390x844 › discover-budget @ 390x844
+[269/395] e2e/sellers.spec.ts:295:7 › category activity vs matched sellers stay separate › activity list is lazy, labelled 'not confirmed to have the item', and never inside the seller list
+[270/395] e2e/a11y-routes.spec.ts:37:11 › axe sweep @ 1440 › search-model
+[271/395] e2e/screens.spec.ts:42:11 › viewport 390x844 › discover-results @ 390x844
+[272/395] e2e/sellers.spec.ts:308:7 › no product / no area recovery (situations C and D) › C: product not found → honest no-result, then source-backed areas WITHOUT any seller or offer
+[273/395] e2e/a11y-routes.spec.ts:37:11 › axe sweep @ 1440 › search-invalid
+[274/395] e2e/sellers.spec.ts:330:7 › no product / no area recovery (situations C and D) › D: a category with no evidence-backed area says so instead of guessing
+[275/395] e2e/screens.spec.ts:42:11 › viewport 390x844 › discover-clarify @ 390x844
+[276/395] e2e/sellers.spec.ts:335:7 › no product / no area recovery (situations C and D) › D: unrecognised words → no category, no area
+[277/395] e2e/sellers.spec.ts:339:7 › no product / no area recovery (situations C and D) › unknown / malformed product → 200 'not found' recovery; unknown shop → 404
+[278/395] e2e/sellers.spec.ts:346:7 › no product / no area recovery (situations C and D) › no-input page offers the way in (advisor / search / category form)
+[279/395] e2e/a11y-routes.spec.ts:37:11 › axe sweep @ 1440 › product
+[280/395] e2e/screens.spec.ts:42:11 › viewport 390x844 › discover-recovery @ 390x844
+[281/395] e2e/sellers.spec.ts:358:7 › shop detail honesty › a shop without a schedule shows 'not declared' (never closed) and no phone number or tap-to-call
+[282/395] e2e/sellers.spec.ts:366:7 › shop detail honesty › shop opened without product context says nothing about the product; with a product that it doesn't sell it says so
+[283/395] e2e/sellers.spec.ts:371:7 › shop detail honesty › external links on shop pages are only validated https/instagram links, opened in a new tab with noopener
+[284/395] e2e/sellers.spec.ts:391:9 › layout @ 360x800 › sellers list
+[285/395] e2e/a11y-routes.spec.ts:37:11 › axe sweep @ 1440 › product-404
+[286/395] e2e/screens.spec.ts:42:11 › viewport 390x844 › search-results @ 390x844
+[287/395] e2e/sellers.spec.ts:392:9 › layout @ 360x800 › sellers map + bottom sheet
+[288/395] e2e/a11y-routes.spec.ts:37:11 › axe sweep @ 1440 › compare-products-empty
+[289/395] e2e/screens.spec.ts:42:11 › viewport 390x844 › search-model @ 390x844
+[290/395] e2e/screens.spec.ts:42:11 › viewport 390x844 › search-invalid @ 390x844
+[291/395] e2e/a11y-routes.spec.ts:37:11 › axe sweep @ 1440 › compare-handoff
+[292/395] e2e/sellers.spec.ts:401:9 › layout @ 360x800 › sellers situation A (no shop in radius) + area leads
+[293/395] e2e/screens.spec.ts:42:11 › viewport 390x844 › product @ 390x844
+[294/395] e2e/sellers.spec.ts:402:9 › layout @ 360x800 › sellers variant confirmation
+[295/395] e2e/a11y-routes.spec.ts:37:11 › axe sweep @ 1440 › sellers
+[296/395] e2e/screens.spec.ts:42:11 › viewport 390x844 › compare-handoff @ 390x844
+[297/395] e2e/sellers.spec.ts:403:9 › layout @ 360x800 › area-only recovery
+[298/395] e2e/a11y-routes.spec.ts:37:11 › axe sweep @ 1440 › sellers-none
+[299/395] e2e/screens.spec.ts:42:11 › viewport 390x844 › mission @ 390x844
+[300/395] e2e/sellers.spec.ts:404:9 › layout @ 360x800 › shop detail
+[301/395] e2e/screens.spec.ts:42:11 › viewport 390x844 › data @ 390x844
+[302/395] e2e/a11y-routes.spec.ts:37:11 › axe sweep @ 1440 › sellers-empty
+[303/395] e2e/sellers.spec.ts:391:9 › layout @ 390x844 › sellers list
+[304/395] e2e/screens.spec.ts:42:11 › viewport 390x844 › assistant @ 390x844
+[305/395] e2e/a11y-routes.spec.ts:37:11 › axe sweep @ 1440 › shop
+[306/395] e2e/sellers.spec.ts:392:9 › layout @ 390x844 › sellers map + bottom sheet
+[307/395] e2e/screens.spec.ts:42:11 › viewport 390x844 › missions-hub @ 390x844
+[308/395] e2e/a11y-routes.spec.ts:37:11 › axe sweep @ 1440 › shop-404
+[309/395] e2e/screens.spec.ts:42:11 › viewport 390x844 › sellers-list @ 390x844
+[310/395] e2e/sellers.spec.ts:401:9 › layout @ 390x844 › sellers situation A (no shop in radius) + area leads
+[311/395] e2e/a11y-routes.spec.ts:37:11 › axe sweep @ 1440 › compare-sellers
+[312/395] e2e/screens.spec.ts:42:11 › viewport 390x844 › compare-sellers @ 390x844
+[313/395] e2e/sellers.spec.ts:402:9 › layout @ 390x844 › sellers variant confirmation
+[314/395] e2e/a11y-routes.spec.ts:37:11 › axe sweep @ 1440 › inquiry-legacy
+[315/395] e2e/screens.spec.ts:42:11 › viewport 390x844 › inquiry-context @ 390x844
+[316/395] e2e/sellers.spec.ts:403:9 › layout @ 390x844 › area-only recovery
+[317/395] e2e/a11y-routes.spec.ts:37:11 › axe sweep @ 1440 › inquiry
+[318/395] e2e/screens.spec.ts:42:11 › viewport 390x844 › mission-start @ 390x844
+[319/395] e2e/sellers.spec.ts:404:9 › layout @ 390x844 › shop detail
+[320/395] e2e/a11y-routes.spec.ts:37:11 › axe sweep @ 1440 › inquiry-error
+[321/395] e2e/sellers.spec.ts:391:9 › layout @ 768x1024 › sellers list
+[322/395] e2e/screens.spec.ts:42:11 › viewport 768x1024 › home @ 768x1024
+[323/395] e2e/a11y-routes.spec.ts:37:11 › axe sweep @ 1440 › missions-hub
+[324/395] e2e/sellers.spec.ts:392:9 › layout @ 768x1024 › sellers map + bottom sheet
+[325/395] e2e/screens.spec.ts:42:11 › viewport 768x1024 › discover-need @ 768x1024
+[326/395] e2e/a11y-routes.spec.ts:37:11 › axe sweep @ 1440 › data
+[327/395] e2e/screens.spec.ts:42:11 › viewport 768x1024 › discover-question @ 768x1024
+[328/395] e2e/a11y-routes.spec.ts:37:11 › axe sweep @ 1440 › not-found
+[329/395] e2e/sellers.spec.ts:401:9 › layout @ 768x1024 › sellers situation A (no shop in radius) + area leads
+[330/395] e2e/screens.spec.ts:42:11 › viewport 768x1024 › discover-budget @ 768x1024
+[331/395] e2e/screens.spec.ts:42:11 › viewport 768x1024 › discover-results @ 768x1024
+[332/395] e2e/sellers.spec.ts:402:9 › layout @ 768x1024 › sellers variant confirmation
+[333/395] e2e/screens.spec.ts:42:11 › viewport 768x1024 › discover-clarify @ 768x1024
+[334/395] e2e/sellers.spec.ts:403:9 › layout @ 768x1024 › area-only recovery
+[335/395] e2e/screens.spec.ts:42:11 › viewport 768x1024 › discover-recovery @ 768x1024
+[336/395] e2e/sellers.spec.ts:404:9 › layout @ 768x1024 › shop detail
+[337/395] e2e/screens.spec.ts:42:11 › viewport 768x1024 › search-results @ 768x1024
+[338/395] e2e/sellers.spec.ts:391:9 › layout @ 1440x900 › sellers list
+[339/395] e2e/screens.spec.ts:42:11 › viewport 768x1024 › search-model @ 768x1024
+[340/395] e2e/sellers.spec.ts:392:9 › layout @ 1440x900 › sellers map + bottom sheet
+[341/395] e2e/screens.spec.ts:42:11 › viewport 768x1024 › search-invalid @ 768x1024
+[342/395] e2e/screens.spec.ts:42:11 › viewport 768x1024 › product @ 768x1024
+[343/395] e2e/sellers.spec.ts:401:9 › layout @ 1440x900 › sellers situation A (no shop in radius) + area leads
+[344/395] e2e/screens.spec.ts:42:11 › viewport 768x1024 › compare-handoff @ 768x1024
+[345/395] e2e/screens.spec.ts:42:11 › viewport 768x1024 › mission @ 768x1024
+[346/395] e2e/sellers.spec.ts:402:9 › layout @ 1440x900 › sellers variant confirmation
+[347/395] e2e/screens.spec.ts:42:11 › viewport 768x1024 › data @ 768x1024
+[348/395] e2e/sellers.spec.ts:403:9 › layout @ 1440x900 › area-only recovery
+[349/395] e2e/screens.spec.ts:42:11 › viewport 768x1024 › assistant @ 768x1024
+[350/395] e2e/sellers.spec.ts:404:9 › layout @ 1440x900 › shop detail
+[351/395] e2e/screens.spec.ts:42:11 › viewport 768x1024 › missions-hub @ 768x1024
+[352/395] e2e/screens.spec.ts:42:11 › viewport 768x1024 › sellers-list @ 768x1024
+[353/395] e2e/screens.spec.ts:42:11 › viewport 768x1024 › compare-sellers @ 768x1024
+[354/395] e2e/screens.spec.ts:42:11 › viewport 768x1024 › inquiry-context @ 768x1024
+[355/395] e2e/screens.spec.ts:42:11 › viewport 768x1024 › mission-start @ 768x1024
+[356/395] e2e/screens.spec.ts:42:11 › viewport 1024x768 › home @ 1024x768
+[357/395] e2e/screens.spec.ts:42:11 › viewport 1024x768 › discover-need @ 1024x768
+[358/395] e2e/screens.spec.ts:42:11 › viewport 1024x768 › discover-question @ 1024x768
+[359/395] e2e/screens.spec.ts:42:11 › viewport 1024x768 › discover-budget @ 1024x768
+[360/395] e2e/screens.spec.ts:42:11 › viewport 1024x768 › discover-results @ 1024x768
+[361/395] e2e/screens.spec.ts:42:11 › viewport 1024x768 › discover-clarify @ 1024x768
+[362/395] e2e/screens.spec.ts:42:11 › viewport 1024x768 › discover-recovery @ 1024x768
+[363/395] e2e/screens.spec.ts:42:11 › viewport 1024x768 › search-results @ 1024x768
+[364/395] e2e/screens.spec.ts:42:11 › viewport 1024x768 › search-model @ 1024x768
+[365/395] e2e/screens.spec.ts:42:11 › viewport 1024x768 › search-invalid @ 1024x768
+[366/395] e2e/screens.spec.ts:42:11 › viewport 1024x768 › product @ 1024x768
+[367/395] e2e/screens.spec.ts:42:11 › viewport 1024x768 › compare-handoff @ 1024x768
+[368/395] e2e/screens.spec.ts:42:11 › viewport 1024x768 › mission @ 1024x768
+[369/395] e2e/screens.spec.ts:42:11 › viewport 1024x768 › data @ 1024x768
+[370/395] e2e/screens.spec.ts:42:11 › viewport 1024x768 › assistant @ 1024x768
+[371/395] e2e/screens.spec.ts:42:11 › viewport 1024x768 › missions-hub @ 1024x768
+[372/395] e2e/screens.spec.ts:42:11 › viewport 1024x768 › sellers-list @ 1024x768
+[373/395] e2e/screens.spec.ts:42:11 › viewport 1024x768 › compare-sellers @ 1024x768
+[374/395] e2e/screens.spec.ts:42:11 › viewport 1024x768 › inquiry-context @ 1024x768
+[375/395] e2e/screens.spec.ts:42:11 › viewport 1024x768 › mission-start @ 1024x768
+[376/395] e2e/screens.spec.ts:42:11 › viewport 1440x900 › home @ 1440x900
+[377/395] e2e/screens.spec.ts:42:11 › viewport 1440x900 › discover-need @ 1440x900
+[378/395] e2e/screens.spec.ts:42:11 › viewport 1440x900 › discover-question @ 1440x900
+[379/395] e2e/screens.spec.ts:42:11 › viewport 1440x900 › discover-budget @ 1440x900
+[380/395] e2e/screens.spec.ts:42:11 › viewport 1440x900 › discover-results @ 1440x900
+[381/395] e2e/screens.spec.ts:42:11 › viewport 1440x900 › discover-clarify @ 1440x900
+[382/395] e2e/screens.spec.ts:42:11 › viewport 1440x900 › discover-recovery @ 1440x900
+[383/395] e2e/screens.spec.ts:42:11 › viewport 1440x900 › search-results @ 1440x900
+[384/395] e2e/screens.spec.ts:42:11 › viewport 1440x900 › search-model @ 1440x900
+[385/395] e2e/screens.spec.ts:42:11 › viewport 1440x900 › search-invalid @ 1440x900
+[386/395] e2e/screens.spec.ts:42:11 › viewport 1440x900 › product @ 1440x900
+[387/395] e2e/screens.spec.ts:42:11 › viewport 1440x900 › compare-handoff @ 1440x900
+[388/395] e2e/screens.spec.ts:42:11 › viewport 1440x900 › mission @ 1440x900
+[389/395] e2e/screens.spec.ts:42:11 › viewport 1440x900 › data @ 1440x900
+[390/395] e2e/screens.spec.ts:42:11 › viewport 1440x900 › assistant @ 1440x900
+[391/395] e2e/screens.spec.ts:42:11 › viewport 1440x900 › missions-hub @ 1440x900
+[392/395] e2e/screens.spec.ts:42:11 › viewport 1440x900 › sellers-list @ 1440x900
+[393/395] e2e/screens.spec.ts:42:11 › viewport 1440x900 › compare-sellers @ 1440x900
+[394/395] e2e/screens.spec.ts:42:11 › viewport 1440x900 › inquiry-context @ 1440x900
+[395/395] e2e/screens.spec.ts:42:11 › viewport 1440x900 › mission-start @ 1440x900
+  2 skipped
+  393 passed (2.4m)
+### playwright (full, chromium) — exit=0 duration=142s end 2026-10-22T19:46:49+03:30
+playwright totals: expected(pass)=393 unexpected(fail)=0 flaky=0 skipped=2 durationMs=141152
+  skipped: evidence.spec.ts:36 LIVE-MODE (manual only): production default is LINK-ONLY — the review is referenced with who/when, nothing is quoted, no request to the page — runs only when the server was started with AGENT_EVIDENCE_MODE=live AGENT_EXTERNAL_LIVE=1 and this flag is set
+  skipped: smoke.spec.ts:52 without a database the pages say so honestly (no fake data) — only meaningful when the database is absent
+db sha256(after) =47225ae564418042bc6f558e0653f63d3fb570228460074e0f43b4a99b156de5 bytes=827924480  unchanged=yes   zip unchanged=yes
+
+# GATE A RESULT: PASS

@@ -1,0 +1,39 @@
+# SINGLE INSTANCE ONLY (rate limits, concurrency gates and the evidence cache are per process — see docs/deployment-packet.md §4).
+# Do not add `deploy.replicas` / scale this service until a shared limiter exists.
+services:
+  app:
+    image: hamghadam-app:<TAG>               # built from the Dockerfile `runner` target: docker build --target runner -t hamghadam-app:<TAG> .
+    ports: ["127.0.0.1:3000:3000"]           # bind to loopback; only the reverse proxy is public
+    env_file: [./hamghadam.env]              # non-secret for the offline product; create on the server, never commit
+    environment:
+      DATABASE_PATH: /data/app.sqlite
+      TRUST_PROXY_HEADERS: "1"               # ONLY because a proxy that overwrites X-Forwarded-For sits in front
+    volumes:
+      - hamghadam-data:/data:ro              # the app only reads; the importer (profile tools) is the only writer
+    restart: unless-stopped
+    read_only: true
+    tmpfs: ["/tmp"]
+    user: "node"
+    security_opt: ["no-new-privileges:true"]
+    cap_drop: [ALL]
+    mem_limit: 1536m                         # measured ≈ 580 MiB after a load run on the dev box; leave headroom (page cache is reclaimable)
+    pids_limit: 256
+    healthcheck:                             # the Dockerfile HEALTHCHECK already exists; readiness for an orchestrator is /api/ready
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/api/ready').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+    logging:
+      driver: json-file
+      options: { max-size: "10m", max-file: "5" }   # ≈ 50 MB cap; the app logs content-free lines only
+
+  importer:
+    profiles: ["tools"]
+    image: hamghadam-importer:<TAG>          # docker build --target tools -t hamghadam-importer:<TAG> .
+    volumes:
+      - hamghadam-data:/data
+      - ./source:/source:ro                  # contains torob-dataset.zip, supplied out-of-band (never in git or in the image)
+
+volumes:
+  hamghadam-data:

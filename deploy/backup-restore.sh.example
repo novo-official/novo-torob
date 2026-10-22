@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# TEMPLATE — not executed by this repo. The SQLite file is fully rebuildable from the dataset ZIP (≈ 30–60 s), so a backup is a convenience.
+set -euo pipefail
+VOL=hamghadam-data; OUT="${1:-./backups}"; mkdir -p "$OUT"; STAMP=$(date +%Y%m%dT%H%M%S)
+
+backup() {   # app reads the file read-only, so a plain copy of a quiescent file is consistent
+  docker run --rm -v "$VOL":/data:ro -v "$PWD/$OUT":/out --entrypoint sh hamghadam-importer:"${TAG:?set TAG}" -c "cp /data/app.sqlite /out/app-$STAMP.sqlite && sha256sum /out/app-$STAMP.sqlite > /out/app-$STAMP.sqlite.sha256"
+  echo "backup: $OUT/app-$STAMP.sqlite"
+}
+restore() {  # restore <file>  — verify the checksum FIRST, then integrity, then swap
+  f="$1"; (cd "$(dirname "$f")" && sha256sum -c "$(basename "$f").sha256")
+  docker run --rm -v "$VOL":/data -v "$PWD/$(dirname "$f")":/in:ro --entrypoint sh hamghadam-importer:"${TAG:?}" -c "cp /in/$(basename "$f") /data/app.sqlite.new && mv /data/app.sqlite.new /data/app.sqlite"
+  docker compose --profile tools run --rm importer npm run db:verify     # must print ALL CHECKS PASSED
+  docker compose restart app
+}
+"${@:-backup}"

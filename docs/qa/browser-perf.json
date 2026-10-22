@@ -1,0 +1,154 @@
+{
+  "at": "2026-10-22T16:15:18.673Z",
+  "note": "Chrome, local production build, no throttling, photos/tiles stubbed; not Lighthouse, not field data",
+  "metrics": {
+    "390": {
+      "home": {
+        "ttfb": 1017.6,
+        "fcp": 1164,
+        "lcp": 1264,
+        "cls": 0,
+        "domReady": 1086.3,
+        "load": 1219
+      },
+      "assistant": {
+        "ttfb": 15.6,
+        "fcp": 188,
+        "lcp": 188,
+        "cls": 0,
+        "domReady": 87,
+        "load": 240.1
+      },
+      "discover-results": {
+        "ttfb": 114.6,
+        "fcp": 288,
+        "lcp": 288,
+        "cls": 0,
+        "domReady": 253.4,
+        "load": 293.7
+      },
+      "search": {
+        "ttfb": 197.6,
+        "fcp": 328,
+        "lcp": 328,
+        "cls": 0,
+        "domReady": 300.4,
+        "load": 534.4
+      },
+      "product": {
+        "ttfb": 14,
+        "fcp": 108,
+        "lcp": 108,
+        "cls": 0,
+        "domReady": 135.3,
+        "load": 153.9
+      },
+      "sellers": {
+        "ttfb": 43.3,
+        "fcp": 156,
+        "lcp": 156,
+        "cls": 0,
+        "domReady": 83,
+        "load": 205.3
+      },
+      "compare": {
+        "ttfb": 73.4,
+        "fcp": 236,
+        "lcp": 236,
+        "cls": 0,
+        "domReady": 237.9,
+        "load": 250.5
+      },
+      "inquiry": {
+        "ttfb": 261.7,
+        "fcp": 404,
+        "lcp": 404,
+        "cls": 0,
+        "domReady": 379.3,
+        "load": 422.1
+      },
+      "missions": {
+        "ttfb": 49.7,
+        "fcp": 212,
+        "lcp": 212,
+        "cls": 0,
+        "domReady": 146.2,
+        "load": 244.8
+      }
+    },
+    "1440": {
+      "home": {
+        "ttfb": 9,
+        "fcp": 80,
+        "lcp": 128,
+        "cls": 0,
+        "domReady": 62.6,
+        "load": 96.2
+      },
+      "assistant": {
+        "ttfb": 28.9,
+        "fcp": 168,
+        "lcp": 168,
+        "cls": 0,
+        "domReady": 75,
+        "load": 207.1
+      },
+      "discover-results": {
+        "ttfb": 110.6,
+        "fcp": 236,
+        "lcp": 236,
+        "cls": 0,
+        "domReady": 160,
+        "load": 262.2
+      },
+      "search": {
+        "ttfb": 49.1,
+        "fcp": 120,
+        "lcp": 460,
+        "cls": 0.1,
+        "domReady": 154.1,
+        "load": 158.5
+      },
+      "product": {
+        "ttfb": 14.6,
+        "fcp": 164,
+        "lcp": 164,
+        "cls": 0,
+        "domReady": 187.1,
+        "load": 216.7
+      },
+      "sellers": {
+        "ttfb": 173.9,
+        "fcp": 316,
+        "lcp": 316,
+        "cls": 0,
+        "domReady": 285.4,
+        "load": 360.5
+      },
+      "compare": {
+        "ttfb": 34.5,
+        "fcp": 232,
+        "lcp": 232,
+        "cls": 0,
+        "domReady": 252.5,
+        "load": 263.7
+      },
+      "inquiry": {
+        "ttfb": 43.2,
+        "fcp": 200,
+        "lcp": 200,
+        "cls": 0,
+        "domReady": 195.1,
+        "load": 220.9
+      },
+      "missions": {
+        "ttfb": 42.2,
+        "fcp": 380,
+        "lcp": 380,
+        "cls": 0,
+        "domReady": 399.1,
+        "load": 431
+      }
+    }
+  }
+}

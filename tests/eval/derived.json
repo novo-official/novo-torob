@@ -1,0 +1,4023 @@
+{
+ "meta": {
+  "seed": 20261021,
+  "builtFrom": "data/app.sqlite",
+  "kind": "verified-by-construction (label = the catalog record the query was derived from)",
+  "products": 225052
+ },
+ "exact": [
+  {
+   "id": "product_8cc3af2794f5f091b3c98b50",
+   "query": "TZ3102",
+   "form": "compact",
+   "key": "TZ3102",
+   "relevant": [
+    "product_8cc3af2794f5f091b3c98b50"
+   ]
+  },
+  {
+   "id": "product_8cc3af2794f5f091b3c98b50",
+   "query": "tz3102",
+   "form": "lower",
+   "key": "TZ3102",
+   "relevant": [
+    "product_8cc3af2794f5f091b3c98b50"
+   ]
+  },
+  {
+   "id": "product_8cc3af2794f5f091b3c98b50",
+   "query": "TZ-3102",
+   "form": "as_printed",
+   "key": "TZ3102",
+   "relevant": [
+    "product_8cc3af2794f5f091b3c98b50"
+   ]
+  },
+  {
+   "id": "product_dcbc388186db7e104cd28076",
+   "query": "POCOC75",
+   "form": "compact",
+   "key": "POCOC75",
+   "relevant": [
+    "product_dcbc388186db7e104cd28076",
+    "product_bb70cd4f6310fb95a61e8c8f",
+    "product_05409563bbc36bbc41d209d8",
+    "product_ea019725c82f7a9880215de4",
+    "product_0f191a937a059c4baca8ba24"
+   ]
+  },
+  {
+   "id": "product_dcbc388186db7e104cd28076",
+   "query": "pococ75",
+   "form": "lower",
+   "key": "POCOC75",
+   "relevant": [
+    "product_dcbc388186db7e104cd28076",
+    "product_bb70cd4f6310fb95a61e8c8f",
+    "product_05409563bbc36bbc41d209d8",
+    "product_ea019725c82f7a9880215de4",
+    "product_0f191a937a059c4baca8ba24"
+   ]
+  },
+  {
+   "id": "product_dcbc388186db7e104cd28076",
+   "query": "POCOC75",
+   "form": "as_printed",
+   "key": "POCOC75",
+   "relevant": [
+    "product_dcbc388186db7e104cd28076",
+    "product_bb70cd4f6310fb95a61e8c8f",
+    "product_05409563bbc36bbc41d209d8",
+    "product_ea019725c82f7a9880215de4",
+    "product_0f191a937a059c4baca8ba24"
+   ]
+  },
+  {
+   "id": "product_26fb17e29654954de4b87e07",
+   "query": "TMBN2R",
+   "form": "compact",
+   "key": "TMBN2R",
+   "relevant": [
+    "product_26fb17e29654954de4b87e07"
+   ]
+  },
+  {
+   "id": "product_26fb17e29654954de4b87e07",
+   "query": "tmbn2r",
+   "form": "lower",
+   "key": "TMBN2R",
+   "relevant": [
+    "product_26fb17e29654954de4b87e07"
+   ]
+  },
+  {
+   "id": "product_26fb17e29654954de4b87e07",
+   "query": "TMB-N-2R",
+   "form": "as_printed",
+   "key": "TMBN2R",
+   "relevant": [
+    "product_26fb17e29654954de4b87e07"
+   ]
+  },
+  {
+   "id": "product_9e42d60b5937616d303f0d89",
+   "query": "CH2060",
+   "form": "compact",
+   "key": "CH2060",
+   "relevant": [
+    "product_9e42d60b5937616d303f0d89"
+   ]
+  },
+  {
+   "id": "product_9e42d60b5937616d303f0d89",
+   "query": "ch2060",
+   "form": "lower",
+   "key": "CH2060",
+   "relevant": [
+    "product_9e42d60b5937616d303f0d89"
+   ]
+  },
+  {
+   "id": "product_9e42d60b5937616d303f0d89",
+   "query": "CH2060",
+   "form": "as_printed",
+   "key": "CH2060",
+   "relevant": [
+    "product_9e42d60b5937616d303f0d89"
+   ]
+  },
+  {
+   "id": "product_c3b1af2adfba8a764339c309",
+   "query": "TCC34GS",
+   "form": "compact",
+   "key": "TCC34GS",
+   "relevant": [
+    "product_f86d2e9ce372aa1006327718",
+    "product_c3b1af2adfba8a764339c309",
+    "product_1cbb59c3e204fadd2fc3c4a1"
+   ]
+  },
+  {
+   "id": "product_c3b1af2adfba8a764339c309",
+   "query": "tcc34gs",
+   "form": "lower",
+   "key": "TCC34GS",
+   "relevant": [
+    "product_f86d2e9ce372aa1006327718",
+    "product_c3b1af2adfba8a764339c309",
+    "product_1cbb59c3e204fadd2fc3c4a1"
+   ]
+  },
+  {
+   "id": "product_c3b1af2adfba8a764339c309",
+   "query": "TC-C34GS",
+   "form": "as_printed",
+   "key": "TCC34GS",
+   "relevant": [
+    "product_f86d2e9ce372aa1006327718",
+    "product_c3b1af2adfba8a764339c309",
+    "product_1cbb59c3e204fadd2fc3c4a1"
+   ]
+  },
+  {
+   "id": "product_c4e43b6bd5be42f18eafd71e",
+   "query": "BFX1022",
+   "form": "compact",
+   "key": "BFX1022",
+   "relevant": [
+    "product_c4e43b6bd5be42f18eafd71e"
+   ]
+  },
+  {
+   "id": "product_c4e43b6bd5be42f18eafd71e",
+   "query": "bfx1022",
+   "form": "lower",
+   "key": "BFX1022",
+   "relevant": [
+    "product_c4e43b6bd5be42f18eafd71e"
+   ]
+  },
+  {
+   "id": "product_c4e43b6bd5be42f18eafd71e",
+   "query": "BFX1022",
+   "form": "as_printed",
+   "key": "BFX1022",
+   "relevant": [
+    "product_c4e43b6bd5be42f18eafd71e"
+   ]
+  },
+  {
+   "id": "product_1442bdd2d76b0c737be0ff43",
+   "query": "TPG10500E2",
+   "form": "compact",
+   "key": "TPG10500E2",
+   "relevant": [
+    "product_79404a7b2d61113d199853c2",
+    "product_afbd554ee8f1b9da36c6cac8",
+    "product_1442bdd2d76b0c737be0ff43"
+   ]
+  },
+  {
+   "id": "product_1442bdd2d76b0c737be0ff43",
+   "query": "tpg10500e2",
+   "form": "lower",
+   "key": "TPG10500E2",
+   "relevant": [
+    "product_79404a7b2d61113d199853c2",
+    "product_afbd554ee8f1b9da36c6cac8",
+    "product_1442bdd2d76b0c737be0ff43"
+   ]
+  },
+  {
+   "id": "product_1442bdd2d76b0c737be0ff43",
+   "query": "TPG10500E2",
+   "form": "as_printed",
+   "key": "TPG10500E2",
+   "relevant": [
+    "product_79404a7b2d61113d199853c2",
+    "product_afbd554ee8f1b9da36c6cac8",
+    "product_1442bdd2d76b0c737be0ff43"
+   ]
+  },
+  {
+   "id": "product_3655739072649d4da1fecc78",
+   "query": "EN4118L",
+   "form": "compact",
+   "key": "EN4118L",
+   "relevant": [
+    "product_3655739072649d4da1fecc78"
+   ]
+  },
+  {
+   "id": "product_3655739072649d4da1fecc78",
+   "query": "en4118l",
+   "form": "lower",
+   "key": "EN4118L",
+   "relevant": [
+    "product_3655739072649d4da1fecc78"
+   ]
+  },
+  {
+   "id": "product_3655739072649d4da1fecc78",
+   "query": "EN4118L",
+   "form": "as_printed",
+   "key": "EN4118L",
+   "relevant": [
+    "product_3655739072649d4da1fecc78"
+   ]
+  },
+  {
+   "id": "product_000158869567b8a36c3567cd",
+   "query": "3TOEJF",
+   "form": "compact",
+   "key": "3TOEJF",
+   "relevant": [
+    "product_000158869567b8a36c3567cd"
+   ]
+  },
+  {
+   "id": "product_000158869567b8a36c3567cd",
+   "query": "3toejf",
+   "form": "lower",
+   "key": "3TOEJF",
+   "relevant": [
+    "product_000158869567b8a36c3567cd"
+   ]
+  },
+  {
+   "id": "product_000158869567b8a36c3567cd",
+   "query": "3TOEJF",
+   "form": "as_printed",
+   "key": "3TOEJF",
+   "relevant": [
+    "product_000158869567b8a36c3567cd"
+   ]
+  },
+  {
+   "id": "product_f7585e5116be7bab7be148f1",
+   "query": "AUTHENTICBASE10619",
+   "form": "compact",
+   "key": "AUTHENTICBASE10619",
+   "relevant": [
+    "product_d73024f4f3f2c05aa9cb6307",
+    "product_f7585e5116be7bab7be148f1"
+   ]
+  },
+  {
+   "id": "product_f7585e5116be7bab7be148f1",
+   "query": "authenticbase10619",
+   "form": "lower",
+   "key": "AUTHENTICBASE10619",
+   "relevant": [
+    "product_d73024f4f3f2c05aa9cb6307",
+    "product_f7585e5116be7bab7be148f1"
+   ]
+  },
+  {
+   "id": "product_f7585e5116be7bab7be148f1",
+   "query": "AUTHENTICBASE10619",
+   "form": "as_printed",
+   "key": "AUTHENTICBASE10619",
+   "relevant": [
+    "product_d73024f4f3f2c05aa9cb6307",
+    "product_f7585e5116be7bab7be148f1"
+   ]
+  },
+  {
+   "id": "product_88641b69052f939c0faa6c0a",
+   "query": "6ES7590",
+   "form": "compact",
+   "key": "6ES7590",
+   "relevant": [
+    "product_8acb80d558c623a786c60989",
+    "product_b18414eb287cb8033fa76bf7",
+    "product_f4fd4483b7ed37cd2846bf92",
+    "product_88641b69052f939c0faa6c0a",
+    "product_1d3886ca50536cc60efdd4ee",
+    "product_5c79dedd1df74c5fcc7143c8",
+    "product_39f3cc838ab3f14a7415f3b3",
+    "product_db4669869c6c818ffadc3d64",
+    "product_9e418e786915c1177ecba2d7",
+    "product_1faa68b9472e282d82470884"
+   ]
+  },
+  {
+   "id": "product_88641b69052f939c0faa6c0a",
+   "query": "6es7590",
+   "form": "lower",
+   "key": "6ES7590",
+   "relevant": [
+    "product_8acb80d558c623a786c60989",
+    "product_b18414eb287cb8033fa76bf7",
+    "product_f4fd4483b7ed37cd2846bf92",
+    "product_88641b69052f939c0faa6c0a",
+    "product_1d3886ca50536cc60efdd4ee",
+    "product_5c79dedd1df74c5fcc7143c8",
+    "product_39f3cc838ab3f14a7415f3b3",
+    "product_db4669869c6c818ffadc3d64",
+    "product_9e418e786915c1177ecba2d7",
+    "product_1faa68b9472e282d82470884"
+   ]
+  },
+  {
+   "id": "product_88641b69052f939c0faa6c0a",
+   "query": "6ES7590-1AC40-0AA0",
+   "form": "as_printed",
+   "key": "6ES7590",
+   "relevant": [
+    "product_8acb80d558c623a786c60989",
+    "product_b18414eb287cb8033fa76bf7",
+    "product_f4fd4483b7ed37cd2846bf92",
+    "product_88641b69052f939c0faa6c0a",
+    "product_1d3886ca50536cc60efdd4ee",
+    "product_5c79dedd1df74c5fcc7143c8",
+    "product_39f3cc838ab3f14a7415f3b3",
+    "product_db4669869c6c818ffadc3d64",
+    "product_9e418e786915c1177ecba2d7",
+    "product_1faa68b9472e282d82470884"
+   ]
+  },
+  {
+   "id": "product_856a7cdd6d5f7b9485abcdba",
+   "query": "BT3050S",
+   "form": "compact",
+   "key": "BT3050S",
+   "relevant": [
+    "product_856a7cdd6d5f7b9485abcdba"
+   ]
+  },
+  {
+   "id": "product_856a7cdd6d5f7b9485abcdba",
+   "query": "bt3050s",
+   "form": "lower",
+   "key": "BT3050S",
+   "relevant": [
+    "product_856a7cdd6d5f7b9485abcdba"
+   ]
+  },
+  {
+   "id": "product_856a7cdd6d5f7b9485abcdba",
+   "query": "RX-BT3050S",
+   "form": "as_printed",
+   "key": "BT3050S",
+   "relevant": [
+    "product_856a7cdd6d5f7b9485abcdba"
+   ]
+  },
+  {
+   "id": "product_0fc375158a50bbb71b82a87e",
+   "query": "F3378M2",
+   "form": "compact",
+   "key": "F3378M2",
+   "relevant": [
+    "product_0fc375158a50bbb71b82a87e"
+   ]
+  },
+  {
+   "id": "product_0fc375158a50bbb71b82a87e",
+   "query": "f3378m2",
+   "form": "lower",
+   "key": "F3378M2",
+   "relevant": [
+    "product_0fc375158a50bbb71b82a87e"
+   ]
+  },
+  {
+   "id": "product_0fc375158a50bbb71b82a87e",
+   "query": "70F3378M2-A",
+   "form": "as_printed",
+   "key": "F3378M2",
+   "relevant": [
+    "product_0fc375158a50bbb71b82a87e"
+   ]
+  },
+  {
+   "id": "product_d92d9ec094c45bad82f5a3da",
+   "query": "ABH203C",
+   "form": "compact",
+   "key": "ABH203C",
+   "relevant": [
+    "product_14fb5c500ff5668a75d81755",
+    "product_d92d9ec094c45bad82f5a3da"
+   ]
+  },
+  {
+   "id": "product_d92d9ec094c45bad82f5a3da",
+   "query": "abh203c",
+   "form": "lower",
+   "key": "ABH203C",
+   "relevant": [
+    "product_14fb5c500ff5668a75d81755",
+    "product_d92d9ec094c45bad82f5a3da"
+   ]
+  },
+  {
+   "id": "product_d92d9ec094c45bad82f5a3da",
+   "query": "ABH203C/125",
+   "form": "as_printed",
+   "key": "ABH203C",
+   "relevant": [
+    "product_14fb5c500ff5668a75d81755",
+    "product_d92d9ec094c45bad82f5a3da"
+   ]
+  },
+  {
+   "id": "product_38f6646d90160c7f53793ecf",
+   "query": "12AP28",
+   "form": "compact",
+   "key": "12AP28",
+   "relevant": [
+    "product_38f6646d90160c7f53793ecf"
+   ]
+  },
+  {
+   "id": "product_38f6646d90160c7f53793ecf",
+   "query": "12ap28",
+   "form": "lower",
+   "key": "12AP28",
+   "relevant": [
+    "product_38f6646d90160c7f53793ecf"
+   ]
+  },
+  {
+   "id": "product_38f6646d90160c7f53793ecf",
+   "query": "۱۲AP28",
+   "form": "as_printed",
+   "key": "12AP28",
+   "relevant": [
+    "product_38f6646d90160c7f53793ecf"
+   ]
+  },
+  {
+   "id": "product_c4a6ade57162c70ad801a56d",
+   "query": "JQX38F3Z",
+   "form": "compact",
+   "key": "JQX38F3Z",
+   "relevant": [
+    "product_c4a6ade57162c70ad801a56d",
+    "product_91a3f73c6f24956e5e25bd84",
+    "product_9e4cf716ec501a5db480797e"
+   ]
+  },
+  {
+   "id": "product_c4a6ade57162c70ad801a56d",
+   "query": "jqx38f3z",
+   "form": "lower",
+   "key": "JQX38F3Z",
+   "relevant": [
+    "product_c4a6ade57162c70ad801a56d",
+    "product_91a3f73c6f24956e5e25bd84",
+    "product_9e4cf716ec501a5db480797e"
+   ]
+  },
+  {
+   "id": "product_c4a6ade57162c70ad801a56d",
+   "query": "JQX-38F-3Z",
+   "form": "as_printed",
+   "key": "JQX38F3Z",
+   "relevant": [
+    "product_c4a6ade57162c70ad801a56d",
+    "product_91a3f73c6f24956e5e25bd84",
+    "product_9e4cf716ec501a5db480797e"
+   ]
+  },
+  {
+   "id": "product_f950db01ea1900638fc5465a",
+   "query": "32F6000",
+   "form": "compact",
+   "key": "32F6000",
+   "relevant": [
+    "product_f950db01ea1900638fc5465a"
+   ]
+  },
+  {
+   "id": "product_f950db01ea1900638fc5465a",
+   "query": "32f6000",
+   "form": "lower",
+   "key": "32F6000",
+   "relevant": [
+    "product_f950db01ea1900638fc5465a"
+   ]
+  },
+  {
+   "id": "product_f950db01ea1900638fc5465a",
+   "query": "32F6000",
+   "form": "as_printed",
+   "key": "32F6000",
+   "relevant": [
+    "product_f950db01ea1900638fc5465a"
+   ]
+  },
+  {
+   "id": "product_12d624f66c25fe31e9b3709a",
+   "query": "BG1107202",
+   "form": "compact",
+   "key": "BG1107202",
+   "relevant": [
+    "product_12d624f66c25fe31e9b3709a"
+   ]
+  },
+  {
+   "id": "product_12d624f66c25fe31e9b3709a",
+   "query": "bg1107202",
+   "form": "lower",
+   "key": "BG1107202",
+   "relevant": [
+    "product_12d624f66c25fe31e9b3709a"
+   ]
+  },
+  {
+   "id": "product_12d624f66c25fe31e9b3709a",
+   "query": "BG.1.10720-2",
+   "form": "as_printed",
+   "key": "BG1107202",
+   "relevant": [
+    "product_12d624f66c25fe31e9b3709a"
+   ]
+  },
+  {
+   "id": "product_20e3f2cd9f9d3172e086cc4c",
+   "query": "DSO2D50",
+   "form": "compact",
+   "key": "DSO2D50",
+   "relevant": [
+    "product_20e3f2cd9f9d3172e086cc4c"
+   ]
+  },
+  {
+   "id": "product_20e3f2cd9f9d3172e086cc4c",
+   "query": "dso2d50",
+   "form": "lower",
+   "key": "DSO2D50",
+   "relevant": [
+    "product_20e3f2cd9f9d3172e086cc4c"
+   ]
+  },
+  {
+   "id": "product_20e3f2cd9f9d3172e086cc4c",
+   "query": "DSO-2D50",
+   "form": "as_printed",
+   "key": "DSO2D50",
+   "relevant": [
+    "product_20e3f2cd9f9d3172e086cc4c"
+   ]
+  },
+  {
+   "id": "product_b91efd51f37f9ae43f726bab",
+   "query": "V6272R",
+   "form": "compact",
+   "key": "V6272R",
+   "relevant": [
+    "product_3d23853216de2716dacf09b8",
+    "product_caf57f791d167290f28ae259",
+    "product_aff05e04b8922a94fbf80f77",
+    "product_b91efd51f37f9ae43f726bab",
+    "product_c06c9ee38e4a1a4d2f9ed274"
+   ]
+  },
+  {
+   "id": "product_b91efd51f37f9ae43f726bab",
+   "query": "v6272r",
+   "form": "lower",
+   "key": "V6272R",
+   "relevant": [
+    "product_3d23853216de2716dacf09b8",
+    "product_caf57f791d167290f28ae259",
+    "product_aff05e04b8922a94fbf80f77",
+    "product_b91efd51f37f9ae43f726bab",
+    "product_c06c9ee38e4a1a4d2f9ed274"
+   ]
+  },
+  {
+   "id": "product_b91efd51f37f9ae43f726bab",
+   "query": "IR-V6272R-C",
+   "form": "as_printed",
+   "key": "V6272R",
+   "relevant": [
+    "product_3d23853216de2716dacf09b8",
+    "product_caf57f791d167290f28ae259",
+    "product_aff05e04b8922a94fbf80f77",
+    "product_b91efd51f37f9ae43f726bab",
+    "product_c06c9ee38e4a1a4d2f9ed274"
+   ]
+  },
+  {
+   "id": "product_e6e14b90221b816190ec9d43",
+   "query": "IB0004",
+   "form": "compact",
+   "key": "IB0004",
+   "relevant": [
+    "product_d6110c2c28f1cc7f0ec3b277",
+    "product_1c8042dcb82dee283503c264",
+    "product_e6e14b90221b816190ec9d43"
+   ]
+  },
+  {
+   "id": "product_e6e14b90221b816190ec9d43",
+   "query": "ib0004",
+   "form": "lower",
+   "key": "IB0004",
+   "relevant": [
+    "product_d6110c2c28f1cc7f0ec3b277",
+    "product_1c8042dcb82dee283503c264",
+    "product_e6e14b90221b816190ec9d43"
+   ]
+  },
+  {
+   "id": "product_e6e14b90221b816190ec9d43",
+   "query": "IB0004",
+   "form": "as_printed",
+   "key": "IB0004",
+   "relevant": [
+    "product_d6110c2c28f1cc7f0ec3b277",
+    "product_1c8042dcb82dee283503c264",
+    "product_e6e14b90221b816190ec9d43"
+   ]
+  },
+  {
+   "id": "product_03acd960d08072ea12005c40",
+   "query": "XHI841910002",
+   "form": "compact",
+   "key": "XHI841910002",
+   "relevant": [
+    "product_03acd960d08072ea12005c40"
+   ]
+  },
+  {
+   "id": "product_03acd960d08072ea12005c40",
+   "query": "xhi841910002",
+   "form": "lower",
+   "key": "XHI841910002",
+   "relevant": [
+    "product_03acd960d08072ea12005c40"
+   ]
+  },
+  {
+   "id": "product_03acd960d08072ea12005c40",
+   "query": "XHI841910002",
+   "form": "as_printed",
+   "key": "XHI841910002",
+   "relevant": [
+    "product_03acd960d08072ea12005c40"
+   ]
+  },
+  {
+   "id": "product_98e88d3207c842904e16e1d6",
+   "query": "HACB6535L",
+   "form": "compact",
+   "key": "HACB6535L",
+   "relevant": [
+    "product_98e88d3207c842904e16e1d6"
+   ]
+  },
+  {
+   "id": "product_98e88d3207c842904e16e1d6",
+   "query": "hacb6535l",
+   "form": "lower",
+   "key": "HACB6535L",
+   "relevant": [
+    "product_98e88d3207c842904e16e1d6"
+   ]
+  },
+  {
+   "id": "product_98e88d3207c842904e16e1d6",
+   "query": "HAC-B6535-L",
+   "form": "as_printed",
+   "key": "HACB6535L",
+   "relevant": [
+    "product_98e88d3207c842904e16e1d6"
+   ]
+  },
+  {
+   "id": "product_2441eb1b7c125934492366be",
+   "query": "CAT6UTPCU",
+   "form": "compact",
+   "key": "CAT6UTPCU",
+   "relevant": [
+    "product_2441eb1b7c125934492366be"
+   ]
+  },
+  {
+   "id": "product_2441eb1b7c125934492366be",
+   "query": "cat6utpcu",
+   "form": "lower",
+   "key": "CAT6UTPCU",
+   "relevant": [
+    "product_2441eb1b7c125934492366be"
+   ]
+  },
+  {
+   "id": "product_2441eb1b7c125934492366be",
+   "query": "کابل-شبکه-cat6-utp-cu-محصول-لگراند",
+   "form": "as_printed",
+   "key": "CAT6UTPCU",
+   "relevant": [
+    "product_2441eb1b7c125934492366be"
+   ]
+  },
+  {
+   "id": "product_ea0803ba61a0b586f0c8fd9b",
+   "query": "55311C1100",
+   "form": "compact",
+   "key": "55311C1100",
+   "relevant": [
+    "product_ea0803ba61a0b586f0c8fd9b"
+   ]
+  },
+  {
+   "id": "product_ea0803ba61a0b586f0c8fd9b",
+   "query": "55311c1100",
+   "form": "lower",
+   "key": "55311C1100",
+   "relevant": [
+    "product_ea0803ba61a0b586f0c8fd9b"
+   ]
+  },
+  {
+   "id": "product_ea0803ba61a0b586f0c8fd9b",
+   "query": "55311C1100",
+   "form": "as_printed",
+   "key": "55311C1100",
+   "relevant": [
+    "product_ea0803ba61a0b586f0c8fd9b"
+   ]
+  },
+  {
+   "id": "product_d798387b2870f12edf3772bf",
+   "query": "YPNDR2061",
+   "form": "compact",
+   "key": "YPNDR2061",
+   "relevant": [
+    "product_7e4a9210344e1d16b64f61fb",
+    "product_d798387b2870f12edf3772bf"
+   ]
+  },
+  {
+   "id": "product_d798387b2870f12edf3772bf",
+   "query": "ypndr2061",
+   "form": "lower",
+   "key": "YPNDR2061",
+   "relevant": [
+    "product_7e4a9210344e1d16b64f61fb",
+    "product_d798387b2870f12edf3772bf"
+   ]
+  },
+  {
+   "id": "product_d798387b2870f12edf3772bf",
+   "query": "YP-NDR-2061",
+   "form": "as_printed",
+   "key": "YPNDR2061",
+   "relevant": [
+    "product_7e4a9210344e1d16b64f61fb",
+    "product_d798387b2870f12edf3772bf"
+   ]
+  },
+  {
+   "id": "product_2b5aee0129ca80c26c5e80ba",
+   "query": "E6500M",
+   "form": "compact",
+   "key": "E6500M",
+   "relevant": [
+    "product_2b5aee0129ca80c26c5e80ba"
+   ]
+  },
+  {
+   "id": "product_2b5aee0129ca80c26c5e80ba",
+   "query": "e6500m",
+   "form": "lower",
+   "key": "E6500M",
+   "relevant": [
+    "product_2b5aee0129ca80c26c5e80ba"
+   ]
+  },
+  {
+   "id": "product_2b5aee0129ca80c26c5e80ba",
+   "query": "E6500M-",
+   "form": "as_printed",
+   "key": "E6500M",
+   "relevant": [
+    "product_2b5aee0129ca80c26c5e80ba"
+   ]
+  },
+  {
+   "id": "product_d37a3278437f06da2b63a33c",
+   "query": "CT23001",
+   "form": "compact",
+   "key": "CT23001",
+   "relevant": [
+    "product_d37a3278437f06da2b63a33c"
+   ]
+  },
+  {
+   "id": "product_d37a3278437f06da2b63a33c",
+   "query": "ct23001",
+   "form": "lower",
+   "key": "CT23001",
+   "relevant": [
+    "product_d37a3278437f06da2b63a33c"
+   ]
+  },
+  {
+   "id": "product_d37a3278437f06da2b63a33c",
+   "query": "CT23001",
+   "form": "as_printed",
+   "key": "CT23001",
+   "relevant": [
+    "product_d37a3278437f06da2b63a33c"
+   ]
+  },
+  {
+   "id": "product_8384cda3289791eb5e2986c3",
+   "query": "KC930EW",
+   "form": "compact",
+   "key": "KC930EW",
+   "relevant": [
+    "product_566d2c63e4ebbae1c47c3a29",
+    "product_8384cda3289791eb5e2986c3"
+   ]
+  },
+  {
+   "id": "product_8384cda3289791eb5e2986c3",
+   "query": "kc930ew",
+   "form": "lower",
+   "key": "KC930EW",
+   "relevant": [
+    "product_566d2c63e4ebbae1c47c3a29",
+    "product_8384cda3289791eb5e2986c3"
+   ]
+  },
+  {
+   "id": "product_8384cda3289791eb5e2986c3",
+   "query": "Kc-930E-W",
+   "form": "as_printed",
+   "key": "KC930EW",
+   "relevant": [
+    "product_566d2c63e4ebbae1c47c3a29",
+    "product_8384cda3289791eb5e2986c3"
+   ]
+  },
+  {
+   "id": "product_428c0867785c828f4129b1d0",
+   "query": "GD170011G4PV",
+   "form": "compact",
+   "key": "GD170011G4PV",
+   "relevant": [
+    "product_428c0867785c828f4129b1d0"
+   ]
+  },
+  {
+   "id": "product_428c0867785c828f4129b1d0",
+   "query": "gd170011g4pv",
+   "form": "lower",
+   "key": "GD170011G4PV",
+   "relevant": [
+    "product_428c0867785c828f4129b1d0"
+   ]
+  },
+  {
+   "id": "product_428c0867785c828f4129b1d0",
+   "query": "(GD170-011G-4-PV)",
+   "form": "as_printed",
+   "key": "GD170011G4PV",
+   "relevant": [
+    "product_428c0867785c828f4129b1d0"
+   ]
+  },
+  {
+   "id": "product_e21e300f10f362d151102aa4",
+   "query": "PADM3412",
+   "form": "compact",
+   "key": "PADM3412",
+   "relevant": [
+    "product_e21e300f10f362d151102aa4"
+   ]
+  },
+  {
+   "id": "product_e21e300f10f362d151102aa4",
+   "query": "padm3412",
+   "form": "lower",
+   "key": "PADM3412",
+   "relevant": [
+    "product_e21e300f10f362d151102aa4"
+   ]
+  },
+  {
+   "id": "product_e21e300f10f362d151102aa4",
+   "query": "Pad-M34-12",
+   "form": "as_printed",
+   "key": "PADM3412",
+   "relevant": [
+    "product_e21e300f10f362d151102aa4"
+   ]
+  },
+  {
+   "id": "product_c363c00b39a1217862c99110",
+   "query": "SUR558P1",
+   "form": "compact",
+   "key": "SUR558P1",
+   "relevant": [
+    "product_c363c00b39a1217862c99110"
+   ]
+  },
+  {
+   "id": "product_c363c00b39a1217862c99110",
+   "query": "sur558p1",
+   "form": "lower",
+   "key": "SUR558P1",
+   "relevant": [
+    "product_c363c00b39a1217862c99110"
+   ]
+  },
+  {
+   "id": "product_c363c00b39a1217862c99110",
+   "query": "SUR558P1",
+   "form": "as_printed",
+   "key": "SUR558P1",
+   "relevant": [
+    "product_c363c00b39a1217862c99110"
+   ]
+  },
+  {
+   "id": "product_15601168409e1c7e026f5a8f",
+   "query": "MFB08M",
+   "form": "compact",
+   "key": "MFB08M",
+   "relevant": [
+    "product_5b1d1a1ff2912c646422c561",
+    "product_15601168409e1c7e026f5a8f"
+   ]
+  },
+  {
+   "id": "product_15601168409e1c7e026f5a8f",
+   "query": "mfb08m",
+   "form": "lower",
+   "key": "MFB08M",
+   "relevant": [
+    "product_5b1d1a1ff2912c646422c561",
+    "product_15601168409e1c7e026f5a8f"
+   ]
+  },
+  {
+   "id": "product_15601168409e1c7e026f5a8f",
+   "query": "mfb08m",
+   "form": "as_printed",
+   "key": "MFB08M",
+   "relevant": [
+    "product_5b1d1a1ff2912c646422c561",
+    "product_15601168409e1c7e026f5a8f"
+   ]
+  },
+  {
+   "id": "product_597f5a134eed4278150b011b",
+   "query": "TGA785",
+   "form": "compact",
+   "key": "TGA785",
+   "relevant": [
+    "product_597f5a134eed4278150b011b"
+   ]
+  },
+  {
+   "id": "product_597f5a134eed4278150b011b",
+   "query": "tga785",
+   "form": "lower",
+   "key": "TGA785",
+   "relevant": [
+    "product_597f5a134eed4278150b011b"
+   ]
+  },
+  {
+   "id": "product_597f5a134eed4278150b011b",
+   "query": "KX-TGA785",
+   "form": "as_printed",
+   "key": "TGA785",
+   "relevant": [
+    "product_597f5a134eed4278150b011b"
+   ]
+  },
+  {
+   "id": "product_0b2fbd94fec6151432ac9bd1",
+   "query": "MC1000X",
+   "form": "compact",
+   "key": "MC1000X",
+   "relevant": [
+    "product_ede436f9a9e85abe37d625b5",
+    "product_433c7ab20dcec4ccafc5b446",
+    "product_bae7c882a5cfe6db76d50fe1",
+    "product_0b2fbd94fec6151432ac9bd1",
+    "product_8c65b71f0fc69cf96029ca76",
+    "product_f1b4b071e3ed0cc7974090d8",
+    "product_5f3e29212fe9386affc8de1a",
+    "product_3ba761bf36cf7811b79cdd59",
+    "product_4001b4bbdd037a0f7657cce4"
+   ]
+  },
+  {
+   "id": "product_0b2fbd94fec6151432ac9bd1",
+   "query": "mc1000x",
+   "form": "lower",
+   "key": "MC1000X",
+   "relevant": [
+    "product_ede436f9a9e85abe37d625b5",
+    "product_433c7ab20dcec4ccafc5b446",
+    "product_bae7c882a5cfe6db76d50fe1",
+    "product_0b2fbd94fec6151432ac9bd1",
+    "product_8c65b71f0fc69cf96029ca76",
+    "product_f1b4b071e3ed0cc7974090d8",
+    "product_5f3e29212fe9386affc8de1a",
+    "product_3ba761bf36cf7811b79cdd59",
+    "product_4001b4bbdd037a0f7657cce4"
+   ]
+  },
+  {
+   "id": "product_0b2fbd94fec6151432ac9bd1",
+   "query": "MC-1000-X",
+   "form": "as_printed",
+   "key": "MC1000X",
+   "relevant": [
+    "product_ede436f9a9e85abe37d625b5",
+    "product_433c7ab20dcec4ccafc5b446",
+    "product_bae7c882a5cfe6db76d50fe1",
+    "product_0b2fbd94fec6151432ac9bd1",
+    "product_8c65b71f0fc69cf96029ca76",
+    "product_f1b4b071e3ed0cc7974090d8",
+    "product_5f3e29212fe9386affc8de1a",
+    "product_3ba761bf36cf7811b79cdd59",
+    "product_4001b4bbdd037a0f7657cce4"
+   ]
+  },
+  {
+   "id": "product_3a453be7c31501ffe76bbef9",
+   "query": "EBM24PU10",
+   "form": "compact",
+   "key": "EBM24PU10",
+   "relevant": [
+    "product_3a453be7c31501ffe76bbef9"
+   ]
+  },
+  {
+   "id": "product_3a453be7c31501ffe76bbef9",
+   "query": "ebm24pu10",
+   "form": "lower",
+   "key": "EBM24PU10",
+   "relevant": [
+    "product_3a453be7c31501ffe76bbef9"
+   ]
+  },
+  {
+   "id": "product_3a453be7c31501ffe76bbef9",
+   "query": "EBM24PU10",
+   "form": "as_printed",
+   "key": "EBM24PU10",
+   "relevant": [
+    "product_3a453be7c31501ffe76bbef9"
+   ]
+  },
+  {
+   "id": "product_04831b8ae9ee835a386f6cb3",
+   "query": "INC2113",
+   "form": "compact",
+   "key": "INC2113",
+   "relevant": [
+    "product_04831b8ae9ee835a386f6cb3"
+   ]
+  },
+  {
+   "id": "product_04831b8ae9ee835a386f6cb3",
+   "query": "inc2113",
+   "form": "lower",
+   "key": "INC2113",
+   "relevant": [
+    "product_04831b8ae9ee835a386f6cb3"
+   ]
+  },
+  {
+   "id": "product_04831b8ae9ee835a386f6cb3",
+   "query": "INC-2113",
+   "form": "as_printed",
+   "key": "INC2113",
+   "relevant": [
+    "product_04831b8ae9ee835a386f6cb3"
+   ]
+  },
+  {
+   "id": "product_14ef0d3080c70610e3aed63b",
+   "query": "JTRPC050",
+   "form": "compact",
+   "key": "JTRPC050",
+   "relevant": [
+    "product_14ef0d3080c70610e3aed63b"
+   ]
+  },
+  {
+   "id": "product_14ef0d3080c70610e3aed63b",
+   "query": "jtrpc050",
+   "form": "lower",
+   "key": "JTRPC050",
+   "relevant": [
+    "product_14ef0d3080c70610e3aed63b"
+   ]
+  },
+  {
+   "id": "product_14ef0d3080c70610e3aed63b",
+   "query": "JTRPC050",
+   "form": "as_printed",
+   "key": "JTRPC050",
+   "relevant": [
+    "product_14ef0d3080c70610e3aed63b"
+   ]
+  },
+  {
+   "id": "product_b6b5ff191b0370c597f7df6e",
+   "query": "HGT40K",
+   "form": "compact",
+   "key": "HGT40K",
+   "relevant": [
+    "product_76c283ab91cbfb1f246795c6",
+    "product_93ff5d87130d9c897431f08a",
+    "product_e8d7abc796d2c5f6fb1acdb5",
+    "product_9ca7f0b0c3493ad8b18edb0b",
+    "product_196b5c9432f1a938c3daf2da",
+    "product_b56a148b279a482f9bbff519",
+    "product_b6b5ff191b0370c597f7df6e",
+    "product_d766fac0937e206048d7d15e",
+    "product_8c044caff4b64f389dd5d3a6",
+    "product_9746466e908975df0a2f4e75",
+    "product_c94eace27f3dfd93b10be182",
+    "product_2357c031a36186fdda7c5764",
+    "product_f80b63fec3bdec913ac6aec7"
+   ]
+  },
+  {
+   "id": "product_b6b5ff191b0370c597f7df6e",
+   "query": "hgt40k",
+   "form": "lower",
+   "key": "HGT40K",
+   "relevant": [
+    "product_76c283ab91cbfb1f246795c6",
+    "product_93ff5d87130d9c897431f08a",
+    "product_e8d7abc796d2c5f6fb1acdb5",
+    "product_9ca7f0b0c3493ad8b18edb0b",
+    "product_196b5c9432f1a938c3daf2da",
+    "product_b56a148b279a482f9bbff519",
+    "product_b6b5ff191b0370c597f7df6e",
+    "product_d766fac0937e206048d7d15e",
+    "product_8c044caff4b64f389dd5d3a6",
+    "product_9746466e908975df0a2f4e75",
+    "product_c94eace27f3dfd93b10be182",
+    "product_2357c031a36186fdda7c5764",
+    "product_f80b63fec3bdec913ac6aec7"
+   ]
+  },
+  {
+   "id": "product_b6b5ff191b0370c597f7df6e",
+   "query": "HGT40K",
+   "form": "as_printed",
+   "key": "HGT40K",
+   "relevant": [
+    "product_76c283ab91cbfb1f246795c6",
+    "product_93ff5d87130d9c897431f08a",
+    "product_e8d7abc796d2c5f6fb1acdb5",
+    "product_9ca7f0b0c3493ad8b18edb0b",
+    "product_196b5c9432f1a938c3daf2da",
+    "product_b56a148b279a482f9bbff519",
+    "product_b6b5ff191b0370c597f7df6e",
+    "product_d766fac0937e206048d7d15e",
+    "product_8c044caff4b64f389dd5d3a6",
+    "product_9746466e908975df0a2f4e75",
+    "product_c94eace27f3dfd93b10be182",
+    "product_2357c031a36186fdda7c5764",
+    "product_f80b63fec3bdec913ac6aec7"
+   ]
+  },
+  {
+   "id": "product_9cc07b54d28baff53e96a2b9",
+   "query": "UT305S",
+   "form": "compact",
+   "key": "UT305S",
+   "relevant": [
+    "product_9cc07b54d28baff53e96a2b9"
+   ]
+  },
+  {
+   "id": "product_9cc07b54d28baff53e96a2b9",
+   "query": "ut305s",
+   "form": "lower",
+   "key": "UT305S",
+   "relevant": [
+    "product_9cc07b54d28baff53e96a2b9"
+   ]
+  },
+  {
+   "id": "product_9cc07b54d28baff53e96a2b9",
+   "query": "UT305S",
+   "form": "as_printed",
+   "key": "UT305S",
+   "relevant": [
+    "product_9cc07b54d28baff53e96a2b9"
+   ]
+  },
+  {
+   "id": "product_21e24b0dbae6a70c2477ed71",
+   "query": "7MBP50RA060",
+   "form": "compact",
+   "key": "7MBP50RA060",
+   "relevant": [
+    "product_21e24b0dbae6a70c2477ed71"
+   ]
+  },
+  {
+   "id": "product_21e24b0dbae6a70c2477ed71",
+   "query": "7mbp50ra060",
+   "form": "lower",
+   "key": "7MBP50RA060",
+   "relevant": [
+    "product_21e24b0dbae6a70c2477ed71"
+   ]
+  },
+  {
+   "id": "product_21e24b0dbae6a70c2477ed71",
+   "query": "7MBP50RA060",
+   "form": "as_printed",
+   "key": "7MBP50RA060",
+   "relevant": [
+    "product_21e24b0dbae6a70c2477ed71"
+   ]
+  },
+  {
+   "id": "product_c2a34f26de6246681c3a0ac0",
+   "query": "NSS5376",
+   "form": "compact",
+   "key": "NSS5376",
+   "relevant": [
+    "product_c2a34f26de6246681c3a0ac0"
+   ]
+  },
+  {
+   "id": "product_c2a34f26de6246681c3a0ac0",
+   "query": "nss5376",
+   "form": "lower",
+   "key": "NSS5376",
+   "relevant": [
+    "product_c2a34f26de6246681c3a0ac0"
+   ]
+  },
+  {
+   "id": "product_c2a34f26de6246681c3a0ac0",
+   "query": "NSS5376",
+   "form": "as_printed",
+   "key": "NSS5376",
+   "relevant": [
+    "product_c2a34f26de6246681c3a0ac0"
+   ]
+  },
+  {
+   "id": "product_035e0c493ec90bb0973ffbda",
+   "query": "THAT4315",
+   "form": "compact",
+   "key": "THAT4315",
+   "relevant": [
+    "product_035e0c493ec90bb0973ffbda"
+   ]
+  },
+  {
+   "id": "product_035e0c493ec90bb0973ffbda",
+   "query": "that4315",
+   "form": "lower",
+   "key": "THAT4315",
+   "relevant": [
+    "product_035e0c493ec90bb0973ffbda"
+   ]
+  },
+  {
+   "id": "product_035e0c493ec90bb0973ffbda",
+   "query": "THAT4315",
+   "form": "as_printed",
+   "key": "THAT4315",
+   "relevant": [
+    "product_035e0c493ec90bb0973ffbda"
+   ]
+  },
+  {
+   "id": "product_05bbbb36ee3d3b4802725ec1",
+   "query": "EP13325BA20",
+   "form": "compact",
+   "key": "EP13325BA20",
+   "relevant": [
+    "product_05bbbb36ee3d3b4802725ec1"
+   ]
+  },
+  {
+   "id": "product_05bbbb36ee3d3b4802725ec1",
+   "query": "ep13325ba20",
+   "form": "lower",
+   "key": "EP13325BA20",
+   "relevant": [
+    "product_05bbbb36ee3d3b4802725ec1"
+   ]
+  },
+  {
+   "id": "product_05bbbb36ee3d3b4802725ec1",
+   "query": "6EP1332-5BA20",
+   "form": "as_printed",
+   "key": "EP13325BA20",
+   "relevant": [
+    "product_05bbbb36ee3d3b4802725ec1"
+   ]
+  },
+  {
+   "id": "product_1286509d4ded7630ce149216",
+   "query": "MINI1616",
+   "form": "compact",
+   "key": "MINI1616",
+   "relevant": [
+    "product_1286509d4ded7630ce149216"
+   ]
+  },
+  {
+   "id": "product_1286509d4ded7630ce149216",
+   "query": "mini1616",
+   "form": "lower",
+   "key": "MINI1616",
+   "relevant": [
+    "product_1286509d4ded7630ce149216"
+   ]
+  },
+  {
+   "id": "product_1286509d4ded7630ce149216",
+   "query": "MINI-1616",
+   "form": "as_printed",
+   "key": "MINI1616",
+   "relevant": [
+    "product_1286509d4ded7630ce149216"
+   ]
+  },
+  {
+   "id": "product_96a90c9a6015d7a335c5f73d",
+   "query": "CR2016",
+   "form": "compact",
+   "key": "CR2016",
+   "relevant": [
+    "product_6eb2311b455ee042b4283e9f",
+    "product_2e7ec40388c8fb735f212345",
+    "product_34070183066d666cec677783",
+    "product_0c0596ae39baaf3b60b4ded4",
+    "product_8513f4152b9e0dcaeedd8fc8",
+    "product_2309f76d3761db946d7b5014",
+    "product_12ac2856ddb69e665caa4559",
+    "product_18092cb03bd3ea706f3c9352",
+    "product_2128eb6ff6fe9fdb33e1ddd0",
+    "product_a6bde13f71e5181a53a19675",
+    "product_f0785ecec8fa2e42800957b7",
+    "product_1e27e7ffcd6fb8392cb0f938",
+    "product_e691a55725b2a3c65f5514b2",
+    "product_5906a58bda03ed9f33dcc7c7",
+    "product_867474b084510ca68c6e8508",
+    "product_96a90c9a6015d7a335c5f73d",
+    "product_0010760ed189f7cd1eff6a90",
+    "product_40ae4c535eda65ab490c3043"
+   ]
+  },
+  {
+   "id": "product_96a90c9a6015d7a335c5f73d",
+   "query": "cr2016",
+   "form": "lower",
+   "key": "CR2016",
+   "relevant": [
+    "product_6eb2311b455ee042b4283e9f",
+    "product_2e7ec40388c8fb735f212345",
+    "product_34070183066d666cec677783",
+    "product_0c0596ae39baaf3b60b4ded4",
+    "product_8513f4152b9e0dcaeedd8fc8",
+    "product_2309f76d3761db946d7b5014",
+    "product_12ac2856ddb69e665caa4559",
+    "product_18092cb03bd3ea706f3c9352",
+    "product_2128eb6ff6fe9fdb33e1ddd0",
+    "product_a6bde13f71e5181a53a19675",
+    "product_f0785ecec8fa2e42800957b7",
+    "product_1e27e7ffcd6fb8392cb0f938",
+    "product_e691a55725b2a3c65f5514b2",
+    "product_5906a58bda03ed9f33dcc7c7",
+    "product_867474b084510ca68c6e8508",
+    "product_96a90c9a6015d7a335c5f73d",
+    "product_0010760ed189f7cd1eff6a90",
+    "product_40ae4c535eda65ab490c3043"
+   ]
+  },
+  {
+   "id": "product_96a90c9a6015d7a335c5f73d",
+   "query": "CR2016",
+   "form": "as_printed",
+   "key": "CR2016",
+   "relevant": [
+    "product_6eb2311b455ee042b4283e9f",
+    "product_2e7ec40388c8fb735f212345",
+    "product_34070183066d666cec677783",
+    "product_0c0596ae39baaf3b60b4ded4",
+    "product_8513f4152b9e0dcaeedd8fc8",
+    "product_2309f76d3761db946d7b5014",
+    "product_12ac2856ddb69e665caa4559",
+    "product_18092cb03bd3ea706f3c9352",
+    "product_2128eb6ff6fe9fdb33e1ddd0",
+    "product_a6bde13f71e5181a53a19675",
+    "product_f0785ecec8fa2e42800957b7",
+    "product_1e27e7ffcd6fb8392cb0f938",
+    "product_e691a55725b2a3c65f5514b2",
+    "product_5906a58bda03ed9f33dcc7c7",
+    "product_867474b084510ca68c6e8508",
+    "product_96a90c9a6015d7a335c5f73d",
+    "product_0010760ed189f7cd1eff6a90",
+    "product_40ae4c535eda65ab490c3043"
+   ]
+  },
+  {
+   "id": "product_2f2c9a96ad682dca6ea5e2b9",
+   "query": "TK8P2B",
+   "form": "compact",
+   "key": "TK8P2B",
+   "relevant": [
+    "product_2f2c9a96ad682dca6ea5e2b9"
+   ]
+  },
+  {
+   "id": "product_2f2c9a96ad682dca6ea5e2b9",
+   "query": "tk8p2b",
+   "form": "lower",
+   "key": "TK8P2B",
+   "relevant": [
+    "product_2f2c9a96ad682dca6ea5e2b9"
+   ]
+  },
+  {
+   "id": "product_2f2c9a96ad682dca6ea5e2b9",
+   "query": "TK-8P2B",
+   "form": "as_printed",
+   "key": "TK8P2B",
+   "relevant": [
+    "product_2f2c9a96ad682dca6ea5e2b9"
+   ]
+  },
+  {
+   "id": "product_44598b7e85a51fba26c96d3b",
+   "query": "WBBA03",
+   "form": "compact",
+   "key": "WBBA03",
+   "relevant": [
+    "product_44598b7e85a51fba26c96d3b"
+   ]
+  },
+  {
+   "id": "product_44598b7e85a51fba26c96d3b",
+   "query": "wbba03",
+   "form": "lower",
+   "key": "WBBA03",
+   "relevant": [
+    "product_44598b7e85a51fba26c96d3b"
+   ]
+  },
+  {
+   "id": "product_44598b7e85a51fba26c96d3b",
+   "query": "WBBA03",
+   "form": "as_printed",
+   "key": "WBBA03",
+   "relevant": [
+    "product_44598b7e85a51fba26c96d3b"
+   ]
+  },
+  {
+   "id": "product_4fafc33a6e08d94108a27bc3",
+   "query": "A26FRPN",
+   "form": "compact",
+   "key": "A26FRPN",
+   "relevant": [
+    "product_4fafc33a6e08d94108a27bc3"
+   ]
+  },
+  {
+   "id": "product_4fafc33a6e08d94108a27bc3",
+   "query": "a26frpn",
+   "form": "lower",
+   "key": "A26FRPN",
+   "relevant": [
+    "product_4fafc33a6e08d94108a27bc3"
+   ]
+  },
+  {
+   "id": "product_4fafc33a6e08d94108a27bc3",
+   "query": "A2.6FRPN",
+   "form": "as_printed",
+   "key": "A26FRPN",
+   "relevant": [
+    "product_4fafc33a6e08d94108a27bc3"
+   ]
+  },
+  {
+   "id": "product_b78632ae2666afdd6f00d5e0",
+   "query": "3RV10414HA10",
+   "form": "compact",
+   "key": "3RV10414HA10",
+   "relevant": [
+    "product_b78632ae2666afdd6f00d5e0"
+   ]
+  },
+  {
+   "id": "product_b78632ae2666afdd6f00d5e0",
+   "query": "3rv10414ha10",
+   "form": "lower",
+   "key": "3RV10414HA10",
+   "relevant": [
+    "product_b78632ae2666afdd6f00d5e0"
+   ]
+  },
+  {
+   "id": "product_b78632ae2666afdd6f00d5e0",
+   "query": "3RV1041-4HA10",
+   "form": "as_printed",
+   "key": "3RV10414HA10",
+   "relevant": [
+    "product_b78632ae2666afdd6f00d5e0"
+   ]
+  },
+  {
+   "id": "product_352e7494ba139afdf73020ce",
+   "query": "TPB158",
+   "form": "compact",
+   "key": "TPB158",
+   "relevant": [
+    "product_3817d9d2b2f6acbc90c356f2",
+    "product_da30e44a6ba04e570c319131",
+    "product_31de49def55b9f9e97af5b48",
+    "product_352e7494ba139afdf73020ce",
+    "product_baf2efa7bcae09439a4c905c",
+    "product_4a92999e6d9cf6cdc0caa4ed"
+   ]
+  },
+  {
+   "id": "product_352e7494ba139afdf73020ce",
+   "query": "tpb158",
+   "form": "lower",
+   "key": "TPB158",
+   "relevant": [
+    "product_3817d9d2b2f6acbc90c356f2",
+    "product_da30e44a6ba04e570c319131",
+    "product_31de49def55b9f9e97af5b48",
+    "product_352e7494ba139afdf73020ce",
+    "product_baf2efa7bcae09439a4c905c",
+    "product_4a92999e6d9cf6cdc0caa4ed"
+   ]
+  },
+  {
+   "id": "product_352e7494ba139afdf73020ce",
+   "query": "TPB15/8",
+   "form": "as_printed",
+   "key": "TPB158",
+   "relevant": [
+    "product_3817d9d2b2f6acbc90c356f2",
+    "product_da30e44a6ba04e570c319131",
+    "product_31de49def55b9f9e97af5b48",
+    "product_352e7494ba139afdf73020ce",
+    "product_baf2efa7bcae09439a4c905c",
+    "product_4a92999e6d9cf6cdc0caa4ed"
+   ]
+  },
+  {
+   "id": "product_10e6c1a95ed103176f309975",
+   "query": "USBCIF02",
+   "form": "compact",
+   "key": "USBCIF02",
+   "relevant": [
+    "product_10e6c1a95ed103176f309975",
+    "product_41092b4df23865014a0ff8f6"
+   ]
+  },
+  {
+   "id": "product_10e6c1a95ed103176f309975",
+   "query": "usbcif02",
+   "form": "lower",
+   "key": "USBCIF02",
+   "relevant": [
+    "product_10e6c1a95ed103176f309975",
+    "product_41092b4df23865014a0ff8f6"
+   ]
+  },
+  {
+   "id": "product_10e6c1a95ed103176f309975",
+   "query": "USB-CIF02",
+   "form": "as_printed",
+   "key": "USBCIF02",
+   "relevant": [
+    "product_10e6c1a95ed103176f309975",
+    "product_41092b4df23865014a0ff8f6"
+   ]
+  },
+  {
+   "id": "product_fc32f3b3a974d74abcaa4940",
+   "query": "CAT6OUTDOOR",
+   "form": "compact",
+   "key": "CAT6OUTDOOR",
+   "relevant": [
+    "product_fc32f3b3a974d74abcaa4940"
+   ]
+  },
+  {
+   "id": "product_fc32f3b3a974d74abcaa4940",
+   "query": "cat6outdoor",
+   "form": "lower",
+   "key": "CAT6OUTDOOR",
+   "relevant": [
+    "product_fc32f3b3a974d74abcaa4940"
+   ]
+  },
+  {
+   "id": "product_fc32f3b3a974d74abcaa4940",
+   "query": "cat6/outdoor",
+   "form": "as_printed",
+   "key": "CAT6OUTDOOR",
+   "relevant": [
+    "product_fc32f3b3a974d74abcaa4940"
+   ]
+  },
+  {
+   "id": "product_3fe4e33dc25475607559dc50",
+   "query": "INCHM1",
+   "form": "compact",
+   "key": "INCHM1",
+   "relevant": [
+    "product_3fe4e33dc25475607559dc50"
+   ]
+  },
+  {
+   "id": "product_3fe4e33dc25475607559dc50",
+   "query": "inchm1",
+   "form": "lower",
+   "key": "INCHM1",
+   "relevant": [
+    "product_3fe4e33dc25475607559dc50"
+   ]
+  },
+  {
+   "id": "product_3fe4e33dc25475607559dc50",
+   "query": "INCHM1",
+   "form": "as_printed",
+   "key": "INCHM1",
+   "relevant": [
+    "product_3fe4e33dc25475607559dc50"
+   ]
+  },
+  {
+   "id": "product_0351f7bd71a9ae1f6ab80ec8",
+   "query": "3V31010",
+   "form": "compact",
+   "key": "3V31010",
+   "relevant": [
+    "product_91967dade5f7525a75633332",
+    "product_0351f7bd71a9ae1f6ab80ec8"
+   ]
+  },
+  {
+   "id": "product_0351f7bd71a9ae1f6ab80ec8",
+   "query": "3v31010",
+   "form": "lower",
+   "key": "3V31010",
+   "relevant": [
+    "product_91967dade5f7525a75633332",
+    "product_0351f7bd71a9ae1f6ab80ec8"
+   ]
+  },
+  {
+   "id": "product_0351f7bd71a9ae1f6ab80ec8",
+   "query": "3V310-10",
+   "form": "as_printed",
+   "key": "3V31010",
+   "relevant": [
+    "product_91967dade5f7525a75633332",
+    "product_0351f7bd71a9ae1f6ab80ec8"
+   ]
+  },
+  {
+   "id": "product_7d774dba93bec85f6eab78a5",
+   "query": "IPS200",
+   "form": "compact",
+   "key": "IPS200",
+   "relevant": [
+    "product_7d774dba93bec85f6eab78a5"
+   ]
+  },
+  {
+   "id": "product_7d774dba93bec85f6eab78a5",
+   "query": "ips200",
+   "form": "lower",
+   "key": "IPS200",
+   "relevant": [
+    "product_7d774dba93bec85f6eab78a5"
+   ]
+  },
+  {
+   "id": "product_7d774dba93bec85f6eab78a5",
+   "query": "IPS200",
+   "form": "as_printed",
+   "key": "IPS200",
+   "relevant": [
+    "product_7d774dba93bec85f6eab78a5"
+   ]
+  },
+  {
+   "id": "product_42a90daff16c7b436ce8624e",
+   "query": "MU7V2ZM",
+   "form": "compact",
+   "key": "MU7V2ZM",
+   "relevant": [
+    "product_42a90daff16c7b436ce8624e"
+   ]
+  },
+  {
+   "id": "product_42a90daff16c7b436ce8624e",
+   "query": "mu7v2zm",
+   "form": "lower",
+   "key": "MU7V2ZM",
+   "relevant": [
+    "product_42a90daff16c7b436ce8624e"
+   ]
+  },
+  {
+   "id": "product_42a90daff16c7b436ce8624e",
+   "query": "MU7V2ZM",
+   "form": "as_printed",
+   "key": "MU7V2ZM",
+   "relevant": [
+    "product_42a90daff16c7b436ce8624e"
+   ]
+  },
+  {
+   "id": "product_7549729852576b60c7687a28",
+   "query": "XB2BC42",
+   "form": "compact",
+   "key": "XB2BC42",
+   "relevant": [
+    "product_9490e187dc18d8e9bfa78791",
+    "product_7549729852576b60c7687a28",
+    "product_566676dd37f34d0bb8968091"
+   ]
+  },
+  {
+   "id": "product_7549729852576b60c7687a28",
+   "query": "xb2bc42",
+   "form": "lower",
+   "key": "XB2BC42",
+   "relevant": [
+    "product_9490e187dc18d8e9bfa78791",
+    "product_7549729852576b60c7687a28",
+    "product_566676dd37f34d0bb8968091"
+   ]
+  },
+  {
+   "id": "product_7549729852576b60c7687a28",
+   "query": "XB2-Bc42",
+   "form": "as_printed",
+   "key": "XB2BC42",
+   "relevant": [
+    "product_9490e187dc18d8e9bfa78791",
+    "product_7549729852576b60c7687a28",
+    "product_566676dd37f34d0bb8968091"
+   ]
+  },
+  {
+   "id": "product_79c03b6f4b22e5ad4b3fdc1a",
+   "query": "DJ613B2808A",
+   "form": "compact",
+   "key": "DJ613B2808A",
+   "relevant": [
+    "product_79c03b6f4b22e5ad4b3fdc1a"
+   ]
+  },
+  {
+   "id": "product_79c03b6f4b22e5ad4b3fdc1a",
+   "query": "dj613b2808a",
+   "form": "lower",
+   "key": "DJ613B2808A",
+   "relevant": [
+    "product_79c03b6f4b22e5ad4b3fdc1a"
+   ]
+  },
+  {
+   "id": "product_79c03b6f4b22e5ad4b3fdc1a",
+   "query": "DJ613B-2.8-0.8A",
+   "form": "as_printed",
+   "key": "DJ613B2808A",
+   "relevant": [
+    "product_79c03b6f4b22e5ad4b3fdc1a"
+   ]
+  },
+  {
+   "id": "product_01a06b197895f2fa3bf8b447",
+   "query": "877563W500",
+   "form": "compact",
+   "key": "877563W500",
+   "relevant": [
+    "product_01a06b197895f2fa3bf8b447"
+   ]
+  },
+  {
+   "id": "product_01a06b197895f2fa3bf8b447",
+   "query": "877563w500",
+   "form": "lower",
+   "key": "877563W500",
+   "relevant": [
+    "product_01a06b197895f2fa3bf8b447"
+   ]
+  },
+  {
+   "id": "product_01a06b197895f2fa3bf8b447",
+   "query": "87756-3W500",
+   "form": "as_printed",
+   "key": "877563W500",
+   "relevant": [
+    "product_01a06b197895f2fa3bf8b447"
+   ]
+  },
+  {
+   "id": "product_cf981d04ab501ba8af341355",
+   "query": "6ES75411AB000AB0",
+   "form": "compact",
+   "key": "6ES75411AB000AB0",
+   "relevant": [
+    "product_cf981d04ab501ba8af341355"
+   ]
+  },
+  {
+   "id": "product_cf981d04ab501ba8af341355",
+   "query": "6es75411ab000ab0",
+   "form": "lower",
+   "key": "6ES75411AB000AB0",
+   "relevant": [
+    "product_cf981d04ab501ba8af341355"
+   ]
+  },
+  {
+   "id": "product_cf981d04ab501ba8af341355",
+   "query": "6ES7541-1AB00-0AB0",
+   "form": "as_printed",
+   "key": "6ES75411AB000AB0",
+   "relevant": [
+    "product_cf981d04ab501ba8af341355"
+   ]
+  },
+  {
+   "id": "product_45f5b70cb8eb66585ba79c3f",
+   "query": "TABS5E",
+   "form": "compact",
+   "key": "TABS5E",
+   "relevant": [
+    "product_00b5c3c8a8d783f30e763286",
+    "product_8799f75ef47ab487a0d37913",
+    "product_cba3c196d79b813ef47b2a70",
+    "product_6ed72702bdeebf85a9f73927",
+    "product_8eee7c567936434eaee98042",
+    "product_45f5b70cb8eb66585ba79c3f",
+    "product_a51ab588d7729d1cedad6ba4",
+    "product_5d84499dca81a96c6bd99a94",
+    "product_fa54628a8675443dba0f678d",
+    "product_4e39151b17ade6748219084a",
+    "product_843575914d0b1ab4779e50d5",
+    "product_1e150b9a990e5e80743987cc",
+    "product_31bd6bf810e8eb05933b20f4",
+    "product_6485d75fa17c4b8e4ffd49a6",
+    "product_144c31b319db9599b66f419a",
+    "product_34a8ecf6268222836f8626b0",
+    "product_19b06bd73734a5d1875ca03d"
+   ]
+  },
+  {
+   "id": "product_45f5b70cb8eb66585ba79c3f",
+   "query": "tabs5e",
+   "form": "lower",
+   "key": "TABS5E",
+   "relevant": [
+    "product_00b5c3c8a8d783f30e763286",
+    "product_8799f75ef47ab487a0d37913",
+    "product_cba3c196d79b813ef47b2a70",
+    "product_6ed72702bdeebf85a9f73927",
+    "product_8eee7c567936434eaee98042",
+    "product_45f5b70cb8eb66585ba79c3f",
+    "product_a51ab588d7729d1cedad6ba4",
+    "product_5d84499dca81a96c6bd99a94",
+    "product_fa54628a8675443dba0f678d",
+    "product_4e39151b17ade6748219084a",
+    "product_843575914d0b1ab4779e50d5",
+    "product_1e150b9a990e5e80743987cc",
+    "product_31bd6bf810e8eb05933b20f4",
+    "product_6485d75fa17c4b8e4ffd49a6",
+    "product_144c31b319db9599b66f419a",
+    "product_34a8ecf6268222836f8626b0",
+    "product_19b06bd73734a5d1875ca03d"
+   ]
+  },
+  {
+   "id": "product_45f5b70cb8eb66585ba79c3f",
+   "query": "TABS5E",
+   "form": "as_printed",
+   "key": "TABS5E",
+   "relevant": [
+    "product_00b5c3c8a8d783f30e763286",
+    "product_8799f75ef47ab487a0d37913",
+    "product_cba3c196d79b813ef47b2a70",
+    "product_6ed72702bdeebf85a9f73927",
+    "product_8eee7c567936434eaee98042",
+    "product_45f5b70cb8eb66585ba79c3f",
+    "product_a51ab588d7729d1cedad6ba4",
+    "product_5d84499dca81a96c6bd99a94",
+    "product_fa54628a8675443dba0f678d",
+    "product_4e39151b17ade6748219084a",
+    "product_843575914d0b1ab4779e50d5",
+    "product_1e150b9a990e5e80743987cc",
+    "product_31bd6bf810e8eb05933b20f4",
+    "product_6485d75fa17c4b8e4ffd49a6",
+    "product_144c31b319db9599b66f419a",
+    "product_34a8ecf6268222836f8626b0",
+    "product_19b06bd73734a5d1875ca03d"
+   ]
+  },
+  {
+   "id": "product_5feeae2f45dc438f2046b2ee",
+   "query": "SP10MM",
+   "form": "compact",
+   "key": "SP10MM",
+   "relevant": [
+    "product_113d8f8580f9b3a79de16a5b",
+    "product_5feeae2f45dc438f2046b2ee",
+    "product_386f60e23b22718fec040572",
+    "product_9826876c13b08adc3667756a",
+    "product_a60dff9ffaf46307484d4306",
+    "product_e8220f16d523db618cd3e62e",
+    "product_f27798f487eec17c8a5071e7",
+    "product_0f6d52d5273866655c48521f",
+    "product_0aae64c4f5f293c0ba663627"
+   ]
+  },
+  {
+   "id": "product_5feeae2f45dc438f2046b2ee",
+   "query": "sp10mm",
+   "form": "lower",
+   "key": "SP10MM",
+   "relevant": [
+    "product_113d8f8580f9b3a79de16a5b",
+    "product_5feeae2f45dc438f2046b2ee",
+    "product_386f60e23b22718fec040572",
+    "product_9826876c13b08adc3667756a",
+    "product_a60dff9ffaf46307484d4306",
+    "product_e8220f16d523db618cd3e62e",
+    "product_f27798f487eec17c8a5071e7",
+    "product_0f6d52d5273866655c48521f",
+    "product_0aae64c4f5f293c0ba663627"
+   ]
+  },
+  {
+   "id": "product_5feeae2f45dc438f2046b2ee",
+   "query": "SP10MM",
+   "form": "as_printed",
+   "key": "SP10MM",
+   "relevant": [
+    "product_113d8f8580f9b3a79de16a5b",
+    "product_5feeae2f45dc438f2046b2ee",
+    "product_386f60e23b22718fec040572",
+    "product_9826876c13b08adc3667756a",
+    "product_a60dff9ffaf46307484d4306",
+    "product_e8220f16d523db618cd3e62e",
+    "product_f27798f487eec17c8a5071e7",
+    "product_0f6d52d5273866655c48521f",
+    "product_0aae64c4f5f293c0ba663627"
+   ]
+  },
+  {
+   "id": "product_d185c33ee514e1496a946c2f",
+   "query": "LPCFFBTG0050",
+   "form": "compact",
+   "key": "LPCFFBTG0050",
+   "relevant": [
+    "product_d185c33ee514e1496a946c2f"
+   ]
+  },
+  {
+   "id": "product_d185c33ee514e1496a946c2f",
+   "query": "lpcffbtg0050",
+   "form": "lower",
+   "key": "LPCFFBTG0050",
+   "relevant": [
+    "product_d185c33ee514e1496a946c2f"
+   ]
+  },
+  {
+   "id": "product_d185c33ee514e1496a946c2f",
+   "query": "LPCFFBTG0050",
+   "form": "as_printed",
+   "key": "LPCFFBTG0050",
+   "relevant": [
+    "product_d185c33ee514e1496a946c2f"
+   ]
+  },
+  {
+   "id": "product_3eedf1b5b80ab32ad3321ed5",
+   "query": "RF100MM",
+   "form": "compact",
+   "key": "RF100MM",
+   "relevant": [
+    "product_403c432f81c71a18c89ed61f",
+    "product_3eedf1b5b80ab32ad3321ed5"
+   ]
+  },
+  {
+   "id": "product_3eedf1b5b80ab32ad3321ed5",
+   "query": "rf100mm",
+   "form": "lower",
+   "key": "RF100MM",
+   "relevant": [
+    "product_403c432f81c71a18c89ed61f",
+    "product_3eedf1b5b80ab32ad3321ed5"
+   ]
+  },
+  {
+   "id": "product_3eedf1b5b80ab32ad3321ed5",
+   "query": "RF100MM",
+   "form": "as_printed",
+   "key": "RF100MM",
+   "relevant": [
+    "product_403c432f81c71a18c89ed61f",
+    "product_3eedf1b5b80ab32ad3321ed5"
+   ]
+  },
+  {
+   "id": "product_f8021d1ed8a133812bfc3353",
+   "query": "FE85MM",
+   "form": "compact",
+   "key": "FE85MM",
+   "relevant": [
+    "product_8a23edd47518592f99800877",
+    "product_2a70789ebc81e52fee4770d3",
+    "product_f8021d1ed8a133812bfc3353",
+    "product_1370e108808a6791876caec7",
+    "product_d3e30adbde25fec931ae9d3e"
+   ]
+  },
+  {
+   "id": "product_f8021d1ed8a133812bfc3353",
+   "query": "fe85mm",
+   "form": "lower",
+   "key": "FE85MM",
+   "relevant": [
+    "product_8a23edd47518592f99800877",
+    "product_2a70789ebc81e52fee4770d3",
+    "product_f8021d1ed8a133812bfc3353",
+    "product_1370e108808a6791876caec7",
+    "product_d3e30adbde25fec931ae9d3e"
+   ]
+  },
+  {
+   "id": "product_f8021d1ed8a133812bfc3353",
+   "query": "FE85MM",
+   "form": "as_printed",
+   "key": "FE85MM",
+   "relevant": [
+    "product_8a23edd47518592f99800877",
+    "product_2a70789ebc81e52fee4770d3",
+    "product_f8021d1ed8a133812bfc3353",
+    "product_1370e108808a6791876caec7",
+    "product_d3e30adbde25fec931ae9d3e"
+   ]
+  },
+  {
+   "id": "product_0319cb81ef951159928a99d4",
+   "query": "SR621SW",
+   "form": "compact",
+   "key": "SR621SW",
+   "relevant": [
+    "product_0319cb81ef951159928a99d4",
+    "product_01bfa310d5ffc245b8d43037"
+   ]
+  },
+  {
+   "id": "product_0319cb81ef951159928a99d4",
+   "query": "sr621sw",
+   "form": "lower",
+   "key": "SR621SW",
+   "relevant": [
+    "product_0319cb81ef951159928a99d4",
+    "product_01bfa310d5ffc245b8d43037"
+   ]
+  },
+  {
+   "id": "product_0319cb81ef951159928a99d4",
+   "query": "SR621SW",
+   "form": "as_printed",
+   "key": "SR621SW",
+   "relevant": [
+    "product_0319cb81ef951159928a99d4",
+    "product_01bfa310d5ffc245b8d43037"
+   ]
+  },
+  {
+   "id": "product_82b73e24c53ddb729f972140",
+   "query": "POWERBANK1260110",
+   "form": "compact",
+   "key": "POWERBANK1260110",
+   "relevant": [
+    "product_c182a74c913d40419d4938ed",
+    "product_82b73e24c53ddb729f972140"
+   ]
+  },
+  {
+   "id": "product_82b73e24c53ddb729f972140",
+   "query": "powerbank1260110",
+   "form": "lower",
+   "key": "POWERBANK1260110",
+   "relevant": [
+    "product_c182a74c913d40419d4938ed",
+    "product_82b73e24c53ddb729f972140"
+   ]
+  },
+  {
+   "id": "product_82b73e24c53ddb729f972140",
+   "query": "power-bank-1260110",
+   "form": "as_printed",
+   "key": "POWERBANK1260110",
+   "relevant": [
+    "product_c182a74c913d40419d4938ed",
+    "product_82b73e24c53ddb729f972140"
+   ]
+  },
+  {
+   "id": "product_5d0d97fc1bd96b33e5e86a4b",
+   "query": "GLSSK02",
+   "form": "compact",
+   "key": "GLSSK02",
+   "relevant": [
+    "product_5d0d97fc1bd96b33e5e86a4b"
+   ]
+  },
+  {
+   "id": "product_5d0d97fc1bd96b33e5e86a4b",
+   "query": "glssk02",
+   "form": "lower",
+   "key": "GLSSK02",
+   "relevant": [
+    "product_5d0d97fc1bd96b33e5e86a4b"
+   ]
+  },
+  {
+   "id": "product_5d0d97fc1bd96b33e5e86a4b",
+   "query": "GL-SSK02",
+   "form": "as_printed",
+   "key": "GLSSK02",
+   "relevant": [
+    "product_5d0d97fc1bd96b33e5e86a4b"
+   ]
+  },
+  {
+   "id": "product_5e4f743292ffe0200c3dd926",
+   "query": "PC200E",
+   "form": "compact",
+   "key": "PC200E",
+   "relevant": [
+    "product_5e4f743292ffe0200c3dd926"
+   ]
+  },
+  {
+   "id": "product_5e4f743292ffe0200c3dd926",
+   "query": "pc200e",
+   "form": "lower",
+   "key": "PC200E",
+   "relevant": [
+    "product_5e4f743292ffe0200c3dd926"
+   ]
+  },
+  {
+   "id": "product_5e4f743292ffe0200c3dd926",
+   "query": "PC200E",
+   "form": "as_printed",
+   "key": "PC200E",
+   "relevant": [
+    "product_5e4f743292ffe0200c3dd926"
+   ]
+  }
+ ],
+ "subset": [
+  {
+   "id": "product_b5fb6a9ed0a4ad8d2e3ddcbb",
+   "query": "فیوز مینیاتوری چهار",
+   "tokens": [
+    "فیوز",
+    "مینیاتوری",
+    "چهار"
+   ],
+   "ambiguity": 22,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_93c3efcaa76691ec0df05b0f",
+   "query": "آمپر تندسوز لیندر",
+   "tokens": [
+    "آمپر",
+    "تندسوز",
+    "لیندر"
+   ],
+   "ambiguity": 9,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_2802187a50c44a950fdec77c",
+   "query": "گانه سوز کواکس",
+   "tokens": [
+    "گانه",
+    "سوز",
+    "کواکس"
+   ],
+   "ambiguity": 2,
+   "typoQuery": "گانه سوز کراکس",
+   "typoOf": "کواکس"
+  },
+  {
+   "id": "product_6e49163f4e9f3c53391a0f6e",
+   "query": "حالته آفتابی مهتابی",
+   "tokens": [
+    "حالته",
+    "آفتابی",
+    "مهتابی"
+   ],
+   "ambiguity": 13,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_3f5459a3e856cdca1f8d1d3b",
+   "query": "کرم ترمیم کننده",
+   "tokens": [
+    "کرم",
+    "ترمیم",
+    "کننده"
+   ],
+   "ambiguity": 48,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_fcfb3bda6f5d712bd34fe955",
+   "query": "دوربین مداربسته داهوا",
+   "tokens": [
+    "دوربین",
+    "مداربسته",
+    "داهوا"
+   ],
+   "ambiguity": 634,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_c4255878691904854cf05e7e",
+   "query": "کاندوم ناچ کدکس",
+   "tokens": [
+    "کاندوم",
+    "ناچ",
+    "کدکس"
+   ],
+   "ambiguity": 13,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_4735ea143c0dace16c6c2e1c",
+   "query": "سرسیم وایرشو تکی",
+   "tokens": [
+    "سرسیم",
+    "وایرشو",
+    "تکی"
+   ],
+   "ambiguity": 7,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_422b02467deac2238426c369",
+   "query": "آفتابی مهتابی انبه",
+   "tokens": [
+    "آفتابی",
+    "مهتابی",
+    "انبه"
+   ],
+   "ambiguity": 40,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_780070b79c12d0297337118f",
+   "query": "ترک سایز برنجی",
+   "tokens": [
+    "ترک",
+    "سایز",
+    "برنجی"
+   ],
+   "ambiguity": 1,
+   "typoQuery": "ترک سایز بنجی",
+   "typoOf": "برنجی"
+  },
+  {
+   "id": "product_7eb9ef8f6e8ad801197e88d1",
+   "query": "مچی آنالوگ آفیس",
+   "tokens": [
+    "مچی",
+    "آنالوگ",
+    "آفیس"
+   ],
+   "ambiguity": 1,
+   "typoQuery": "مچی آانلوگ آفیس",
+   "typoOf": "آنالوگ"
+  },
+  {
+   "id": "product_aed04d2381ee6ae459fb72f3",
+   "query": "نری رایت پرسی",
+   "tokens": [
+    "نری",
+    "رایت",
+    "پرسی"
+   ],
+   "ambiguity": 1,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_24d951a304cdee2d0c4f8b3e",
+   "query": "سانترال بنددار چرم",
+   "tokens": [
+    "سانترال",
+    "بنددار",
+    "چرم"
+   ],
+   "ambiguity": 1,
+   "typoQuery": "سانرال بنددار چرم",
+   "typoOf": "سانترال"
+  },
+  {
+   "id": "product_433550317075d7a02bcba5ae",
+   "query": "هندزفری گردنی ایکس",
+   "tokens": [
+    "هندزفری",
+    "گردنی",
+    "ایکس"
+   ],
+   "ambiguity": 2,
+   "typoQuery": "هندزفیر گردنی ایکس",
+   "typoOf": "هندزفری"
+  },
+  {
+   "id": "product_9c62be8ced231e6feda6b1bc",
+   "query": "شیر برقی آسکو",
+   "tokens": [
+    "شیر",
+    "برقی",
+    "آسکو"
+   ],
+   "ambiguity": 146,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_4f28fce4164d946ae5c28e55",
+   "query": "کورد فیبر نوری",
+   "tokens": [
+    "کورد",
+    "فیبر",
+    "نوری"
+   ],
+   "ambiguity": 29,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_df98b07db26932b8dfc7399d",
+   "query": "سیم دولا تلفنی",
+   "tokens": [
+    "سیم",
+    "دولا",
+    "تلفنی"
+   ],
+   "ambiguity": 1,
+   "typoQuery": "سیم دولا تلفین",
+   "typoOf": "تلفنی"
+  },
+  {
+   "id": "product_2d646f05405c7aa2db28aa27",
+   "query": "دستگاه تناسلی مذکر",
+   "tokens": [
+    "دستگاه",
+    "تناسلی",
+    "مذکر"
+   ],
+   "ambiguity": 1,
+   "typoQuery": "دستگره تناسلی مذکر",
+   "typoOf": "دستگاه"
+  },
+  {
+   "id": "product_05975bfa90d22ac8753e1707",
+   "query": "طراحی سایت شرکت",
+   "tokens": [
+    "طراحی",
+    "سایت",
+    "شرکت"
+   ],
+   "ambiguity": 29,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_34fe9fdefbcba6cbfe5f8f07",
+   "query": "كيبورد حروف فارسی",
+   "tokens": [
+    "کیبورد",
+    "حروف",
+    "فارسی"
+   ],
+   "ambiguity": 33,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_718c07c7e7c0dc53a34d3c75",
+   "query": "کوییک سفید (رنگ",
+   "tokens": [
+    "کوییک",
+    "سفید",
+    "رنگ"
+   ],
+   "ambiguity": 4,
+   "typoQuery": "کرییک سفید رنگ",
+   "typoOf": "کوییک"
+  },
+  {
+   "id": "product_33ff745de9c85d71bd29c506",
+   "query": "لولا تخت سربی",
+   "tokens": [
+    "لولا",
+    "تخت",
+    "سربی"
+   ],
+   "ambiguity": 32,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_eadecb29b3f3207f08a9ce65",
+   "query": "مکانیکی بدساید کتابی",
+   "tokens": [
+    "مکانیکی",
+    "بدساید",
+    "کتابی"
+   ],
+   "ambiguity": 4,
+   "typoQuery": "مکنایکی بدساید کتابی",
+   "typoOf": "مکانیکی"
+  },
+  {
+   "id": "product_5f2ffb2cca776c4252dc35f1",
+   "query": "اره میزی رونیکس",
+   "tokens": [
+    "اره",
+    "میزی",
+    "رونیکس"
+   ],
+   "ambiguity": 14,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_1c7ad9339c744ab3080fdf2d",
+   "query": "کابل برق افشان",
+   "tokens": [
+    "کابل",
+    "برق",
+    "افشان"
+   ],
+   "ambiguity": 2149,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_14587d4cdb7c159e73eea7f2",
+   "query": "دوربین مداربسته داهوا",
+   "tokens": [
+    "دوربین",
+    "مداربسته",
+    "داهوا"
+   ],
+   "ambiguity": 634,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_dea713c5837b3e98c1ca0cd4",
+   "query": "وات توکار تریملس",
+   "tokens": [
+    "وات",
+    "توکار",
+    "تریملس"
+   ],
+   "ambiguity": 1,
+   "typoQuery": "وات توکار تررملس",
+   "typoOf": "تریملس"
+  },
+  {
+   "id": "product_54a19ac56332a6df65e760a0",
+   "query": "دوربین مداربسته تیاندی",
+   "tokens": [
+    "دوربین",
+    "مداربسته",
+    "تیاندی"
+   ],
+   "ambiguity": 69,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_60a26dbdb0772c91a701b895",
+   "query": "طرح رالی کونیک",
+   "tokens": [
+    "طرح",
+    "رالی",
+    "کونیک"
+   ],
+   "ambiguity": 1,
+   "typoQuery": "طرح رالی کوینک",
+   "typoOf": "کونیک"
+  },
+  {
+   "id": "product_07e95880073649a0fe050606",
+   "query": "سینی کابل عرض",
+   "tokens": [
+    "سینی",
+    "کابل",
+    "عرض"
+   ],
+   "ambiguity": 38,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_c85f67b046983b770c20a8d4",
+   "query": "توالت فرنگی کرد",
+   "tokens": [
+    "توالت",
+    "فرنگی",
+    "کرد"
+   ],
+   "ambiguity": 17,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_5b3235c1785218a370532510",
+   "query": "چراغ بالا آینه",
+   "tokens": [
+    "چراغ",
+    "بالا",
+    "آینه"
+   ],
+   "ambiguity": 23,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_de86da51c326ec956955afb1",
+   "query": "دوربین پشت آیفون",
+   "tokens": [
+    "دوربین",
+    "پشت",
+    "آیفون"
+   ],
+   "ambiguity": 33,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_5078c27b484a5c5a9c2f4872",
+   "query": "کوبل جاروبرقی سامسونگ(",
+   "tokens": [
+    "کوبل",
+    "جاروبرقی",
+    "سامسونگ"
+   ],
+   "ambiguity": 13,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_8d643f96d70051bf72ebcc7d",
+   "query": "اتو بخار فیلیپس",
+   "tokens": [
+    "اتو",
+    "بخار",
+    "فیلیپس"
+   ],
+   "ambiguity": 24,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_82f0d59cafcd980ca685301b",
+   "query": "چراغ مگنتی آویز",
+   "tokens": [
+    "چراغ",
+    "مگنتی",
+    "آویز"
+   ],
+   "ambiguity": 24,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_a6648addbb2453a723ba09b5",
+   "query": "شلگیر عقب راست",
+   "tokens": [
+    "شلگیر",
+    "عقب",
+    "راست"
+   ],
+   "ambiguity": 27,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_fe64230a2bc705923ef7dff1",
+   "query": "ریش تراش شیائومی",
+   "tokens": [
+    "ریش",
+    "تراش",
+    "شیایومی"
+   ],
+   "ambiguity": 13,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_fd036e3a1539561b0dbb8694",
+   "query": "هودی کلاهدار چاپی",
+   "tokens": [
+    "هودی",
+    "کلاهدار",
+    "چاپی"
+   ],
+   "ambiguity": 3,
+   "typoQuery": "هودی کلاردار چاپی",
+   "typoOf": "کلاهدار"
+  },
+  {
+   "id": "product_97d1776790204c21c37245d0",
+   "query": "چراغ خطر عقب",
+   "tokens": [
+    "چراغ",
+    "خطر",
+    "عقب"
+   ],
+   "ambiguity": 335,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_574772efb14aa2b6de60832a",
+   "query": "کیسه جاروبرقی بوش",
+   "tokens": [
+    "کیسه",
+    "جاروبرقی",
+    "بوش"
+   ],
+   "ambiguity": 44,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_3d151909f1681a9b34e7aaad",
+   "query": "عینک آفتابی مردانه",
+   "tokens": [
+    "عینک",
+    "آفتابی",
+    "مردانه"
+   ],
+   "ambiguity": 242,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_6f4854dd7b9bd57ed9a65ca4",
+   "query": "منیفولد دوشیر زیرگیجی",
+   "tokens": [
+    "منیفولد",
+    "دوشیر",
+    "زیرگیجی"
+   ],
+   "ambiguity": 1,
+   "typoQuery": "منفولد دوشیر زیرگیجی",
+   "typoOf": "منیفولد"
+  },
+  {
+   "id": "product_083e9c89d13e17d5647dfa40",
+   "query": "پنل نور ثابت",
+   "tokens": [
+    "پنل",
+    "نور",
+    "ثابت"
+   ],
+   "ambiguity": 13,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_ba670acadaefc960dfa2e733",
+   "query": "کارت سانترال پاناسونیک",
+   "tokens": [
+    "کارت",
+    "سانترال",
+    "پاناسونیک"
+   ],
+   "ambiguity": 56,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_ac67ccec805c5d27eb16949b",
+   "query": "ساعت کنت کول",
+   "tokens": [
+    "ساعت",
+    "کنت",
+    "کول"
+   ],
+   "ambiguity": 7,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_77786476ab1ac726c711c38d",
+   "query": "مردانه گرین لاین",
+   "tokens": [
+    "مردانه",
+    "گرین",
+    "لاین"
+   ],
+   "ambiguity": 1,
+   "typoQuery": "مدرانه گرین لاین",
+   "typoOf": "مردانه"
+  },
+  {
+   "id": "product_2ada2d605b254ec265362a7c",
+   "query": "پراید متحد سنگین",
+   "tokens": [
+    "پراید",
+    "متحد",
+    "سنگین"
+   ],
+   "ambiguity": 1,
+   "typoQuery": "پرارد متحد سنگین",
+   "typoOf": "پراید"
+  },
+  {
+   "id": "product_82c3387330b1c6a17ea3b467",
+   "query": "کابل برق افشان",
+   "tokens": [
+    "کابل",
+    "برق",
+    "افشان"
+   ],
+   "ambiguity": 2149,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_300f389a00c853b8267f110a",
+   "query": "کلاسور طلقی شفاف",
+   "tokens": [
+    "کلاسور",
+    "طلقی",
+    "شفاف"
+   ],
+   "ambiguity": 1,
+   "typoQuery": "کلاوسر طلقی شفاف",
+   "typoOf": "کلاسور"
+  },
+  {
+   "id": "product_df5b8dea32d4828355b6e433",
+   "query": "اسیلوسکوپ دستی هانتک",
+   "tokens": [
+    "اسیلوسکوپ",
+    "دستی",
+    "هانتک"
+   ],
+   "ambiguity": 4,
+   "typoQuery": "اریلوسکوپ دستی هانتک",
+   "typoOf": "اسیلوسکوپ"
+  },
+  {
+   "id": "product_07508b55f890471a717468ff",
+   "query": "عینک شیلد ایمنی",
+   "tokens": [
+    "عینک",
+    "شیلد",
+    "ایمنی"
+   ],
+   "ambiguity": 1,
+   "typoQuery": "عینک شیلد امنی",
+   "typoOf": "ایمنی"
+  },
+  {
+   "id": "product_3dc5f999c5650b6262ef3ec1",
+   "query": "عینک طبی سلین",
+   "tokens": [
+    "عینک",
+    "طبی",
+    "سلین"
+   ],
+   "ambiguity": 6,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_bae8690e967173d4b11c3631",
+   "query": "ترولی نظافت هتلی",
+   "tokens": [
+    "ترولی",
+    "نظافت",
+    "هتلی"
+   ],
+   "ambiguity": 1,
+   "typoQuery": "تررلی نظافت هتلی",
+   "typoOf": "ترولی"
+  },
+  {
+   "id": "product_3e25d8660446134c1351a9c9",
+   "query": "هواکش تاسیساتی زیلابگ",
+   "tokens": [
+    "هواکش",
+    "تاسیساتی",
+    "زیلابگ"
+   ],
+   "ambiguity": 9,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_7f836bd4b02be0e3d8dec832",
+   "query": "سیم برق افشان",
+   "tokens": [
+    "سیم",
+    "برق",
+    "افشان"
+   ],
+   "ambiguity": 1257,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_56d74198dcdb9aafe5b3ab5a",
+   "query": "عینک فریم شیشه",
+   "tokens": [
+    "عینک",
+    "فریم",
+    "شیشه"
+   ],
+   "ambiguity": 12,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_4ab2e057355ac67beb8ced44",
+   "query": "طرح چرم کتابی",
+   "tokens": [
+    "طرح",
+    "چرم",
+    "کتابی"
+   ],
+   "ambiguity": 4,
+   "typoQuery": "طرح چرم کابی",
+   "typoOf": "کتابی"
+  },
+  {
+   "id": "product_3bffa444ca9cd848b3b126e0",
+   "query": "دوربین مداربسته دام",
+   "tokens": [
+    "دوربین",
+    "مداربسته",
+    "دام"
+   ],
+   "ambiguity": 519,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_3b3a0f18c10a3db9677ab1f7",
+   "query": "صفحه نمایش اپل",
+   "tokens": [
+    "صفحه",
+    "نمایش",
+    "اپل"
+   ],
+   "ambiguity": 172,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_9bdfe349684b3ed8fa631bda",
+   "query": "ماژول بلوتوث صوتی",
+   "tokens": [
+    "ماژول",
+    "بلوتوث",
+    "صوتی"
+   ],
+   "ambiguity": 47,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_5293ae1b8a68b1432b73732a",
+   "query": "برچسب آهنربایی ارلدام",
+   "tokens": [
+    "برچسب",
+    "آهنربایی",
+    "ارلدام"
+   ],
+   "ambiguity": 1,
+   "typoQuery": "برچسب آهنرابیی ارلدام",
+   "typoOf": "آهنربایی"
+  },
+  {
+   "id": "product_c0a124b2f236ff6243083520",
+   "query": "خشک گربه جوسرا",
+   "tokens": [
+    "خشک",
+    "گربه",
+    "جوسرا"
+   ],
+   "ambiguity": 41,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_6c8acb41767fe24c80716f71",
+   "query": "برس جاروبرقی سامسونگ",
+   "tokens": [
+    "برس",
+    "جاروبرقی",
+    "سامسونگ"
+   ],
+   "ambiguity": 18,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_407b77b20fe3542e09d85884",
+   "query": "حرارتی رنگی قطر",
+   "tokens": [
+    "حرارتی",
+    "رنگی",
+    "قطر"
+   ],
+   "ambiguity": 30,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_38890560613167230812b594",
+   "query": "کیلووار سیلندری رزینی",
+   "tokens": [
+    "کیلووار",
+    "سیلندری",
+    "رزینی"
+   ],
+   "ambiguity": 27,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_ad699610e510453fd18dfb37",
+   "query": "لولا راست درب",
+   "tokens": [
+    "لولا",
+    "راست",
+    "درب"
+   ],
+   "ambiguity": 20,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_9ef54467cf36df11b37b3c0d",
+   "query": "لنز دوربین سونی",
+   "tokens": [
+    "لنز",
+    "دوربین",
+    "سونی"
+   ],
+   "ambiguity": 140,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_3096d9ce951e610692da65a5",
+   "query": "منبع تغذیه زیمنس",
+   "tokens": [
+    "منبع",
+    "تغذیه",
+    "زیمنس"
+   ],
+   "ambiguity": 101,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_10bd2555b2b906cbc9bec25a",
+   "query": "کیلو وات خروجی",
+   "tokens": [
+    "کیلو",
+    "وات",
+    "خروجی"
+   ],
+   "ambiguity": 21,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_10ec2a04676510bdf5cea38f",
+   "query": "دستگیره بیرونی درچپ",
+   "tokens": [
+    "دستگیره",
+    "بیرونی",
+    "درچپ"
+   ],
+   "ambiguity": 1,
+   "typoQuery": "دتسگیره بیرونی درچپ",
+   "typoOf": "دستگیره"
+  },
+  {
+   "id": "product_2dc8d4f4669120c9d31449c0",
+   "query": "لنت ترمز جلو",
+   "tokens": [
+    "لنت",
+    "ترمز",
+    "جلو"
+   ],
+   "ambiguity": 438,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_3c0aafe5cfd7479b0fc8ed91",
+   "query": "چراغ سیگنال اشنایدر",
+   "tokens": [
+    "چراغ",
+    "سیگنال",
+    "اشنایدر"
+   ],
+   "ambiguity": 29,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_8963375f0a53bb6a628542f4",
+   "query": "دوربین مداربسته بالت",
+   "tokens": [
+    "دوربین",
+    "مداربسته",
+    "بالت"
+   ],
+   "ambiguity": 211,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_133a046ec0a5fb1c42353111",
+   "query": "کوپلینگ مادگی شیلنگ",
+   "tokens": [
+    "کوپلینگ",
+    "مادگی",
+    "شیلنگ"
+   ],
+   "ambiguity": 3,
+   "typoQuery": "کوپلرنگ مادگی شیلنگ",
+   "typoOf": "کوپلینگ"
+  },
+  {
+   "id": "product_db38535ba76e219a70f9f1e4",
+   "query": "خانه هوشمند تویا",
+   "tokens": [
+    "خانه",
+    "هوشمند",
+    "تویا"
+   ],
+   "ambiguity": 1,
+   "typoQuery": "خانه هشمند تویا",
+   "typoOf": "هوشمند"
+  },
+  {
+   "id": "product_9b0d0dfd31cd5099660f3743",
+   "query": "موتور برق لوتیان",
+   "tokens": [
+    "موتور",
+    "برق",
+    "لوتیان"
+   ],
+   "ambiguity": 46,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_697d7304dda6ad75f24c0f0c",
+   "query": "دستگیره روزتی زورفین",
+   "tokens": [
+    "دستگیره",
+    "روزتی",
+    "زورفین"
+   ],
+   "ambiguity": 13,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_01532c79343cf4600f45e432",
+   "query": "سنسور القایی هانیانگ",
+   "tokens": [
+    "سنسور",
+    "القایی",
+    "هانیانگ"
+   ],
+   "ambiguity": 15,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_58693154113beaaba4655656",
+   "query": "اوال آبی برند",
+   "tokens": [
+    "اوال",
+    "آبی",
+    "برند"
+   ],
+   "ambiguity": 1,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_c21c2cc12b7ec5e6c1230f50",
+   "query": "وکس رزین سایز",
+   "tokens": [
+    "وکس",
+    "رزین",
+    "سایز"
+   ],
+   "ambiguity": 4,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_60bae79148a5db8c27e1d4b8",
+   "query": "چهار خانه ترانکینگ",
+   "tokens": [
+    "چهار",
+    "خانه",
+    "ترانکینگ"
+   ],
+   "ambiguity": 4,
+   "typoQuery": "چهار خانه ترانینگ",
+   "typoOf": "ترانکینگ"
+  },
+  {
+   "id": "product_02fdba3c233aec82c834aa6b",
+   "query": "خراسان افشار نژاد",
+   "tokens": [
+    "خراسان",
+    "افشار",
+    "نژاد"
+   ],
+   "ambiguity": 390,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_ac558229a2de76f68cbe5882",
+   "query": "هوایی مشهد (متری)",
+   "tokens": [
+    "هوایی",
+    "مشهد",
+    "متری"
+   ],
+   "ambiguity": 2,
+   "typoQuery": "هرایی مشهد متری",
+   "typoOf": "هوایی"
+  },
+  {
+   "id": "product_2a15e65bc0430065735fb063",
+   "query": "قفسه راک نیمه",
+   "tokens": [
+    "قفسه",
+    "راک",
+    "نیمه"
+   ],
+   "ambiguity": 63,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_0284d41127bc82c68e56057a",
+   "query": "دوربین مداربسته تحت",
+   "tokens": [
+    "دوربین",
+    "مداربسته",
+    "تحت"
+   ],
+   "ambiguity": 513,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_aa454bd1a90ba463eb4de776",
+   "query": "زنانه لیسمینا- مشکی",
+   "tokens": [
+    "زنانه",
+    "لیسمینا",
+    "مشکی"
+   ],
+   "ambiguity": 5,
+   "typoQuery": "زنانه لیرمینا مشکی",
+   "typoOf": "لیسمینا"
+  },
+  {
+   "id": "product_18e5320139800d21f9c3caaf",
+   "query": "گوشه گیر جاروبرقی",
+   "tokens": [
+    "گوشه",
+    "گیر",
+    "جاروبرقی"
+   ],
+   "ambiguity": 15,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_1d4d71474cd10d4a444dbf88",
+   "query": "دستگاه اسکرابر عیسی",
+   "tokens": [
+    "دستگاه",
+    "اسکرابر",
+    "عیسی"
+   ],
+   "ambiguity": 5,
+   "typoQuery": "دستگاه اکسرابر عیسی",
+   "typoOf": "اسکرابر"
+  },
+  {
+   "id": "product_db12628ceeab3bc6a09ece2d",
+   "query": "لنز کانن دست",
+   "tokens": [
+    "لنز",
+    "کانن",
+    "دست"
+   ],
+   "ambiguity": 67,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_bd9937b2c54b2218c9dfc6e1",
+   "query": "کنترل تلویزیون پارس",
+   "tokens": [
+    "کنترل",
+    "تلویزیون",
+    "پارس"
+   ],
+   "ambiguity": 5,
+   "typoQuery": "کنترل تلیزیون پارس",
+   "typoOf": "تلویزیون"
+  },
+  {
+   "id": "product_201d5973e7c52a78a6c18ee3",
+   "query": "لاينر نور خطی",
+   "tokens": [
+    "لاینر",
+    "نور",
+    "خطی"
+   ],
+   "ambiguity": 61,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_9ef317fb2ba0bf5f25aca94e",
+   "query": "آیفون صوتی تابا",
+   "tokens": [
+    "آیفون",
+    "صوتی",
+    "تابا"
+   ],
+   "ambiguity": 117,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_3ccd8aff863ff0e019a26f1c",
+   "query": "برقی سونا خشک",
+   "tokens": [
+    "برقی",
+    "سونا",
+    "خشک"
+   ],
+   "ambiguity": 18,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_5bad24e21439bf306ee7f0ac",
+   "query": "خورشیدی آتیش سرد",
+   "tokens": [
+    "خورشیدی",
+    "آتیش",
+    "سرد"
+   ],
+   "ambiguity": 1,
+   "typoQuery": "خورشیید آتیش سرد",
+   "typoOf": "خورشیدی"
+  },
+  {
+   "id": "product_a108ce518069d5b649c49851",
+   "query": "کنترلر آدامسی موزیکال",
+   "tokens": [
+    "کنترلر",
+    "آدامسی",
+    "موزیکال"
+   ],
+   "ambiguity": 2,
+   "typoQuery": "کنترلر آدامسی موزیرال",
+   "typoOf": "موزیکال"
+  },
+  {
+   "id": "product_55eb1bcc07e6b5845d491dc1",
+   "query": "آپاتیت سایز استاندارد",
+   "tokens": [
+    "آپاتیت",
+    "سایز",
+    "استاندارد"
+   ],
+   "ambiguity": 1,
+   "typoQuery": "آپاتیت سایز اساندارد",
+   "typoOf": "استاندارد"
+  },
+  {
+   "id": "product_272bef299c859e791e0dbaa4",
+   "query": "استیل چراغ دیلایت",
+   "tokens": [
+    "استیل",
+    "چراغ",
+    "دیلایت"
+   ],
+   "ambiguity": 3,
+   "typoQuery": "استیل چراغ دیالیت",
+   "typoOf": "دیلایت"
+  },
+  {
+   "id": "product_4b529b7e014a2a3cfbc763a1",
+   "query": "مردانه زاپ دار",
+   "tokens": [
+    "مردانه",
+    "زاپ",
+    "دار"
+   ],
+   "ambiguity": 4,
+   "typoQuery": "مررانه زاپ دار",
+   "typoOf": "مردانه"
+  },
+  {
+   "id": "product_81adde4ce1be0649f1bfa221",
+   "query": "مدرن کریستالی اینفینیتی",
+   "tokens": [
+    "مدرن",
+    "کریستالی",
+    "اینفینیتی"
+   ],
+   "ambiguity": 1,
+   "typoQuery": "مدرن کریستالی اینفییتی",
+   "typoOf": "اینفینیتی"
+  },
+  {
+   "id": "product_246bfec6297da176fd11ab80",
+   "query": "سیم برق افشان",
+   "tokens": [
+    "سیم",
+    "برق",
+    "افشان"
+   ],
+   "ambiguity": 1257,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_968fae34fad9d14814a3ad51",
+   "query": "شیار روغن پشت",
+   "tokens": [
+    "شیار",
+    "روغن",
+    "پشت"
+   ],
+   "ambiguity": 1,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_5727aaf4bf96cd6937d0968c",
+   "query": "اره موتوری اشتیل",
+   "tokens": [
+    "اره",
+    "موتوری",
+    "اشتیل"
+   ],
+   "ambiguity": 19,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_168911e6870065fd9aa77654",
+   "query": "لنگ چری تیگو",
+   "tokens": [
+    "لنگ",
+    "چری",
+    "تیگو"
+   ],
+   "ambiguity": 12,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_1366e6fc3e1e9e184562cf44",
+   "query": "قاب سیلیکون محافظ",
+   "tokens": [
+    "قاب",
+    "سیلیکون",
+    "محافظ"
+   ],
+   "ambiguity": 10,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_7ddf91b5d91d51a7c9f2ec1d",
+   "query": "بدون روغن فیلیپس",
+   "tokens": [
+    "بدون",
+    "روغن",
+    "فیلیپس"
+   ],
+   "ambiguity": 23,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_d15df52828e768c73f0e0584",
+   "query": "ساترن مازی نور",
+   "tokens": [
+    "ساترن",
+    "مازی",
+    "نور"
+   ],
+   "ambiguity": 11,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_1a996557e9ba768290620e21",
+   "query": "گیج فشار تمام",
+   "tokens": [
+    "گیج",
+    "فشار",
+    "تمام"
+   ],
+   "ambiguity": 133,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_cbad27bb929ef1fd580c59ae",
+   "query": "رینگ لایت ارلدام",
+   "tokens": [
+    "رینگ",
+    "لایت",
+    "ارلدام"
+   ],
+   "ambiguity": 2,
+   "typoQuery": "رینگ لایت ارلدم",
+   "typoOf": "ارلدام"
+  },
+  {
+   "id": "product_3f6961a08fc7a4c2c338c1b3",
+   "query": "رومیزی پنج شعله",
+   "tokens": [
+    "رومیزی",
+    "پنج",
+    "شعله"
+   ],
+   "ambiguity": 12,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_0fa28f6145bd79b503a6cd09",
+   "query": "کارواش فشار قوی",
+   "tokens": [
+    "کارواش",
+    "فشار",
+    "قوی"
+   ],
+   "ambiguity": 5,
+   "typoQuery": "کارراش فشار قوی",
+   "typoOf": "کارواش"
+  },
+  {
+   "id": "product_e9e24c7fcbaf09ecb2e4b14d",
+   "query": "ریسه نئون فلکسی",
+   "tokens": [
+    "ریسه",
+    "نیون",
+    "فلکسی"
+   ],
+   "ambiguity": 88,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_2a6be7216d12b5503ae2d29d",
+   "query": "تابلو برق سلولی",
+   "tokens": [
+    "تابلو",
+    "برق",
+    "سلولی"
+   ],
+   "ambiguity": 44,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_2eacbe5fd9c112cf0cbfd692",
+   "query": "لامپ سوزنی دیپلمات",
+   "tokens": [
+    "لامپ",
+    "سوزنی",
+    "دیپلمات"
+   ],
+   "ambiguity": 1,
+   "typoQuery": "لامپ سوزنی درپلمات",
+   "typoOf": "دیپلمات"
+  },
+  {
+   "id": "product_10a4c80cef835e34f3e187b8",
+   "query": "ساید بای ساید",
+   "tokens": [
+    "ساید",
+    "بای",
+    "ساید"
+   ],
+   "ambiguity": 114,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_883b0718f86fc5499ec6b21a",
+   "query": "رینگ هیوندای توسان",
+   "tokens": [
+    "رینگ",
+    "هیوندای",
+    "توسان"
+   ],
+   "ambiguity": 2,
+   "typoQuery": "رینگ هیودنای توسان",
+   "typoOf": "هیوندای"
+  },
+  {
+   "id": "product_2fb8e57a46f951397f201525",
+   "query": "استخوان طعم نعنا",
+   "tokens": [
+    "استخوان",
+    "طعم",
+    "نعنا"
+   ],
+   "ambiguity": 1,
+   "typoQuery": "ارتخوان طعم نعنا",
+   "typoOf": "استخوان"
+  },
+  {
+   "id": "product_6dbe85d6fb6ca17b39165c05",
+   "query": "نفره کاسیا صنعت",
+   "tokens": [
+    "نفره",
+    "کاسیا",
+    "صنعت"
+   ],
+   "ambiguity": 4,
+   "typoQuery": "نفره کسیا صنعت",
+   "typoOf": "کاسیا"
+  },
+  {
+   "id": "product_85afbc7af1e79936a343e95d",
+   "query": "بست کمربندی استیل،",
+   "tokens": [
+    "بست",
+    "کمربندی",
+    "استیل"
+   ],
+   "ambiguity": 19,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_d915303ada8ed136aae22ec7",
+   "query": "دستگاه تاتو بدن",
+   "tokens": [
+    "دستگاه",
+    "تاتو",
+    "بدن"
+   ],
+   "ambiguity": 58,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_23d1cf9a110bcebbba90f961",
+   "query": "کابل آداپتور لپتاپی",
+   "tokens": [
+    "کابل",
+    "آداپتور",
+    "لپتاپی"
+   ],
+   "ambiguity": 1,
+   "typoQuery": "کابل آداتور لپتاپی",
+   "typoOf": "آداپتور"
+  },
+  {
+   "id": "product_4a4c26ec29c4a4a45fea3fb7",
+   "query": "المنت چای ساز",
+   "tokens": [
+    "المنت",
+    "چای",
+    "ساز"
+   ],
+   "ambiguity": 3,
+   "typoQuery": "النمت چای ساز",
+   "typoOf": "المنت"
+  },
+  {
+   "id": "product_71596e38c10179b2a7ddd47b",
+   "query": "زائد پویان تجهیز",
+   "tokens": [
+    "زاید",
+    "پویان",
+    "تجهیز"
+   ],
+   "ambiguity": 1,
+   "typoQuery": "زاید پریان تجهیز",
+   "typoOf": "پویان"
+  },
+  {
+   "id": "product_101ca8ca1eeeaef5806cb331",
+   "query": "قفسه انباری رنگی",
+   "tokens": [
+    "قفسه",
+    "انباری",
+    "رنگی"
+   ],
+   "ambiguity": 27,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_a444942727448bed5cd07e7f",
+   "query": "فیلتر جاروبرقی صنعتی",
+   "tokens": [
+    "فیلتر",
+    "جاروبرقی",
+    "صنعتی"
+   ],
+   "ambiguity": 11,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_0f59c3906178f6dddad749f8",
+   "query": "تردمیل تاشو تایتان",
+   "tokens": [
+    "تردمیل",
+    "تاشو",
+    "تایتان"
+   ],
+   "ambiguity": 4,
+   "typoQuery": "تردریل تاشو تایتان",
+   "typoOf": "تردمیل"
+  },
+  {
+   "id": "product_87bd31cbcf25ba6c0b5252ee",
+   "query": "کیلووات استارتی ریموت‌دار",
+   "tokens": [
+    "کیلووات",
+    "استارتی",
+    "ریموت دار"
+   ],
+   "ambiguity": 18,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_57bf402936077e663bde8b62",
+   "query": "مداربسته بالت کیس",
+   "tokens": [
+    "مداربسته",
+    "بالت",
+    "کیس"
+   ],
+   "ambiguity": 6,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_0f3c9f3426299ac8f6bcda4a",
+   "query": "مشعلی پلوس راست",
+   "tokens": [
+    "مشعلی",
+    "پلوس",
+    "راست"
+   ],
+   "ambiguity": 2,
+   "typoQuery": "مرعلی پلوس راست",
+   "typoOf": "مشعلی"
+  },
+  {
+   "id": "product_fb96dab64b54150f867b150f",
+   "query": "خراسان افشار نژاد",
+   "tokens": [
+    "خراسان",
+    "افشار",
+    "نژاد"
+   ],
+   "ambiguity": 390,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_4d90e2d1045edfd064f97a44",
+   "query": "طعم گوشت گاو",
+   "tokens": [
+    "طعم",
+    "گوشت",
+    "گاو"
+   ],
+   "ambiguity": 25,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_60615fa7a60864714616d252",
+   "query": "پارچه ماکان پنبه",
+   "tokens": [
+    "پارچه",
+    "ماکان",
+    "پنبه"
+   ],
+   "ambiguity": 6,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_e889e93a9181fafe5a55bb89",
+   "query": "ساعت مردانه کاسیو",
+   "tokens": [
+    "ساعت",
+    "مردانه",
+    "کاسیو"
+   ],
+   "ambiguity": 233,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_322e17a7c2517ad05b7946f5",
+   "query": "پایه منعطف جُبی",
+   "tokens": [
+    "پایه",
+    "منعطف",
+    "جبی"
+   ],
+   "ambiguity": 1,
+   "typoQuery": "پایه منعفط جبی",
+   "typoOf": "منعطف"
+  },
+  {
+   "id": "product_936147f0f9d4092c8ecd3814",
+   "query": "لنت ترمز جلو",
+   "tokens": [
+    "لنت",
+    "ترمز",
+    "جلو"
+   ],
+   "ambiguity": 438,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_6ae76be7f87a1036404bf749",
+   "query": "گوشی طرح آناتومی",
+   "tokens": [
+    "گوشی",
+    "طرح",
+    "آناتومی"
+   ],
+   "ambiguity": 1,
+   "typoQuery": "گوشی طرح آناتمی",
+   "typoOf": "آناتومی"
+  },
+  {
+   "id": "product_2f06a38117308d641868270f",
+   "query": "گیربکس شافت مستقیم",
+   "tokens": [
+    "گیربکس",
+    "شافت",
+    "مستقیم"
+   ],
+   "ambiguity": 34,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_0dd64a1949e7dde65374cd12",
+   "query": "پنل تصویری الکتروپیک",
+   "tokens": [
+    "پنل",
+    "تصویری",
+    "الکتروپیک"
+   ],
+   "ambiguity": 68,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_da16e0800c0d48f2236407bf",
+   "query": "تابلو برق دیواری",
+   "tokens": [
+    "تابلو",
+    "برق",
+    "دیواری"
+   ],
+   "ambiguity": 58,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_82dcedc93ce520594043cecb",
+   "query": "وات گرد مودی",
+   "tokens": [
+    "وات",
+    "گرد",
+    "مودی"
+   ],
+   "ambiguity": 28,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_04631c995d2d284a3b533013",
+   "query": "ساعت مچی زنانه",
+   "tokens": [
+    "ساعت",
+    "مچی",
+    "زنانه"
+   ],
+   "ambiguity": 673,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_e5d0842407e3fc4d1df122e6",
+   "query": "آردی برند رادیاتور",
+   "tokens": [
+    "آردی",
+    "برند",
+    "رادیاتور"
+   ],
+   "ambiguity": 1,
+   "typoQuery": "آردی برند رادیاور",
+   "typoOf": "رادیاتور"
+  },
+  {
+   "id": "product_17900bdb96281559368371e3",
+   "query": "زنگ ملودی ویرا",
+   "tokens": [
+    "زنگ",
+    "ملودی",
+    "ویرا"
+   ],
+   "ambiguity": 7,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_131fc9cdec3a777fbeccb723",
+   "query": "ماربل شیت طرح",
+   "tokens": [
+    "ماربل",
+    "شیت",
+    "طرح"
+   ],
+   "ambiguity": 36,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_24348fc0da8537732d252b4e",
+   "query": "موتور برق ادون",
+   "tokens": [
+    "موتور",
+    "برق",
+    "ادون"
+   ],
+   "ambiguity": 10,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_51f18159c68933b994653583",
+   "query": "چهار میل پنوماتیک",
+   "tokens": [
+    "چهار",
+    "میل",
+    "پنوماتیک"
+   ],
+   "ambiguity": 321,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_92b5c9d4698977f2b02ed261",
+   "query": "برد شارژ شیائومی",
+   "tokens": [
+    "برد",
+    "شارژ",
+    "شیایومی"
+   ],
+   "ambiguity": 66,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_ace4eaed3aad9ea1d8a9ea3f",
+   "query": "فیلتر شنی استخر",
+   "tokens": [
+    "فیلتر",
+    "شنی",
+    "استخر"
+   ],
+   "ambiguity": 52,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_0113734b804c7284220938c4",
+   "query": "هوای بیرون فونیکس",
+   "tokens": [
+    "هوای",
+    "بیرون",
+    "فونیکس"
+   ],
+   "ambiguity": 8,
+   "typoQuery": null,
+   "typoOf": null
+  },
+  {
+   "id": "product_45305fa3c1d3079ad6f212fd",
+   "query": "پنوماتیک چهار میل",
+   "tokens": [
+    "پنوماتیک",
+    "چهار",
+    "میل"
+   ],
+   "ambiguity": 594,
+   "typoQuery": null,
+   "typoOf": null
+  }
+ ]
+}

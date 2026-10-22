@@ -1,0 +1,69 @@
+{
+  "checkedAt": "2026-10-22T14:58:43.762Z",
+  "productId": "product_b5360def23c574ad62d601e8",
+  "ms": 2,
+  "status": "OK",
+  "adapters": [
+    {
+      "id": "reviewed-sources",
+      "version": "rs-1",
+      "outcome": "ok"
+    },
+    {
+      "id": "manufacturer-pages",
+      "version": "mp-1",
+      "outcome": "no_match"
+    }
+  ],
+  "rejected": 0,
+  "conflicts": [],
+  "notes": [],
+  "items": [
+    {
+      "id": "rs-link-soundcore-eu-a3994",
+      "kind": "SPEC_CLAIM",
+      "badge": "EXTERNAL_FACT",
+      "sourceName": "Soundcore (Anker) — eu.soundcore.com",
+      "sourceHost": "eu.soundcore.com",
+      "url": "https://eu.soundcore.com/products/a3994",
+      "retrievedAt": "2026-10-22",
+      "publishedAt": null,
+      "matchText": "تطبیق دقیق کد مدل (اطمینان متوسط)",
+      "summary": "صفحه‌ی رسمی سازنده: پیوند ارجاعی بدون بازتولید متن؛ ادعا یا نظری از آن در برنامه نشان داده نمی‌شود.",
+      "strengths": [],
+      "weaknesses": [],
+      "limitations": [
+        "ادعای سازنده است و ممکن است با نسخه‌ی بازار ایران فرق کند.",
+        "تاریخ نمایش‌داده‌شده تاریخ بازبینی دستی است، نه خواندن خودکار؛ ممکن است صفحه بعداً عوض شده باشد.",
+        "حقوق بازنشر متن این منبع بررسی نشده، پس نقل‌قول نمی‌کنیم."
+      ],
+      "fixture": false,
+      "quotes": [],
+      "attribution": "Soundcore (Anker) — eu.soundcore.com. فقط پیوند؛ متن آن در این برنامه ذخیره یا بازتولید نمی‌شود.",
+      "linkOnly": true
+    },
+    {
+      "id": "rs-link-scarbir-k20i-review",
+      "kind": "EXPERT_REVIEW",
+      "badge": "EXTERNAL_OPINION",
+      "sourceName": "Scarbir — Bart Breij (independent review)",
+      "sourceHost": "www.scarbir.com",
+      "url": "https://www.scarbir.com/tws/soundcore-k20i-review",
+      "retrievedAt": "2026-10-22",
+      "publishedAt": "2025-06-26",
+      "matchText": "تطبیق نام تجاری بازبینی‌شده (اطمینان کم)",
+      "summary": "نقد مستقل: پیوند ارجاعی بدون بازتولید متن؛ ادعا یا نظری از آن در برنامه نشان داده نمی‌شود.",
+      "strengths": [],
+      "weaknesses": [],
+      "limitations": [
+        "نظر یک نویسنده است؛ کد مدل روی صفحه نیست و تطبیق با نام تجاری انجام شد (اطمینان کم).",
+        "تاریخ نمایش‌داده‌شده تاریخ بازبینی دستی است، نه خواندن خودکار؛ ممکن است صفحه بعداً عوض شده باشد.",
+        "حقوق بازنشر متن این منبع بررسی نشده، پس نقل‌قول نمی‌کنیم."
+      ],
+      "fixture": false,
+      "quotes": [],
+      "attribution": "Scarbir — Bart Breij (independent review) — نویسنده: Bart Breij. فقط پیوند؛ متن آن در این برنامه ذخیره یا بازتولید نمی‌شود.",
+      "linkOnly": true
+    }
+  ]
+}

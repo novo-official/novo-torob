@@ -1,0 +1,24 @@
+# nginx — single instance. Certificates: certbot (certbot --nginx -d <DOMAIN>) — run by the owner, not by this repo.
+server {
+	listen 80;
+	server_name <DOMAIN>;
+	return 301 https://$host$request_uri;
+}
+server {
+	listen 443 ssl http2;
+	server_name <DOMAIN>;                       # requests for any other Host never reach the app (add a default_server that returns 444)
+	ssl_certificate     /etc/letsencrypt/live/<DOMAIN>/fullchain.pem;
+	ssl_certificate_key /etc/letsencrypt/live/<DOMAIN>/privkey.pem;
+	add_header Strict-Transport-Security "max-age=31536000" always;
+	client_max_body_size 64k;
+	location / {
+		proxy_pass http://127.0.0.1:3000;
+		proxy_set_header Host $host;
+		proxy_set_header X-Forwarded-For $remote_addr;   # OVERWRITE, never $proxy_add_x_forwarded_for (that would keep a client-supplied value)
+		proxy_set_header X-Forwarded-Proto $scheme;
+		proxy_read_timeout 45s;
+	}
+	# access log without query strings: use a custom log_format that logs $uri (not $request_uri) and no request body
+	access_log /var/log/nginx/hamghadam.access.log hamghadam_noquery;
+}
+# in http{}:  log_format hamghadam_noquery '$remote_addr [$time_local] "$request_method $uri" $status $body_bytes_sent';
