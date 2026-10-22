@@ -1,65 +1,65 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { ArrowLeft, Info, Store, TriangleAlert } from "lucide-react";
 import type { ProductCard as Card } from "@/domain/advisor";
-import { Badge, Ltr } from "@/components/ui";
+import { Ltr } from "@/components/ui";
 import { toFaDigits } from "@/lib/format";
 import { CompareToggle } from "./compare-store";
 import { PriceLine } from "./price-line";
 import { ProductImage } from "./product-image";
+import styles from "./product-card.module.css";
 
 export const REDACTED_TITLE = "عنوان حذف‌شده برای انتشار";
 
-/** Catalog card used by search, advisor and compare. Every number comes from the database DTO. */
-export function ProductCardView({ card, href, badge, children, matchNote }: { card: Card; href: string; badge?: ReactNode; matchNote?: string; children?: ReactNode }) {
+/** Shared catalog card. Price/identity warnings stay visible; evidence counts expand on demand. */
+export function ProductCardView({ card, href, badge, children, matchNote, headingLevel = 3 }: {
+  card: Card; href: string; badge?: ReactNode; children?: ReactNode; matchNote?: string; headingLevel?: 2 | 3;
+}) {
   const redacted = card.title === REDACTED_TITLE || !card.title;
   const title = redacted ? "عنوان این محصول در داده حذف شده است" : card.title;
+  const shownBrand = card.brandName && !title.includes(card.brandName) ? card.brandName : null;
+  const shownModel = card.model && !title.toLowerCase().includes(card.model.toLowerCase()) ? card.model : null;
   const v = card.variants;
+  const Heading = headingLevel === 2 ? "h2" : "h3";
+  const hasDetails = v.modelMismatch > 0 || v.unitAmbiguous > 0 || v.modelUnconfirmed > 0;
   return (
-    <article className="rounded-[var(--radius-card)] border border-line bg-surface p-4 shadow-[0_1px_2px_rgba(16,34,42,0.04)]">
-      <div className="flex gap-3">
-        <Link href={href} tabIndex={-1} aria-hidden className="shrink-0">
-          <ProductImage src={card.imageUrl} className="size-20 sm:size-24" />
+    <article className={styles.card} data-testid="product-card">
+      <div className={styles.body}>
+        <Link href={href} tabIndex={-1} aria-hidden className={styles.imageLink}>
+          <ProductImage src={card.imageUrl} className={styles.image} />
         </Link>
-        <div className="min-w-0 flex-1 space-y-1.5">
-          <div className="flex flex-wrap items-center gap-1.5">
-            {badge}
-            <Badge>{card.categoryName}</Badge>
-            {matchNote ? <Badge tone="brand">{matchNote}</Badge> : null}
-          </div>
-          <h3 className="text-[0.95rem] font-bold leading-7">
-            <Link href={href} className="hover:text-brand">
-              <bdi>{title}</bdi>
-            </Link>
-          </h3>
-          {card.brandName || card.model ? (
-            <p className="text-xs text-ink-2">
-              {card.brandName ? <span>برند: {card.brandName}</span> : null}
-              {card.brandName && card.model ? " · " : null}
-              {card.model ? <span>مدل: <Ltr>{card.model}</Ltr></span> : null}
-            </p>
-          ) : (
-            <p className="text-xs text-ink-2">برند و مدل در داده ثبت نشده</p>
-          )}
+        <div className={styles.description}>
+          <p className={styles.category}>{card.categoryName}</p>
+          {badge || matchNote ? <div className={styles.badges}>{badge}{matchNote ? <span className={styles.match}>{matchNote}</span> : null}</div> : null}
+          <Heading className={styles.title}><Link href={href}><bdi>{title}</bdi></Link></Heading>
+          {shownBrand || shownModel ? <p className={styles.metadata}>
+            {shownBrand ? <span>{shownBrand}</span> : null}
+            {shownBrand && shownModel ? <span aria-hidden>·</span> : null}
+            {shownModel ? <Ltr>{shownModel}</Ltr> : null}
+          </p> : null}
+          <p className={styles.sellers}><Store aria-hidden size={14} />{card.distinctSellers > 0 ? `${toFaDigits(card.distinctSellers)} فروشنده` : "پیشنهادی ثبت نشده"}<span>موجودی تأییدنشده</span></p>
+          {hasDetails ? <div className={styles.warnings}>
+            {v.modelMismatch > 0 ? <p><TriangleAlert aria-hidden size={14} />برخی نسخه‌ها متفاوت‌اند</p> : v.modelUnconfirmed > 0 ? <p><Info aria-hidden size={14} />مدل برخی پیشنهادها تأیید نشده</p> : null}
+            {v.unitAmbiguous > 0 ? <p><TriangleAlert aria-hidden size={14} />واحد برخی قیمت‌ها نامشخص</p> : null}
+          </div> : null}
         </div>
-      </div>
-      <div className="mt-3 grid gap-3 sm:grid-cols-[1fr_auto] sm:items-end">
-        <div className="space-y-2">
-          <PriceLine price={card.price} />
-          <div className="flex flex-wrap gap-1.5">
-            {v.modelMismatch > 0 ? <Badge tone="warn">{toFaDigits(v.modelMismatch)} پیشنهاد با کد مدل شبیه ولی متفاوت</Badge> : null}
-            {v.unitAmbiguous > 0 ? <Badge tone="warn">واحد قیمت نامشخص</Badge> : null}
-            {v.modelUnconfirmed > 0 ? <Badge>{toFaDigits(v.modelUnconfirmed)} پیشنهاد با مدل تأییدنشده</Badge> : null}
-            {card.distinctSellers > 0 ? <Badge>{toFaDigits(card.distinctSellers)} فروشنده با پیشنهاد ثبت‌شده · موجودی تأییدنشده</Badge> : <Badge tone="warn">پیشنهادی ثبت نشده</Badge>}
+        <div className={styles.purchase}>
+          <div className={styles.price}><p className={styles.priceLabel}>قیمت ثبت‌شده</p><PriceLine price={card.price} /></div>
+          <div className={styles.actions}>
+            <Link href={href} className={styles.detailLink}>مشاهده‌ی جزئیات<ArrowLeft aria-hidden size={16} /></Link>
+            <CompareToggle id={card.id} title={redacted ? card.categoryName : card.title} />
           </div>
         </div>
-        <div className="flex flex-wrap items-center gap-2">
-          <CompareToggle id={card.id} title={redacted ? card.categoryName : card.title} />
-          <Link href={href} className="inline-flex min-h-11 items-center rounded-xl border border-line px-4 text-sm font-semibold text-brand hover:bg-brand-soft">
-            مشاهده‌ی جزئیات
-          </Link>
-        </div>
       </div>
-      {children}
+      {hasDetails ? <details className={styles.evidence}>
+        <summary>جزئیات پیشنهادها و ابهام‌ها</summary>
+        <ul>
+          {v.modelMismatch > 0 ? <li>{toFaDigits(v.modelMismatch)} پیشنهاد با کد مدل شبیه ولی متفاوت؛ نسخهٔ دقیق را پیش از مقایسه بررسی کنید.</li> : null}
+          {v.unitAmbiguous > 0 ? <li>{toFaDigits(v.unitAmbiguous)} پیشنهاد با واحد قیمت نامشخص؛ قیمت عدد، متر یا بسته لزوماً قابل مقایسه نیست.</li> : null}
+          {v.modelUnconfirmed > 0 ? <li>مدل {toFaDigits(v.modelUnconfirmed)} پیشنهاد تأیید نشده است.</li> : null}
+        </ul>
+      </details> : null}
+      {children ? <div className={styles.extras}>{children}</div> : null}
     </article>
   );
 }

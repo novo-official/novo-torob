@@ -1,0 +1,342 @@
+[
+  {
+    "name": "results",
+    "width": 360,
+    "colorScheme": "light",
+    "height": 4676,
+    "sw": 360,
+    "cw": 360,
+    "firstCardTop": 468.28125,
+    "firstCardHeight": 298.78125
+  },
+  {
+    "name": "empty",
+    "width": 360,
+    "colorScheme": "light",
+    "height": 1392,
+    "sw": 360,
+    "cw": 360
+  },
+  {
+    "name": "no-results",
+    "width": 360,
+    "colorScheme": "light",
+    "height": 1180,
+    "sw": 360,
+    "cw": 360
+  },
+  {
+    "name": "invalid",
+    "width": 360,
+    "colorScheme": "light",
+    "height": 1124,
+    "sw": 360,
+    "cw": 360
+  },
+  {
+    "name": "results",
+    "width": 360,
+    "colorScheme": "dark",
+    "height": 4676,
+    "sw": 360,
+    "cw": 360,
+    "firstCardTop": 468.28125,
+    "firstCardHeight": 298.78125
+  },
+  {
+    "name": "empty",
+    "width": 360,
+    "colorScheme": "dark",
+    "height": 1392,
+    "sw": 360,
+    "cw": 360
+  },
+  {
+    "name": "no-results",
+    "width": 360,
+    "colorScheme": "dark",
+    "height": 1180,
+    "sw": 360,
+    "cw": 360
+  },
+  {
+    "name": "invalid",
+    "width": 360,
+    "colorScheme": "dark",
+    "height": 1124,
+    "sw": 360,
+    "cw": 360
+  },
+  {
+    "name": "results",
+    "width": 390,
+    "colorScheme": "light",
+    "height": 4676,
+    "sw": 390,
+    "cw": 390,
+    "firstCardTop": 468.28125,
+    "firstCardHeight": 298.78125
+  },
+  {
+    "name": "empty",
+    "width": 390,
+    "colorScheme": "light",
+    "height": 1392,
+    "sw": 390,
+    "cw": 390
+  },
+  {
+    "name": "no-results",
+    "width": 390,
+    "colorScheme": "light",
+    "height": 1155,
+    "sw": 390,
+    "cw": 390
+  },
+  {
+    "name": "invalid",
+    "width": 390,
+    "colorScheme": "light",
+    "height": 1096,
+    "sw": 390,
+    "cw": 390
+  },
+  {
+    "name": "results",
+    "width": 390,
+    "colorScheme": "dark",
+    "height": 4676,
+    "sw": 390,
+    "cw": 390,
+    "firstCardTop": 468.28125,
+    "firstCardHeight": 298.78125
+  },
+  {
+    "name": "empty",
+    "width": 390,
+    "colorScheme": "dark",
+    "height": 1392,
+    "sw": 390,
+    "cw": 390
+  },
+  {
+    "name": "no-results",
+    "width": 390,
+    "colorScheme": "dark",
+    "height": 1155,
+    "sw": 390,
+    "cw": 390
+  },
+  {
+    "name": "invalid",
+    "width": 390,
+    "colorScheme": "dark",
+    "height": 1096,
+    "sw": 390,
+    "cw": 390
+  },
+  {
+    "name": "results",
+    "width": 768,
+    "colorScheme": "light",
+    "height": 4477,
+    "sw": 768,
+    "cw": 768,
+    "firstCardTop": 618.1875,
+    "firstCardHeight": 280.59375
+  },
+  {
+    "name": "empty",
+    "width": 768,
+    "colorScheme": "light",
+    "height": 1143,
+    "sw": 768,
+    "cw": 768
+  },
+  {
+    "name": "no-results",
+    "width": 768,
+    "colorScheme": "light",
+    "height": 1065,
+    "sw": 768,
+    "cw": 768
+  },
+  {
+    "name": "invalid",
+    "width": 768,
+    "colorScheme": "light",
+    "height": 1118,
+    "sw": 768,
+    "cw": 768
+  },
+  {
+    "name": "results",
+    "width": 768,
+    "colorScheme": "dark",
+    "height": 4477,
+    "sw": 768,
+    "cw": 768,
+    "firstCardTop": 618.1875,
+    "firstCardHeight": 280.59375
+  },
+  {
+    "name": "empty",
+    "width": 768,
+    "colorScheme": "dark",
+    "height": 1143,
+    "sw": 768,
+    "cw": 768
+  },
+  {
+    "name": "no-results",
+    "width": 768,
+    "colorScheme": "dark",
+    "height": 1065,
+    "sw": 768,
+    "cw": 768
+  },
+  {
+    "name": "invalid",
+    "width": 768,
+    "colorScheme": "dark",
+    "height": 1118,
+    "sw": 768,
+    "cw": 768
+  },
+  {
+    "name": "results",
+    "width": 1024,
+    "colorScheme": "light",
+    "height": 3038,
+    "sw": 1024,
+    "cw": 1024,
+    "firstCardTop": 527.296875,
+    "firstCardHeight": 168.59375
+  },
+  {
+    "name": "empty",
+    "width": 1024,
+    "colorScheme": "light",
+    "height": 1047,
+    "sw": 1024,
+    "cw": 1024
+  },
+  {
+    "name": "no-results",
+    "width": 1024,
+    "colorScheme": "light",
+    "height": 974,
+    "sw": 1024,
+    "cw": 1024
+  },
+  {
+    "name": "invalid",
+    "width": 1024,
+    "colorScheme": "light",
+    "height": 1027,
+    "sw": 1024,
+    "cw": 1024
+  },
+  {
+    "name": "results",
+    "width": 1024,
+    "colorScheme": "dark",
+    "height": 3038,
+    "sw": 1024,
+    "cw": 1024,
+    "firstCardTop": 527.296875,
+    "firstCardHeight": 168.59375
+  },
+  {
+    "name": "empty",
+    "width": 1024,
+    "colorScheme": "dark",
+    "height": 1047,
+    "sw": 1024,
+    "cw": 1024
+  },
+  {
+    "name": "no-results",
+    "width": 1024,
+    "colorScheme": "dark",
+    "height": 974,
+    "sw": 1024,
+    "cw": 1024
+  },
+  {
+    "name": "invalid",
+    "width": 1024,
+    "colorScheme": "dark",
+    "height": 1027,
+    "sw": 1024,
+    "cw": 1024
+  },
+  {
+    "name": "results",
+    "width": 1440,
+    "colorScheme": "light",
+    "height": 3038,
+    "sw": 1440,
+    "cw": 1440,
+    "firstCardTop": 527.296875,
+    "firstCardHeight": 168.59375
+  },
+  {
+    "name": "empty",
+    "width": 1440,
+    "colorScheme": "light",
+    "height": 1047,
+    "sw": 1440,
+    "cw": 1440
+  },
+  {
+    "name": "no-results",
+    "width": 1440,
+    "colorScheme": "light",
+    "height": 974,
+    "sw": 1440,
+    "cw": 1440
+  },
+  {
+    "name": "invalid",
+    "width": 1440,
+    "colorScheme": "light",
+    "height": 1027,
+    "sw": 1440,
+    "cw": 1440
+  },
+  {
+    "name": "results",
+    "width": 1440,
+    "colorScheme": "dark",
+    "height": 3038,
+    "sw": 1440,
+    "cw": 1440,
+    "firstCardTop": 527.296875,
+    "firstCardHeight": 168.59375
+  },
+  {
+    "name": "empty",
+    "width": 1440,
+    "colorScheme": "dark",
+    "height": 1047,
+    "sw": 1440,
+    "cw": 1440
+  },
+  {
+    "name": "no-results",
+    "width": 1440,
+    "colorScheme": "dark",
+    "height": 974,
+    "sw": 1440,
+    "cw": 1440
+  },
+  {
+    "name": "invalid",
+    "width": 1440,
+    "colorScheme": "dark",
+    "height": 1027,
+    "sw": 1440,
+    "cw": 1440
+  }
+]

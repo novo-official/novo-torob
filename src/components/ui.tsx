@@ -4,11 +4,11 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/cn";
 
 const buttonStyles = cva(
-  "inline-flex min-h-11 items-center justify-center gap-2 rounded-xl px-5 text-[0.95rem] font-semibold transition-colors disabled:cursor-not-allowed disabled:opacity-60",
+  "ui-button inline-flex min-h-12 items-center justify-center gap-2 rounded-xl px-5 py-2 text-[0.95rem] font-semibold disabled:cursor-not-allowed disabled:opacity-60",
   {
     variants: {
       variant: {
-        primary: "bg-brand text-brand-ink hover:bg-brand-hover",
+        primary: "bg-brand text-brand-ink shadow-sm hover:bg-brand-hover",
         secondary: "border border-line bg-surface text-ink hover:bg-surface-2",
         ghost: "text-brand hover:bg-brand-soft",
       },
@@ -50,7 +50,7 @@ export function Chip({
 }
 
 export function Card({ className, ...props }: ComponentProps<"div">) {
-  return <div className={cn("rounded-[var(--radius-card)] border border-line bg-surface p-5 shadow-[0_1px_2px_rgba(16,34,42,0.04)]", className)} {...props} />;
+  return <div className={cn("rounded-[var(--radius-card)] border border-line bg-surface p-5 shadow-[var(--shadow-card)]", className)} {...props} />;
 }
 
 const badgeStyles = cva("inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-semibold", {
@@ -104,13 +104,13 @@ export function EmptyState({
 
 export function PageHeader({ eyebrow, title, children }: { eyebrow?: string; title: string; children?: ReactNode }) {
   return (
-    <header className="mb-6 space-y-2">
-      {eyebrow ? <p className="text-sm font-semibold text-brand">{eyebrow}</p> : null}
-      <h1 className="text-2xl font-extrabold leading-snug sm:text-3xl">{title}</h1>
+    <header className="mb-7 space-y-3">
+      {eyebrow ? <p className="text-xs font-bold leading-6 text-brand sm:text-sm">{eyebrow}</p> : null}
+      <h1 className="text-balance text-2xl font-extrabold leading-[1.55] sm:text-3xl">{title}</h1>
       {children ? <p className="max-w-prose text-[0.95rem] leading-8 text-ink-2">{children}</p> : null}
     </header>
   );
 }
 
 export const inputStyles =
-  "min-h-11 w-full rounded-xl border border-line bg-surface px-3.5 text-[0.95rem] text-ink placeholder:text-ink-2/70";
+  "ui-input min-h-12 w-full rounded-xl border border-line bg-surface px-3.5 text-base text-ink placeholder:text-ink-2 disabled:cursor-not-allowed disabled:opacity-60";

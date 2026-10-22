@@ -18,6 +18,7 @@ import { cn } from "@/lib/cn";
 import { formatToman, toFaDigits } from "@/lib/format";
 import { clearInquiry, loadInquiry, saveInquiry, storageKey } from "@/lib/inquiry-storage";
 import { buildMissionHref } from "@/lib/mission-url";
+import styles from "./inquiry.module.css";
 
 const nowIso = () => new Date().toISOString();
 type Step = "compose" | "follow" | "reply" | "outcome";
@@ -148,7 +149,7 @@ export function InquiryWorkspace({ ctx, visitDefault, back, binding }: { ctx: In
 
   const statusLine = mode === "DEMO" ? "شبیه‌سازی (فقط دمو)" : STATUS_FA[manual.status];
   return (
-    <div className="space-y-5 lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,25rem)] lg:items-start lg:gap-6 lg:space-y-0" data-testid="inquiry-workspace" data-mode={mode}>
+    <div className={cn(styles.workspace, "space-y-5 lg:space-y-0")} data-testid="inquiry-workspace" data-mode={mode}>
       {mode === "DEMO" ? <div className="lg:col-span-2"><DemoBanner onExit={exitDemo} /></div> : null}
 
       <div className="space-y-5 lg:col-start-2 lg:row-start-2">
@@ -166,10 +167,10 @@ export function InquiryWorkspace({ ctx, visitDefault, back, binding }: { ctx: In
           <span className="text-ink-2">وضعیت پرسش:</span><Badge tone={mode === "DEMO" ? "warn" : "brand"} data-testid="status-badge">{statusLine}</Badge>
           {mode === "MANUAL" ? <ProvenanceBadge kind={manual.replies.length ? "USER_REPORTED" : "UNKNOWN"} short /> : <ProvenanceBadge kind="DEMO_SIMULATED" short />}
         </p>
-        <div role="tablist" aria-label="مراحل پرسش از فروشنده" className="grid grid-cols-4 gap-1 lg:hidden" data-testid="inquiry-steps">
+        <div role="tablist" aria-label="مراحل پرسش از فروشنده" className={cn(styles.stepPills, "lg:hidden")} data-testid="inquiry-steps">
           {STEPS.map(([k, label]) => (
             <button key={k} type="button" role="tab" id={`istep-${k}`} aria-selected={step === k} aria-controls={`ipanel-${k}`} data-testid={`istep-${k}`} onClick={() => setStep(k)}
-              className={cn("min-h-11 rounded-xl border px-1 text-xs font-semibold", step === k ? "border-brand bg-brand-soft text-brand-soft-ink" : "border-line bg-surface text-ink-2")}>{label}</button>
+              className={cn(styles.stepPill, step === k && styles.stepPillActive)}>{label}</button>
           ))}
         </div>
         <p role="status" aria-live="polite" data-testid="live-msg" className={cn("min-h-6 text-sm", msg?.kind === "warn" ? "font-semibold text-warn-ink" : "text-ok-ink")}>{msg ? <>{msg.kind === "ok" ? <Check aria-hidden size={14} className="me-1 inline" /> : null}{msg.text}</> : null}</p>
@@ -178,10 +179,10 @@ export function InquiryWorkspace({ ctx, visitDefault, back, binding }: { ctx: In
         <Card className={cn("space-y-3", only("follow"))} aria-labelledby="mode-h" id="ipanel-follow">
           <h2 id="mode-h" className="font-bold">چگونه پیش می‌روید؟</h2>
           <div role="radiogroup" aria-label="حالت پیگیری" className="grid gap-2 sm:grid-cols-2">
-            <button type="button" role="radio" aria-checked={mode === "MANUAL"} data-testid="mode-manual" onClick={() => setMode("MANUAL")} className={cn("min-h-11 rounded-2xl border p-3 text-start text-sm", mode === "MANUAL" ? "border-brand bg-brand-soft" : "border-line bg-surface")}>
+            <button type="button" role="radio" aria-checked={mode === "MANUAL"} data-testid="mode-manual" onClick={() => setMode("MANUAL")} className={cn(styles.modeCard, mode === "MANUAL" && styles.modeCardActive)}>
               <span className="block font-semibold">پیگیری دستی</span><span className="block text-xs text-ink-2">متن را کپی می‌کنید، خودتان می‌پرسید و پاسخ را ثبت می‌کنید</span>
             </button>
-            <button type="button" role="radio" aria-checked={mode === "DEMO"} data-testid="mode-demo" disabled={mode !== "DEMO" && !demoConsent} onClick={() => setMode("DEMO")} className={cn("min-h-11 rounded-2xl border border-dashed p-3 text-start text-sm disabled:opacity-60", mode === "DEMO" ? "border-warn-ink bg-warn-bg" : "border-warn-line bg-surface")}>
+            <button type="button" role="radio" aria-checked={mode === "DEMO"} data-testid="mode-demo" disabled={mode !== "DEMO" && !demoConsent} onClick={() => setMode("DEMO")} className={cn(styles.modeCard, "border-dashed", mode === "DEMO" ? styles.demoCardActive : "border-warn-line")}>
               <span className="block font-semibold">شبیه‌سازی پاسخ فروشنده — فقط برای دمو</span><span className="block text-xs text-ink-2">پاسخ ساختگی با برچسب روشن؛ هیچ ارتباط واقعی نیست</span>
             </button>
           </div>
@@ -198,7 +199,7 @@ export function InquiryWorkspace({ ctx, visitDefault, back, binding }: { ctx: In
           <p className="text-xs leading-6 text-ink-2">پیش‌فرض‌ها از شواهد همین پیشنهاد آمده‌اند؛ هر پرسش دلیل دارد و می‌توانید خاموش، جابه‌جا یا اضافه کنید.</p>
           <ol className="space-y-2" aria-label="پرسش‌های انتخاب‌شده" data-testid="question-list">
             {ordered.map((q, i) => (
-              <li key={q.id} className="flex items-start gap-2 rounded-xl border border-line p-2.5" data-question-id={q.id}>
+              <li key={q.id} className={styles.questionItem} data-question-id={q.id}>
                 <div className="min-w-0 flex-1 text-sm leading-7"><span className="text-ink-2">{toFaDigits(i + 1)}. </span><bdi>{q.textFa}</bdi><span className="block text-xs text-ink-2">{q.reasonFa}</span></div>
                 <div className="flex shrink-0 flex-col gap-1 sm:flex-row">
                   <button type="button" className="grid size-11 place-items-center rounded-lg border border-line" aria-label={`بالا بردن پرسش ${toFaDigits(i + 1)}`} onClick={() => move(i, -1)} disabled={i === 0}><ArrowUp aria-hidden size={16} /></button>

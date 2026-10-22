@@ -1,0 +1,180 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.layout {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+@media (min-width: 1024px) {
+  .layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 22rem);
+    align-items: start;
+    gap: 1.75rem;
+  }
+}
+
+.chatSection {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.messagesLog {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  min-height: 16rem;
+}
+
+/* User Bubble */
+.userMsg {
+  align-self: flex-start;
+  max-width: 90%;
+  border-radius: 1.25rem 1.25rem 0.375rem 1.25rem;
+  padding: 0.75rem 1.125rem;
+  font-size: 0.9375rem;
+  line-height: 1.8;
+  background: linear-gradient(135deg, var(--brand) 0%, var(--brand-hover) 100%);
+  color: var(--brand-ink);
+  box-shadow: 0 4px 14px -3px rgba(11, 87, 85, 0.25);
+  word-break: break-word;
+}
+
+.userMsgControl {
+  background: var(--surface-2);
+  color: var(--ink-2);
+  box-shadow: none;
+  border: 1px solid var(--line);
+}
+
+/* Assistant Message Card */
+.assistantMsg {
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+  border-radius: 1.25rem;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  padding: 1.125rem 1.25rem;
+  box-shadow: 0 4px 16px -4px rgba(0, 0, 0, 0.05);
+  transition: border-color 160ms;
+}
+
+.assistantMsgLatest {
+  border-color: color-mix(in srgb, var(--brand) 35%, var(--line));
+}
+
+.assistantText {
+  white-space: pre-line;
+  font-size: 0.9375rem;
+  line-height: 2;
+  color: var(--ink);
+}
+
+/* Composer Form */
+.composerForm {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  border-radius: 1.25rem;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  padding: 1rem;
+  box-shadow: 0 8px 24px -6px rgba(0, 0, 0, 0.06);
+}
+
+.composerHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.composerLabel {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.composerFooter {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding-top: 0.25rem;
+}
+
+.composerMeta {
+  font-size: 0.75rem;
+  color: var(--ink-2);
+}
+
+.composerActions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Examples */
+.examplesContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.exampleChip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.5rem;
+  padding: 0.375rem 0.875rem;
+  border-radius: 9999px;
+  border: 1px dashed var(--brand);
+  background: var(--surface);
+  color: var(--brand);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  transition: all 160ms;
+  cursor: pointer;
+}
+
+.exampleChip:hover:not(:disabled) {
+  background: var(--brand-soft);
+  transform: translateY(-1px);
+}
+
+.exampleChip:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Selection Bar */
+.selectionBar {
+  position: sticky;
+  bottom: calc(var(--bottom-nav-height, 4rem) + 0.75rem);
+  z-index: 30;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  border-radius: 1rem;
+  border: 1px solid var(--brand);
+  background: var(--surface);
+  padding: 0.875rem 1.125rem;
+  box-shadow: 0 10px 28px -6px rgba(0, 0, 0, 0.15);
+}
+
+@media (min-width: 768px) {
+  .selectionBar {
+    bottom: 1.5rem;
+  }
+}

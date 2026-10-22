@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { Info } from "lucide-react";
+import { ArrowUpLeft, Footprints, MapPin, ShieldCheck } from "lucide-react";
 import { BottomNav, TopNav } from "./bottom-nav";
 
 export function AppShell({ children }: { children: ReactNode }) {
@@ -12,26 +12,39 @@ export function AppShell({ children }: { children: ReactNode }) {
       >
         پرش به محتوا
       </a>
-      <div role="note" className="border-b border-warn-line bg-warn-bg px-4 py-2 text-center text-[0.8rem] font-medium leading-6 text-warn-ink">
-        <Info aria-hidden size={14} className="me-1 inline align-[-2px]" />
-        فروشنده‌ها، قیمت و ساعت کاری از داده‌ی واقعی هکاتون‌اند؛ فاصله‌ها خط مستقیم‌اند. موجودی هرگز تأییدشده فرض نمی‌شود و هیچ پیامی به فروشنده ارسال نمی‌شود.
-      </div>
-      <header className="sticky top-0 z-20 border-b border-line bg-surface/90 backdrop-blur">
-        <div className="mx-auto flex h-14 max-w-6xl items-center justify-between gap-4 px-4">
-          <Link href="/" className="flex min-h-11 items-center gap-2 text-lg font-extrabold">
-            <span aria-hidden className="grid size-8 place-items-center rounded-lg bg-brand text-sm text-brand-ink">
-              هق
+      <header className="sticky top-0 z-20 border-b border-line bg-surface/95 backdrop-blur-xl">
+        <div className="mx-auto flex h-[4.5rem] max-w-6xl items-center justify-between gap-3 px-4 sm:px-6">
+          <Link href="/" aria-label="هم‌قدم — خانه" className="flex min-h-11 shrink-0 items-center gap-2.5">
+            <span aria-hidden className="grid size-10 place-items-center rounded-2xl bg-brand text-brand-ink">
+              <Footprints size={23} strokeWidth={1.8} />
             </span>
-            هم‌قدم
+            <span>
+              <span className="block text-xl font-extrabold leading-7">هم‌قدم</span>
+              <span className="hidden text-[0.625rem] leading-5 text-ink-2 lg:block">دستیار خرید حضوری</span>
+            </span>
           </Link>
           <TopNav />
+          <span className="flex items-center gap-1 text-xs font-medium text-ink-2 md:hidden"><MapPin aria-hidden size={14} />بازار تهران</span>
         </div>
       </header>
-      <main id="main" className="mx-auto min-h-[70vh] max-w-6xl px-4 pb-28 pt-6 md:pb-12 md:pt-10">
+      <div role="note" className="border-b border-line bg-surface-2/60">
+        <div className="mx-auto flex min-h-11 max-w-6xl items-center justify-between gap-2 px-4 py-1.5 text-[0.6875rem] leading-5 text-ink-2 sm:px-6 sm:text-xs">
+          <p className="flex items-start gap-2"><ShieldCheck aria-hidden size={15} className="mt-0.5 shrink-0 text-brand" /><span>پیشنهاد ثبت‌شده، موجودی تأییدشده نیست. <span className="hidden sm:inline">هیچ پیامی به فروشنده ارسال نمی‌شود.</span></span></p>
+          <Link href="/data" className="inline-flex min-h-8 shrink-0 items-center gap-1 font-semibold text-brand hover:underline">دربارهٔ داده‌ها<ArrowUpLeft aria-hidden size={12} /></Link>
+        </div>
+      </div>
+      <main id="main" tabIndex={-1} className="app-main mx-auto min-h-[70vh] max-w-6xl px-4 pt-5 sm:px-6 md:pt-8">
         {children}
       </main>
-      <footer className="hidden border-t border-line py-6 text-center text-xs text-ink-2 md:block">
-        هم‌قدم — دستیار خرید حضوری تهران. داده‌ها نمونه‌ی هکاتون‌اند؛ پوشش کل تهران ادعا نمی‌شود.
+      <footer className="border-t border-line bg-surface px-4 pt-7 pb-[calc(var(--action-bottom)+var(--compare-tray-height)+2rem)] text-xs leading-6 text-ink-2">
+        <div className="mx-auto flex max-w-6xl flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <p><strong className="text-sm text-ink">هم‌قدم</strong><br />برای خرید حضوری، با آمادگی بیشتر.<br /><span>داده‌های هکاتون؛ پوشش کامل تهران ادعا نمی‌شود.</span></p>
+          <nav aria-label="پیوندهای تکمیلی" className="flex flex-wrap gap-x-5 gap-y-1">
+            <Link href="/data" className="inline-flex min-h-11 items-center hover:text-brand">دربارهٔ داده‌ها</Link>
+            <Link href="/compare/products" className="inline-flex min-h-11 items-center hover:text-brand">مقایسهٔ محصولات</Link>
+            <Link href="/compare" className="inline-flex min-h-11 items-center hover:text-brand">مقایسهٔ فروشنده‌ها</Link>
+          </nav>
+        </div>
       </footer>
       <BottomNav />
     </>

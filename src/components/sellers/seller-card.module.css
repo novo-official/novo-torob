@@ -1,0 +1,226 @@
+.card {
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  padding: 1.125rem;
+  background: var(--surface);
+  box-shadow: var(--shadow-card);
+  transition: border-color 160ms, box-shadow 160ms;
+}
+
+.card:hover {
+  border-color: var(--brand);
+}
+
+.selected {
+  border-color: var(--brand) !important;
+  box-shadow: 0 0 0 2px var(--brand), var(--shadow-card) !important;
+}
+
+.outside {
+  border-style: dashed;
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.titleArea {
+  min-width: 0;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.0625rem;
+  font-weight: 750;
+  line-height: 1.7;
+}
+
+.title svg {
+  color: var(--brand);
+  flex-shrink: 0;
+}
+
+.metaRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+  font-size: 0.8125rem;
+  color: var(--ink-2);
+}
+
+.distance {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.variantNote {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.375rem;
+  font-size: 0.8125rem;
+  line-height: 1.8;
+  margin-top: 0.5rem;
+}
+
+.priceSection {
+  margin-top: 0.75rem;
+  padding: 0.75rem 0.875rem;
+  border-radius: 0.875rem;
+  background: var(--surface-2);
+}
+
+.priceValue {
+  font-size: 1.125rem;
+  font-weight: 800;
+  line-height: 1.6;
+  font-variant-numeric: tabular-nums;
+}
+
+.priceMeta {
+  font-size: 0.75rem;
+  color: var(--ink-2);
+  margin-top: 0.125rem;
+}
+
+.tagsList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+  margin-top: 0.75rem;
+}
+
+.details {
+  margin-top: 0.75rem;
+  border-top: 1px solid var(--line);
+  padding-top: 0.375rem;
+  font-size: 0.8125rem;
+}
+
+.summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 2.75rem;
+  cursor: pointer;
+  font-weight: 650;
+  color: var(--brand);
+}
+
+.offersList {
+  display: grid;
+  gap: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.offerItem {
+  border-radius: 0.75rem;
+  background: var(--surface-2);
+  padding: 0.625rem 0.75rem;
+  font-size: 0.75rem;
+  line-height: 1.8;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--line);
+}
+
+.primaryAction {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
+  min-height: 2.75rem;
+  padding: 0.5rem 1rem;
+  border-radius: 0.75rem;
+  background: var(--brand);
+  color: var(--brand-ink);
+  font-size: 0.875rem;
+  font-weight: 700;
+  transition: background-color 160ms;
+}
+
+.primaryAction:hover {
+  background: var(--brand-hover);
+}
+
+.secondaryAction {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
+  min-height: 2.75rem;
+  padding: 0.5rem 0.875rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 0.8125rem;
+  font-weight: 650;
+  transition: background-color 160ms, border-color 160ms;
+}
+
+.secondaryAction:hover {
+  background: var(--surface-2);
+  border-color: var(--ink-2);
+}
+
+.compareLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+  padding: 0.5rem 0.875rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--line);
+  font-size: 0.8125rem;
+  font-weight: 650;
+  cursor: pointer;
+  transition: all 160ms;
+}
+
+.compareLabelActive {
+  border-color: var(--brand);
+  background: var(--brand-soft);
+  color: var(--brand-soft-ink);
+}
+
+.compareLabelDisabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.mapLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  min-height: 2.75rem;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.8125rem;
+  color: var(--ink-2);
+}
+
+.mapLink:hover {
+  color: var(--brand);
+  text-decoration: underline;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card, .primaryAction, .secondaryAction, .compareLabel {
+    transition: none;
+  }
+}

@@ -9,6 +9,7 @@ import { CardView } from "@/components/agent/agent-cards";
 import { Button, Card, inputStyles } from "@/components/ui";
 import { cn } from "@/lib/cn";
 import { safeInternalHref } from "@/lib/safe-href";
+import styles from "./agent-chat.module.css";
 
 type Msg =
   | { id: string; role: "user"; text: string; control?: boolean }
@@ -107,40 +108,47 @@ export function AgentChat({ status }: { status: AgentPublicStatus }) {
   if (!status.enabled) return <Card className="space-y-2" data-testid="agent-disabled"><h2 className="font-bold">{status.provider.id === "locked" ? "مدل زنده قفل است" : "دستیار در این محیط غیرفعال است"}</h2>{status.lockedReasonFa ? <p className="text-sm leading-7 text-warn-ink" data-testid="agent-locked-reason">{status.lockedReasonFa}</p> : null}<p className="text-sm leading-7 text-ink-2">از <Link className="text-brand underline" href="/discover">مشاور انتخاب</Link> و <Link className="text-brand underline" href="/search">جست‌وجوی مدل</Link> استفاده کنید؛ همه‌ی مراحل بدون دستیار هم کار می‌کنند.</p></Card>;
 
   return (
-    <div className="space-y-4" data-testid="agent-root">
+    <div className={styles.container} data-testid="agent-root">
       {banner}
-      <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,22rem)] lg:items-start lg:gap-5">
-        <section aria-label="گفت‌وگو" className="min-w-0 space-y-3">
-          <div ref={logRef} role="log" aria-live="polite" aria-relevant="additions" aria-label="گفت‌وگوی دستیار" data-testid="agent-log" className="space-y-3">
+      <div className={styles.layout}>
+        <section aria-label="گفت‌وگو" className={styles.chatSection}>
+          <div ref={logRef} role="log" aria-live="polite" aria-relevant="additions" aria-label="گفت‌وگوی دستیار" data-testid="agent-log" className={styles.messagesLog}>
             {msgs.length === 0 ? (
               <Card className="space-y-3" data-testid="agent-welcome">
-                <h2 className="flex items-center gap-2 font-bold"><Bot aria-hidden size={18} />سلام! کجا می‌خواهید کمک کنم؟</h2>
+                <h2 className="flex items-center gap-2 font-bold"><Bot aria-hidden size={18} className="text-brand" />سلام! کجا می‌خواهید کمک کنم؟</h2>
                 <p className="text-sm leading-7 text-ink-2">می‌توانم چهار کار را پشت‌سرهم انجام دهم: ۱) انتخاب محصول بر اساس نیازتان، ۲) پیدا کردن فروشگاه‌های دارای پیشنهاد ثبت‌شده در اطراف، ۳) مقایسه‌ی محتاطانه‌ی فروشنده‌ها، ۴) نوشتن پیش‌نویس پرسش. همه‌چیز از داده‌ی رسمی ترب می‌آید؛ پیشنهاد ثبت‌شده به معنی موجودی نیست و چیزی به فروشنده ارسال نمی‌شود.</p>
-                <div className="flex flex-wrap gap-2" aria-label="نمونه‌ی پیام">{EXAMPLES.map((e) => <button key={e} type="button" disabled={busy} data-testid="agent-example" onClick={() => void send({ message: e })} className="min-h-11 rounded-full border border-dashed border-brand px-3 text-sm text-brand">{e}</button>)}</div>
+                <div className={styles.examplesContainer} aria-label="نمونه‌ی پیام">{EXAMPLES.map((e) => <button key={e} type="button" disabled={busy} data-testid="agent-example" onClick={() => void send({ message: e })} className={styles.exampleChip}>{e}</button>)}</div>
               </Card>
             ) : null}
             {msgs.map((m) => (m.role === "user" ? (
-              <div key={m.id} className={cn("max-w-[92%] rounded-2xl px-3.5 py-2.5 text-sm leading-7", m.control ? "me-auto bg-surface-2 text-ink-2" : "me-auto bg-brand text-brand-ink")} data-testid="agent-user-msg"><bdi>{m.text}</bdi></div>
+              <div key={m.id} className={cn(styles.userMsg, m.control && styles.userMsgControl)} data-testid="agent-user-msg"><bdi>{m.text}</bdi></div>
             ) : (
               <AssistantMsg key={m.id} m={m} latest={lastAssistant?.id === m.id} handlers={handlers} runAction={runAction} />
             )))}
           </div>
-          {busy ? <p role="status" data-testid="agent-busy" className="flex items-center gap-2 rounded-xl bg-surface-2 p-3 text-sm"><Wrench aria-hidden size={14} />در حال اجرای ابزارها…</p> : null}
+          {busy ? <p role="status" data-testid="agent-busy" className="flex items-center gap-2 rounded-xl bg-surface-2 p-3 text-sm text-ink-2"><Wrench aria-hidden size={14} className="animate-spin text-brand" />در حال اجرای ابزارها…</p> : null}
           {error ? <p role="alert" data-testid="agent-error" className="flex items-start gap-2 rounded-xl bg-danger-bg p-3 text-sm text-danger-ink"><TriangleAlert aria-hidden size={16} className="mt-1 shrink-0" />{error}</p> : null}
           {picked.length > 0 ? (
-            <div role="region" aria-label="فروشگاه‌های انتخاب‌شده برای مقایسه" data-testid="agent-pick-bar" className="sticky bottom-20 z-30 flex flex-wrap items-center gap-2 rounded-2xl border border-brand bg-surface p-3 shadow-lg md:bottom-4">
+            <div role="region" aria-label="فروشگاه‌های انتخاب‌شده برای مقایسه" data-testid="agent-pick-bar" className={cn(styles.selectionBar, "selection-bar")}>
               <span className="text-sm font-semibold">{new Intl.NumberFormat("fa-IR").format(picked.length)} فروشگاه برای مقایسه</span>
-              <Button disabled={busy || picked.length < 1} onClick={() => void send({ control: { type: "select_shops", shopIds: picked } })} data-testid="agent-compare-picked">مقایسه‌ی انتخاب‌شده‌ها</Button>
-              <button type="button" className="min-h-11 text-sm underline" onClick={() => setPicked([])}>پاک کردن</button>
+              <div className="flex items-center gap-2">
+                <Button disabled={busy || picked.length < 1} onClick={() => void send({ control: { type: "select_shops", shopIds: picked } })} data-testid="agent-compare-picked">مقایسه‌ی انتخاب‌شده‌ها</Button>
+                <button type="button" className="min-h-11 px-2 text-sm text-ink-2 hover:text-ink underline" onClick={() => setPicked([])}>پاک کردن</button>
+              </div>
             </div>
           ) : null}
-          <form onSubmit={submit} className="space-y-2" aria-label="ارسال پیام به دستیار">
-            <label htmlFor="agent-input" className="text-sm font-semibold">پیام شما (فارسی)</label>
+          <form onSubmit={submit} className={styles.composerForm} aria-label="ارسال پیام به دستیار">
+            <div className={styles.composerHeader}>
+              <label htmlFor="agent-input" className={styles.composerLabel}>پیام شما (فارسی)</label>
+            </div>
             <textarea id="agent-input" ref={areaRef} data-testid="agent-input" value={text} onChange={(e) => setText(e.target.value)} maxLength={status.maxMessageChars} rows={2} placeholder="مثلاً: هدفون ورزشی تا ۳ میلیون می‌خوام" className={cn(inputStyles, "min-h-20 py-2 leading-7")}
               onKeyDown={(e) => { if ((e.ctrlKey || e.metaKey) && e.key === "Enter") submit(e); }} />
-            <div className="flex flex-wrap items-center justify-between gap-2">
-              <span className="text-xs text-ink-2">{new Intl.NumberFormat("fa-IR").format(text.length)} / {new Intl.NumberFormat("fa-IR").format(status.maxMessageChars)} · Ctrl+Enter برای ارسال</span>
-              <div className="flex gap-2"><Button type="button" variant="secondary" className="lg:hidden" aria-expanded={panelOpen} aria-controls="agent-panel-wrap" onClick={() => setPanelOpen((v) => !v)} data-testid="agent-panel-toggle"><SlidersHorizontal aria-hidden size={16} />ترجیحات</Button><Button type="submit" disabled={busy || !text.trim()} data-testid="agent-send"><SendHorizontal aria-hidden size={16} className="rtl:-scale-x-100" />ارسال</Button></div>
+            <div className={styles.composerFooter}>
+              <span className={styles.composerMeta}>{new Intl.NumberFormat("fa-IR").format(text.length)} / {new Intl.NumberFormat("fa-IR").format(status.maxMessageChars)} · Ctrl+Enter برای ارسال</span>
+              <div className={styles.composerActions}>
+                <Button type="button" variant="secondary" className="lg:hidden" aria-expanded={panelOpen} aria-controls="agent-panel-wrap" onClick={() => setPanelOpen((v) => !v)} data-testid="agent-panel-toggle"><SlidersHorizontal aria-hidden size={16} />ترجیحات</Button>
+                <Button type="submit" disabled={busy || !text.trim()} data-testid="agent-send"><SendHorizontal aria-hidden size={16} className="rtl:-scale-x-100" />ارسال</Button>
+              </div>
             </div>
           </form>
         </section>
@@ -165,8 +173,8 @@ function AssistantMsg({ m, latest, handlers, runAction }: { m: Extract<Msg, { ro
     </div>
   );
   return (
-    <article className="max-w-full space-y-3 rounded-2xl border border-line bg-surface p-3.5" data-testid="agent-assistant-msg" data-latest={latest ? "1" : "0"}>
-      <p className="whitespace-pre-line text-sm leading-8" data-testid="agent-text">{m.text}</p>
+    <article className={cn(styles.assistantMsg, latest && styles.assistantMsgLatest)} data-testid="agent-assistant-msg" data-latest={latest ? "1" : "0"}>
+      <p className={styles.assistantText} data-testid="agent-text">{m.text}</p>
       {t ? (
         <>
           {t.fallback.used && t.fallback.reason ? <p role="status" className="rounded-xl bg-warn-bg p-2.5 text-xs leading-6 text-warn-ink" data-testid="agent-fallback">{FALLBACK_FA[t.fallback.reason]}؛ با مسیر قطعی (بدون مدل زبانی) ادامه دادم.</p> : null}

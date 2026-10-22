@@ -30,7 +30,7 @@ export const QUICK_STARTS = [
 ] as const;
 
 export const STAGES = [
-  { id: "M1", title: "انتخاب محصول", desc: "ندانید چه بخرید؟ با چند سؤال کوتاه کاندیدها را مقایسه می‌کنیم.", href: "/discover", icon: "compass" },
+  { id: "M1", title: "انتخاب محصول", desc: "از نیاز یا مدل شروع کنید و گزینه‌های متناسب را پیدا کنید.", href: "/discover", icon: "compass" },
   { id: "M2", title: "فروشنده‌های نزدیک", desc: "فقط پیشنهادهای واقعاً منطبق، بر اساس منطقه‌ی شما.", href: "/search", icon: "store" },
   { id: "M3", title: "مقایسه‌ی فروشنده‌ها", desc: "قیمت ثبت‌شده، فاصله، ساعت اعلام‌شده و شرایط خرید.", href: "/compare", icon: "scale" },
   { id: "M4", title: "پرسش از فروشنده", desc: "پیش‌نویس سؤال، ثبت پاسخ و پیگیری تا زمان مراجعه.", href: "/missions", icon: "message" },

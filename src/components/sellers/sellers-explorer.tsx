@@ -4,12 +4,12 @@ import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState, useTransition } from "react";
-import { Crosshair, List, LocateFixed, Map as MapIcon, MapPinned, SearchX, TriangleAlert, X } from "lucide-react";
+import { ArrowRight, Crosshair, List, LocateFixed, Map as MapIcon, MapPinned, PackageCheck, SearchX, TriangleAlert, X } from "lucide-react";
 import { COMPARE_LIMITS } from "@/domain/comparison";
 import type { SellersResponse } from "@/domain/sellers";
 import { AreaLeadCard } from "@/components/sellers/area-lead-card";
 import { SellerCard } from "@/components/sellers/seller-card";
-import { Badge, Button, Card, EmptyState, inputStyles } from "@/components/ui";
+import { Badge, Button, EmptyState, inputStyles } from "@/components/ui";
 import { formatToman, toFaDigits } from "@/lib/format";
 import { RADIUS_OPTIONS, radiusLabel, snapOrigin } from "@/lib/geo";
 import { GPS_MESSAGE, requestPosition, type GpsStatus } from "@/lib/gps";
@@ -18,6 +18,7 @@ import { buildMissionHref } from "@/lib/mission-url";
 import { buildShopHref, buildSellersHref, type OriginKey, type SellersParams } from "@/lib/sellers-url";
 import { DISTANCE_NOTE } from "@/lib/seller-labels";
 import { cn } from "@/lib/cn";
+import styles from "./sellers-explorer.module.css";
 
 const NearbyMap = dynamic(() => import("@/components/sellers/nearby-map").then((m) => m.NearbyMap), {
   ssr: false,
@@ -36,17 +37,17 @@ export function SellersExplorer({ initial, params, presets }: { initial: Sellers
   const [selectedArea, setSelectedArea] = useState<string | null>(null);
   const [cmpIds, setCmpIds] = useState<string[]>(params.cmp);
   const [cmpNames, setCmpNames] = useState<Record<string, string>>({});
-  // Back/Forward can restore this page from the router cache with the ORIGINAL props while the address bar (updated via history.replaceState) already carries the
-  // picks: the URL is the truth, so re-read `cmp` once after mount.
+
   useEffect(() => {
     const ids = [...new Set((new URLSearchParams(window.location.search).get("cmp") ?? "").split(",").filter((x) => /^shop_[0-9a-f]{8,40}$/.test(x)))].slice(0, 4);
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setCmpIds((prev) => (prev.join(",") === ids.join(",") ? prev : ids));
   }, []);
+
   const [pickMode, setPickMode] = useState(false);
   const [tilesFailed, setTilesFailed] = useState(false);
   const [gpsStatus, setGpsStatus] = useState<GpsStatus>("idle");
-  const [gpsPoint, setGpsPoint] = useState<{ lat: number; lon: number } | null>(null); // memory only — never URL/storage
+  const [gpsPoint, setGpsPoint] = useState<{ lat: number; lon: number } | null>(null);
   const [gpsData, setGpsData] = useState<{ key: string; data: SellersResponse } | null>(null);
   const [activity, setActivity] = useState<ActivityState>({ state: "idle" });
   const abortRef = useRef<AbortController | null>(null);
@@ -59,16 +60,14 @@ export function SellersExplorer({ initial, params, presets }: { initial: Sellers
   const busy = pending || (gpsMode && !!gpsPoint && gpsData?.key !== filtersKey);
   const selectedId = selectedShops[0] ?? null;
 
-  // ---- navigation (URL = source of truth for everything except GPS coordinates)
   const hrefFor = useCallback((patch: Partial<SellersParams>) => buildSellersHref({ ...params, view, shop: selectedId, cmp: cmpIds, ...patch }), [params, view, selectedId, cmpIds]);
   const go = useCallback((patch: Partial<SellersParams>) => {
     startTransition(() => router.push(hrefFor({ page: 1, ...patch }), { scroll: false }));
   }, [router, hrefFor]);
   const mirror = useCallback((patch: Partial<SellersParams>) => {
-    try { window.history.replaceState(window.history.state, "", hrefFor(patch)); } catch { /* history unavailable: state stays in memory */ }
+    try { window.history.replaceState(window.history.state, "", hrefFor(patch)); } catch { /* history unavailable */ }
   }, [hrefFor]);
 
-  // ---- GPS: results are fetched with POST so precise-ish coordinates never appear in a URL
   useEffect(() => {
     if (!gpsMode || !gpsPoint) return;
     abortRef.current?.abort();
@@ -100,7 +99,6 @@ export function SellersExplorer({ initial, params, presets }: { initial: Sellers
     go({ origin: "map", ll: s });
   };
 
-  // ---- selection shared by list and map
   const sellersAll = useMemo(() => [...data.sellers, ...data.outsideRadius.filter((o) => !data.sellers.some((s) => s.shopId === o.shopId))], [data]);
   const selectedSellers = sellersAll.filter((s) => selectedShops.includes(s.shopId));
   const selectShops = (ids: string[]) => { setSelectedShops(ids); setSelectedArea(null); mirror({ shop: ids[0] ?? null }); if (ids[0]) document.getElementById(`seller-${ids[0]}`)?.scrollIntoView({ block: "nearest", behavior: "smooth" }); };
@@ -117,7 +115,7 @@ export function SellersExplorer({ initial, params, presets }: { initial: Sellers
   const compareBase = { product: params.product, variant: data.variant.selectedGroupId, origin: originKey, ll: params.ll, radius: params.radius, bmin: params.bmin, bmax: params.bmax, back: hrefFor({}) };
   const compareHref = buildCompareHref({ ...compareBase, shops: cmpIds });
   const switchView = (v: "list" | "map") => { setView(v); mirror({ view: v }); };
-  // focus management for the (non-modal) sheet: move focus in when it opens, give it back to the opener when it closes
+
   const sheetRef = useRef<HTMLElement | null>(null);
   const openerRef = useRef<HTMLElement | null>(null);
   const sheetOpen = selectedShops.length > 0 || !!selectedArea;
@@ -167,91 +165,222 @@ export function SellersExplorer({ initial, params, presets }: { initial: Sellers
   const visibleSellers = data.sellers.slice(0, visibleN);
 
   return (
-    <div className="space-y-5" aria-busy={busy}>
+    <div className={styles.container} aria-busy={busy}>
+      {/* ---------- Top Product Context ---------- */}
+      {data.product ? (
+        <section aria-label="محصول انتخاب‌شده" className={styles.productContext}>
+          <div className={styles.productInfo}>
+            <div className={styles.productIcon} aria-hidden>
+              <PackageCheck size={24} />
+            </div>
+            <div className="min-w-0">
+              <h2 className={styles.productTitle}>
+                <Link href={`/products/${data.product.id}${params.variant ? `?variant=${encodeURIComponent(params.variant)}` : ""}`}>
+                  <bdi>{data.product.title}</bdi>
+                </Link>
+              </h2>
+              <div className={styles.productMeta}>
+                <Badge tone="neutral">{data.product.categoryName}</Badge>
+                {data.variant.selectedGroupId ? (
+                  <Badge tone="brand">
+                    نسخه: <bdi>{data.variant.groups.find((g) => g.id === data.variant.selectedGroupId)?.label ?? data.variant.selectedGroupId}</bdi>
+                  </Badge>
+                ) : null}
+                {data.product.price.min !== null ? (
+                  <span>قیمت از {formatToman(data.product.price.min)}</span>
+                ) : null}
+              </div>
+            </div>
+          </div>
+          <div className={styles.productActions}>
+            {params.back ? (
+              <Link href={params.back} className="inline-flex min-h-11 items-center gap-1.5 rounded-xl border border-line px-3 text-xs font-semibold text-brand hover:bg-surface-2">
+                <ArrowRight aria-hidden size={14} />
+                <span>بازگشت به نتایج</span>
+              </Link>
+            ) : null}
+            <Link href={`/products/${data.product.id}`} className="inline-flex min-h-11 items-center gap-1 rounded-xl bg-surface-2 px-3 text-xs font-semibold text-ink hover:text-brand">
+              <span>صفحه مشخصات محصول</span>
+            </Link>
+          </div>
+        </section>
+      ) : null}
+
       {/* ---------- variant confirmation (situation B) / compact selected variant ---------- */}
       {data.variant.needsConfirmation ? (
-        <details open={needsVariant || !data.variant.selectedGroupId} className={cn("rounded-[var(--radius-card)] border p-4", needsVariant ? "border-warn-line bg-warn-bg" : "border-line bg-surface")} data-testid="variant-panel">
-          <summary className="flex min-h-11 cursor-pointer items-center gap-2 font-bold"><TriangleAlert aria-hidden size={18} />{needsVariant ? "نسخه‌ی دقیق را تأیید کنید" : <>نسخه‌ی انتخابی: <bdi className="font-semibold">{data.variant.groups.find((g) => g.id === data.variant.selectedGroupId)?.label ?? "—"}</bdi> <span className="text-sm font-normal text-brand">(تغییر)</span></>}</summary>
+        <details open={needsVariant || !data.variant.selectedGroupId} className={cn(styles.variantCard, needsVariant && styles.variantCardWarn)} data-testid="variant-panel">
+          <summary className="flex min-h-11 cursor-pointer items-center justify-between gap-2 font-bold">
+            <span className="flex items-center gap-2">
+              <TriangleAlert aria-hidden size={18} />
+              {needsVariant ? "نسخه‌ی دقیق را تأیید کنید" : <>نسخه‌ی انتخابی: <bdi className="font-semibold">{data.variant.groups.find((g) => g.id === data.variant.selectedGroupId)?.label ?? "—"}</bdi></>}
+            </span>
+            <span className="text-sm font-normal text-brand">(تغییر)</span>
+          </summary>
           <div className="mt-3 space-y-3">
-            <p className="text-sm leading-7">{needsVariant
-              ? `${fa(c.shopsAnyVariant)} فروشگاه برای این شناسه‌ی محصول پیشنهاد ثبت کرده‌اند، اما پیشنهادها لزوماً یک کالای یکسان نیستند (کد مدل یا واحد قیمت متفاوت). تا نسخه را انتخاب نکنید، هیچ فروشگاهی «فروشنده‌ی همین نسخه» نشان داده نمی‌شود.`
-              : "پیشنهادها فقط با برداشت از عنوان فروشنده با نسخه‌ی انتخابی می‌خوانند؛ پیش از رفتن تأیید کنید."}</p>
+            <p className="text-sm leading-7">
+              {needsVariant
+                ? `${fa(c.shopsAnyVariant)} فروشگاه برای این شناسه‌ی محصول پیشنهاد ثبت کرده‌اند، اما پیشنهادها لزوماً یک کالای یکسان نیستند (کد مدل یا واحد قیمت متفاوت). تا نسخه را انتخاب نکنید، هیچ فروشگاهی «فروشنده‌ی همین نسخه» نشان داده نمی‌شود.`
+                : "پیشنهادها فقط با برداشت از عنوان فروشنده با نسخه‌ی انتخابی می‌خوانند؛ پیش از رفتن تأیید کنید."}
+            </p>
             <div role="radiogroup" aria-label="نسخه‌ی دقیق محصول" className="grid gap-2">
               {data.variant.groups.map((g) => (
-                <button key={g.id} type="button" role="radio" aria-checked={data.variant.selectedGroupId === g.id} onClick={() => go({ variant: g.id })}
-                  className={cn("rounded-2xl border p-3 text-start", data.variant.selectedGroupId === g.id ? "border-brand bg-brand-soft" : "border-line bg-surface hover:border-brand")}>
-                  <span className="flex flex-wrap items-center justify-between gap-2"><span className="font-semibold">{g.label}</span><span className="text-xs text-ink-2">{fa(g.offerCount)} پیشنهاد</span></span>
-                  <span className="mt-1 block text-xs text-ink-2">نمونه عنوان فروشنده: <bdi>{g.sampleTitle.slice(0, 90)}</bdi></span>
+                <button
+                  key={g.id}
+                  type="button"
+                  role="radio"
+                  aria-checked={data.variant.selectedGroupId === g.id}
+                  onClick={() => go({ variant: g.id })}
+                  className={cn("rounded-2xl border p-3 text-start transition-colors", data.variant.selectedGroupId === g.id ? "border-brand bg-brand-soft" : "border-line bg-surface hover:border-brand")}
+                >
+                  <span className="flex flex-wrap items-center justify-between gap-2">
+                    <span className="font-semibold">{g.label}</span>
+                    <span className="text-xs text-ink-2">{fa(g.offerCount)} پیشنهاد</span>
+                  </span>
+                  <span className="mt-1 block text-xs text-ink-2">
+                    نمونه عنوان فروشنده: <bdi>{g.sampleTitle.slice(0, 90)}</bdi>
+                  </span>
                 </button>
               ))}
             </div>
-            <label className="flex min-h-11 items-center gap-2 text-sm"><input type="checkbox" className="size-5" checked={params.uncertain} onChange={(e) => go({ uncertain: e.target.checked })} />نمایش فروشگاه‌های نسخه‌ی نامطمئن هم (با هشدار روشن)</label>
+            <label className="flex min-h-11 items-center gap-2 text-sm">
+              <input type="checkbox" className="size-5 rounded text-brand focus:ring-brand" checked={params.uncertain} onChange={(e) => go({ uncertain: e.target.checked })} />
+              <span>نمایش فروشگاه‌های نسخه‌ی نامطمئن هم (با هشدار روشن)</span>
+            </label>
           </div>
         </details>
       ) : null}
 
       {/* ---------- origin / radius / filters ---------- */}
-      <Card className="space-y-4" aria-labelledby="where-h">
-        <h2 id="where-h" className="font-bold">کجا هستید؟</h2>
-        <div role="radiogroup" aria-label="محله‌ی شروع" className="flex flex-wrap gap-2">
-          {presets.map((p) => (
-            <button key={p.id} type="button" role="radio" aria-checked={params.origin === p.id || (!params.origin && p.id === presets[0]?.id)} onClick={() => chooseOrigin(p.id as OriginKey)}
-              className={cn("min-h-11 rounded-full border px-4 text-sm font-medium", (params.origin === p.id || (!params.origin && p.id === presets[0]?.id)) ? "border-brand bg-brand-soft text-brand-soft-ink" : "border-line bg-surface text-ink-2 hover:bg-surface-2")}>
-              {p.label}
-            </button>
-          ))}
-          <button type="button" aria-pressed={pickMode} onClick={() => { setPickMode((v) => !v); switchView("map"); }}
-            className={cn("inline-flex min-h-11 items-center gap-1.5 rounded-full border px-4 text-sm font-medium", pickMode ? "border-brand bg-brand-soft text-brand-soft-ink" : "border-line bg-surface text-ink-2 hover:bg-surface-2")}>
-            <Crosshair aria-hidden size={16} />{pickMode ? "روی نقشه ضربه بزنید…" : params.origin === "map" ? "نقطه‌ی انتخابی (تغییر)" : "انتخاب روی نقشه"}
-          </button>
-          <Button variant="secondary" onClick={useGps} disabled={gpsStatus === "requesting"} data-testid="gps-button"><LocateFixed aria-hidden size={16} />{gpsStatus === "denied" || gpsStatus === "timeout" || gpsStatus === "unavailable" ? "تلاش دوباره برای موقعیت من" : "استفاده از موقعیت من"}</Button>
+      <section className={styles.controlsCard} aria-labelledby="where-h">
+        <div className={styles.sectionHeader}>
+          <h2 id="where-h" className={styles.sectionTitle}>
+            <MapPinned aria-hidden size={18} className="text-brand" />
+            <span>کجا هستید؟</span>
+          </h2>
+          {origin?.defaulted ? (
+            <span className="text-xs text-ink-2">پیش‌فرض: «{origin.label}»</span>
+          ) : null}
         </div>
-        <p className="text-xs leading-6 text-ink-2">موقعیت‌یابی اختیاری است و فقط با دکمه‌ی بالا و اجازه‌ی مرورگر انجام می‌شود. موقعیت دقیق شما در نشانی صفحه، حافظه‌ی مرورگر یا گزارش‌ها ذخیره نمی‌شود (به حدود ۱۰۰ متر گرد می‌شود).</p>
-        {GPS_MESSAGE[gpsStatus] ? <p role="status" data-testid="gps-message" className={cn("rounded-xl p-3 text-sm leading-7", gpsStatus === "granted" ? "bg-ok-bg text-ok-ink" : gpsStatus === "requesting" ? "bg-surface-2" : "bg-warn-bg text-warn-ink")}>{GPS_MESSAGE[gpsStatus]}</p> : null}
-        {gpsMode && !gpsPoint && gpsStatus === "idle" ? <p role="status" className="rounded-xl bg-warn-bg p-3 text-sm text-warn-ink">برای نمایش نزدیک‌ترین فروشگاه‌ها به موقعیت خودتان، دوباره «استفاده از موقعیت من» را بزنید (موقعیت ذخیره نمی‌شود). فعلاً نتایج برای محله‌ی پیش‌فرض است.</p> : null}
-        {origin?.defaulted ? <p role="status" className="rounded-xl bg-surface-2 p-3 text-sm">نقطه‌ی شروع پیش‌فرض «{origin.label}» است؛ محله‌ی نزدیک‌تر به خودتان را انتخاب کنید.</p> : null}
 
-        <fieldset className="space-y-2">
+        <div role="radiogroup" aria-label="محله‌ی شروع" className={styles.originsGroup}>
+          {presets.map((p) => {
+            const isChecked = params.origin === p.id || (!params.origin && p.id === presets[0]?.id);
+            return (
+              <button
+                key={p.id}
+                type="button"
+                role="radio"
+                aria-checked={isChecked}
+                onClick={() => chooseOrigin(p.id as OriginKey)}
+                className={cn(styles.chip, isChecked && styles.chipActive)}
+              >
+                {p.label}
+              </button>
+            );
+          })}
+          <button
+            type="button"
+            aria-pressed={pickMode}
+            onClick={() => { setPickMode((v) => !v); switchView("map"); }}
+            className={cn(styles.chip, pickMode && styles.chipActive)}
+          >
+            <Crosshair aria-hidden size={16} />
+            <span>{pickMode ? "روی نقشه ضربه بزنید…" : params.origin === "map" ? "نقطه‌ی انتخابی (تغییر)" : "انتخاب روی نقشه"}</span>
+          </button>
+          <Button variant="secondary" onClick={useGps} disabled={gpsStatus === "requesting"} data-testid="gps-button" className="min-h-11 rounded-full text-xs">
+            <LocateFixed aria-hidden size={16} />
+            <span>{gpsStatus === "denied" || gpsStatus === "timeout" || gpsStatus === "unavailable" ? "تلاش دوباره برای موقعیت من" : "استفاده از موقعیت من"}</span>
+          </Button>
+        </div>
+
+        <p className="text-xs leading-6 text-ink-2">موقعیت‌یابی اختیاری است و فقط با دکمه‌ی بالا و اجازه‌ی مرورگر انجام می‌شود. موقعیت دقیق شما در نشانی صفحه، حافظه‌ی مرورگر یا گزارش‌ها ذخیره نمی‌شود (به حدود ۱۰۰ متر گرد می‌شود).</p>
+        {GPS_MESSAGE[gpsStatus] ? (
+          <p role="status" data-testid="gps-message" className={cn("rounded-xl p-3 text-sm leading-7", gpsStatus === "granted" ? "bg-ok-bg text-ok-ink" : gpsStatus === "requesting" ? "bg-surface-2" : "bg-warn-bg text-warn-ink")}>
+            {GPS_MESSAGE[gpsStatus]}
+          </p>
+        ) : null}
+        {gpsMode && !gpsPoint && gpsStatus === "idle" ? (
+          <p role="status" className="rounded-xl bg-warn-bg p-3 text-sm text-warn-ink">برای نمایش نزدیک‌ترین فروشگاه‌ها به موقعیت خودتان، دوباره «استفاده از موقعیت من» را بزنید (موقعیت ذخیره نمی‌شود). فعلاً نتایج برای محله‌ی پیش‌فرض است.</p>
+        ) : null}
+        {origin?.defaulted ? (
+          <p role="status" className="rounded-xl bg-surface-2 p-3 text-sm">نقطه‌ی شروع پیش‌فرض «{origin.label}» است؛ محله‌ی نزدیک‌تر به خودتان را انتخاب کنید.</p>
+        ) : null}
+
+        <fieldset className="space-y-2 pt-1 border-t border-line">
           <legend className="text-sm font-semibold">شعاع جست‌وجو (خط مستقیم)</legend>
-          <div role="radiogroup" aria-label="شعاع" className="flex flex-wrap gap-2">
+          <div role="radiogroup" aria-label="شعاع" className={styles.radiusGroup}>
             {RADIUS_OPTIONS.map((r) => (
-              <button key={r} type="button" role="radio" aria-checked={params.radius === r} onClick={() => go({ radius: r })}
-                className={cn("min-h-11 rounded-full border px-4 text-sm font-medium", params.radius === r ? "border-brand bg-brand-soft text-brand-soft-ink" : "border-line bg-surface text-ink-2 hover:bg-surface-2")}>{radiusLabel(r)}</button>
+              <button
+                key={r}
+                type="button"
+                role="radio"
+                aria-checked={params.radius === r}
+                onClick={() => go({ radius: r })}
+                className={cn(styles.chip, params.radius === r && styles.chipActive)}
+              >
+                {radiusLabel(r)}
+              </button>
             ))}
           </div>
         </fieldset>
 
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          <label className="space-y-1 text-sm"><span className="font-semibold">مرتب‌سازی</span>
-            <select className={inputStyles} value={params.sort} onChange={(e) => go({ sort: e.target.value as SellersParams["sort"] })}>
-              <option value="distance">نزدیک‌ترین</option><option value="price">کمترین قیمت ثبت‌شده</option><option value="recent">تازه‌ترین قیمت</option>
-            </select></label>
-          <label className="space-y-1 text-sm"><span className="font-semibold">پرداخت اعلام‌شده</span>
-            <select className={inputStyles} value={params.pay ?? ""} onChange={(e) => go({ pay: e.target.value || null })}>
-              <option value="">همه</option>{["ترب‌پی", "اسنپ‌پی", "دیجی پی", "تارا", "ازکی‌وام"].map((p) => <option key={p} value={p}>{p}</option>)}
-            </select></label>
-          <label className="flex min-h-11 items-center gap-2 self-end text-sm"><input type="checkbox" className="size-5" checked={params.open} onChange={(e) => go({ open: e.target.checked })} />فقط «باز» طبق ساعت اعلام‌شده</label>
-          <label className="flex min-h-11 items-center gap-2 self-end text-sm"><input type="checkbox" className="size-5" checked={params.reliable} onChange={(e) => go({ reliable: e.target.checked })} />فقط دارای قیمت قابل‌اتکا</label>
+        <div className={styles.filterGrid}>
+          <label className="space-y-1 text-sm">
+            <span className="font-semibold">مرتب‌سازی</span>
+            <select aria-label="مرتب‌سازی" className={inputStyles} value={params.sort} onChange={(e) => go({ sort: e.target.value as SellersParams["sort"] })}>
+              <option value="distance">نزدیک‌ترین</option>
+              <option value="price">کمترین قیمت ثبت‌شده</option>
+              <option value="recent">تازه‌ترین قیمت</option>
+            </select>
+          </label>
+          <label className="space-y-1 text-sm">
+            <span className="font-semibold">پرداخت اعلام‌شده</span>
+            <select aria-label="پرداخت اعلام‌شده" className={inputStyles} value={params.pay ?? ""} onChange={(e) => go({ pay: e.target.value || null })}>
+              <option value="">همه</option>
+              {["ترب‌پی", "اسنپ‌پی", "دیجی پی", "تارا", "ازکی‌وام"].map((p) => <option key={p} value={p}>{p}</option>)}
+            </select>
+          </label>
+          <label className="flex min-h-11 items-center gap-2 self-end text-sm">
+            <input type="checkbox" className="size-5 rounded text-brand focus:ring-brand" checked={params.open} onChange={(e) => go({ open: e.target.checked })} />
+            <span>فقط «باز» طبق ساعت اعلام‌شده</span>
+          </label>
+          <label className="flex min-h-11 items-center gap-2 self-end text-sm">
+            <input type="checkbox" className="size-5 rounded text-brand focus:ring-brand" checked={params.reliable} onChange={(e) => go({ reliable: e.target.checked })} />
+            <span>فقط دارای قیمت قابل‌اتکا</span>
+          </label>
         </div>
-      </Card>
+      </section>
 
       {/* ---------- counts ---------- */}
       {data.situation !== "VARIANT_UNCONFIRMED" ? (
-        <p role="status" data-testid="counts" className="text-sm leading-7">
+        <p role="status" data-testid="counts" className={styles.countsBanner}>
           <strong>{fa(c.shopsWithinRadius)}</strong> فروشگاه در شعاع {radiusLabel(params.radius)} از «{origin?.label ?? "نقطه‌ی شروع"}»
           {" "}(از {fa(c.shopsTotal)} فروشگاهی که برای این نسخه پیشنهاد ثبت کرده‌اند؛ {fa(c.offersWithinRadius)} پیشنهاد در شعاع از {fa(c.offersTotal)} پیشنهاد).
           {" "}<span className="text-ink-2">{DISTANCE_NOTE}</span>
           {c.shopsAfterFilters !== c.shopsWithinRadius ? <> پس از فیلترها: <strong>{fa(c.shopsAfterFilters)}</strong>.</> : null}
         </p>
       ) : null}
-      {data.notices.filter((n) => !n.startsWith("نقطه‌ی شروع پیش‌فرض")).map((n) => <p key={n} role="status" className="flex gap-2 rounded-xl bg-warn-bg p-3 text-sm leading-7 text-warn-ink"><TriangleAlert aria-hidden size={16} className="mt-1 shrink-0" />{n}</p>)}
+      {data.notices.filter((n) => !n.startsWith("نقطه‌ی شروع پیش‌فرض")).map((n) => (
+        <p key={n} role="status" className="flex gap-2 rounded-xl bg-warn-bg p-3 text-sm leading-7 text-warn-ink">
+          <TriangleAlert aria-hidden size={16} className="mt-1 shrink-0" />
+          {n}
+        </p>
+      ))}
 
-      {/* ---------- list / map ---------- */}
-      <div role="tablist" aria-label="نمای نتایج" className="flex gap-2 lg:hidden">
+      {/* ---------- list / map mobile tabs ---------- */}
+      <div role="tablist" aria-label="نمای نتایج" className={cn(styles.tabPillContainer, "lg:hidden")}>
         {(["list", "map"] as const).map((v) => (
-          <button key={v} role="tab" type="button" aria-selected={view === v} aria-controls={v === "list" ? "panel-list" : "panel-map"} onClick={() => switchView(v)}
-            className={cn("inline-flex min-h-11 flex-1 items-center justify-center gap-2 rounded-xl border font-semibold", view === v ? "border-brand bg-brand-soft text-brand-soft-ink" : "border-line bg-surface")}>
-            {v === "list" ? <List aria-hidden size={16} /> : <MapIcon aria-hidden size={16} />}{v === "list" ? "فهرست" : "نقشه"}
+          <button
+            key={v}
+            role="tab"
+            type="button"
+            aria-selected={view === v}
+            aria-controls={v === "list" ? "panel-list" : "panel-map"}
+            onClick={() => switchView(v)}
+            className={cn(styles.tabPill, view === v && styles.tabPillActive)}
+          >
+            {v === "list" ? <List aria-hidden size={16} /> : <MapIcon aria-hidden size={16} />}
+            <span>{v === "list" ? `فهرست (${fa(visibleSellers.length)})` : "نقشه"}</span>
           </button>
         ))}
       </div>
@@ -261,38 +390,95 @@ export function SellersExplorer({ initial, params, presets }: { initial: Sellers
           <SituationBlocks data={data} params={params} go={go} />
           {data.sellers.length > 0 ? (
             <ul data-testid="seller-list" aria-label="فروشگاه‌های دارای پیشنهاد ثبت‌شده" className="space-y-3">
-              {visibleSellers.map((s) => <SellerCard key={s.shopId} seller={s} detailHref={hrefFor1(s.shopId)} handoffHref={handoff(s.shopId)} inquiryHref={inquiry(s)} selected={selectedShops.includes(s.shopId)} onShowOnMap={showOnMap} compare={cmpProps(s.shopId)} />)}
+              {visibleSellers.map((s) => (
+                <SellerCard
+                  key={s.shopId}
+                  seller={s}
+                  detailHref={hrefFor1(s.shopId)}
+                  handoffHref={handoff(s.shopId)}
+                  inquiryHref={inquiry(s)}
+                  selected={selectedShops.includes(s.shopId)}
+                  onShowOnMap={showOnMap}
+                  compare={cmpProps(s.shopId)}
+                />
+              ))}
             </ul>
           ) : null}
-          {visibleSellers.length < data.sellers.length ? <button type="button" data-testid="show-more" onClick={() => setMore({ key: listKey, n: visibleN + PAGE_STEP })} className="min-h-11 w-full rounded-xl border border-line bg-surface font-semibold text-brand hover:bg-surface-2">نمایش بیشتر ({fa(visibleSellers.length)} از {fa(data.sellers.length)})</button> : null}
-          {data.sellers.length > 0 && data.hasMore ? <p className="text-xs text-ink-2">فقط نزدیک‌ترین {fa(shownCount)} فروشگاه نمایش داده می‌شود؛ برای دیدن بقیه شعاع را کم کنید یا فیلتر بگذارید.</p> : null}
+          {visibleSellers.length < data.sellers.length ? (
+            <button
+              type="button"
+              data-testid="show-more"
+              onClick={() => setMore({ key: listKey, n: visibleN + PAGE_STEP })}
+              className="min-h-12 w-full rounded-xl border border-line bg-surface font-semibold text-brand hover:bg-surface-2 transition-colors"
+            >
+              نمایش بیشتر ({fa(visibleSellers.length)} از {fa(data.sellers.length)})
+            </button>
+          ) : null}
+          {data.sellers.length > 0 && data.hasMore ? (
+            <p className="text-xs text-ink-2">فقط نزدیک‌ترین {fa(shownCount)} فروشگاه نمایش داده می‌شود؛ برای دیدن بقیه شعاع را کم کنید یا فیلتر بگذارید.</p>
+          ) : null}
           {data.outsideRadius.length > 0 ? (
             <section aria-labelledby="outside-h" className="space-y-3" data-testid="outside-radius">
               <h3 id="outside-h" className="font-bold">نزدیک‌ترین فروشگاه‌های واقعی بیرون از شعاع</h3>
               <p className="text-sm text-ink-2">این‌ها پیشنهاد ثبت‌شده برای همین نسخه دارند اما بیرون از {radiusLabel(params.radius)} هستند.</p>
-              <ul className="space-y-3">{data.outsideRadius.map((s) => <SellerCard key={s.shopId} seller={s} outside detailHref={hrefFor1(s.shopId)} handoffHref={handoff(s.shopId)} inquiryHref={inquiry(s)} selected={selectedShops.includes(s.shopId)} onShowOnMap={showOnMap} compare={cmpProps(s.shopId)} />)}</ul>
+              <ul className="space-y-3">
+                {data.outsideRadius.map((s) => (
+                  <SellerCard
+                    key={s.shopId}
+                    seller={s}
+                    outside
+                    detailHref={hrefFor1(s.shopId)}
+                    handoffHref={handoff(s.shopId)}
+                    inquiryHref={inquiry(s)}
+                    selected={selectedShops.includes(s.shopId)}
+                    onShowOnMap={showOnMap}
+                    compare={cmpProps(s.shopId)}
+                  />
+                ))}
+              </ul>
             </section>
           ) : null}
           {data.areaLeads.length > 0 ? (
             <section aria-labelledby="areas-h" className="space-y-3" data-testid="area-leads">
-              <h3 id="areas-h" className="flex items-center gap-2 font-bold"><MapPinned aria-hidden size={18} />مناطق پیشنهادی برای جست‌وجو</h3>
+              <h3 id="areas-h" className="flex items-center gap-2 font-bold">
+                <MapPinned aria-hidden size={18} />
+                مناطق پیشنهادی برای جست‌وجو
+              </h3>
               <p className="text-sm leading-7 text-ink-2">این‌ها فروشنده‌ی این محصول نیستند؛ محله‌هایی‌اند که بر پایه‌ی منبع یا تراکم داده برای این دسته ارزش گشتن دارند.</p>
-              <ul className="space-y-3">{data.areaLeads.map((r) => <AreaLeadCard key={r.area.id} rec={r} selected={selectedArea === r.area.id} onShowOnMap={(id) => { setSelectedArea(id); setSelectedShops([]); setView("map"); }} />)}</ul>
+              <ul className="space-y-3">
+                {data.areaLeads.map((r) => (
+                  <AreaLeadCard
+                    key={r.area.id}
+                    rec={r}
+                    selected={selectedArea === r.area.id}
+                    onShowOnMap={(id) => { setSelectedArea(id); setSelectedShops([]); setView("map"); }}
+                  />
+                ))}
+              </ul>
             </section>
           ) : null}
           <details onToggle={(e) => { if ((e.currentTarget as HTMLDetailsElement).open && activity.state === "idle") void loadActivity(); }} className="rounded-2xl border border-line bg-surface" data-testid="activity-details">
-            <summary className="min-h-11 cursor-pointer px-4 py-2.5 font-semibold">فروشگاه‌های فعال در همین دسته (بدون پیشنهاد برای این محصول)</summary>
+            <summary className="min-h-11 cursor-pointer px-4 py-2.5 font-semibold text-sm">فروشگاه‌های فعال در همین دسته (بدون پیشنهاد برای این محصول)</summary>
             <div className="space-y-2 px-4 pb-4 text-sm">
               {activity.state === "loading" ? <p role="status">در حال بارگذاری…</p> : null}
-              {activity.state === "error" ? <p role="alert" className="text-danger-ink">بارگذاری نشد. <button type="button" className="underline" onClick={() => { setActivity({ state: "idle" }); void loadActivity(); }}>تلاش دوباره</button></p> : null}
+              {activity.state === "error" ? (
+                <p role="alert" className="text-danger-ink">
+                  بارگذاری نشد. <button type="button" className="underline" onClick={() => { setActivity({ state: "idle" }); void loadActivity(); }}>تلاش دوباره</button>
+                </p>
+              ) : null}
               {activity.state === "ok" ? (
                 <>
                   <p className="rounded-xl bg-warn-bg p-3 leading-7 text-warn-ink">{activity.data.disclaimerFa}</p>
                   <p>{fa(activity.data.total)} فروشگاه ({fa(activity.data.withinRadius)} در شعاع انتخابی) این دسته را اعلام کرده‌اند ولی برای این محصول پیشنهادی ثبت نکرده‌اند.</p>
-                  <ul className="space-y-2" data-testid="activity-list">{activity.data.shops.slice(0, 10).map((s) => (
-                    <li key={s.shopId} className="rounded-xl bg-surface-2 p-2.5"><bdi className="font-semibold">{s.name}</bdi> {s.locationLabel ? <Badge>{s.locationLabel}</Badge> : null} {s.distanceMeters !== null ? <span className="text-xs text-ink-2">· حدود {s.distanceMeters < 1000 ? `${fa(Math.round(s.distanceMeters))} متر` : `${fa((s.distanceMeters / 1000).toFixed(1))} کیلومتر`}</span> : null}
-                      <br /><Link className="text-xs text-brand hover:underline" href={buildShopHref(s.shopId, { back: hrefFor({}) })}>جزئیات فروشگاه</Link></li>
-                  ))}</ul>
+                  <ul className="space-y-2" data-testid="activity-list">
+                    {activity.data.shops.slice(0, 10).map((s) => (
+                      <li key={s.shopId} className="rounded-xl bg-surface-2 p-2.5">
+                        <bdi className="font-semibold">{s.name}</bdi> {s.locationLabel ? <Badge>{s.locationLabel}</Badge> : null} {s.distanceMeters !== null ? <span className="text-xs text-ink-2">· حدود {s.distanceMeters < 1000 ? `${fa(Math.round(s.distanceMeters))} متر` : `${fa((s.distanceMeters / 1000).toFixed(1))} کیلومتر`}</span> : null}
+                        <br />
+                        <Link className="text-xs text-brand hover:underline" href={buildShopHref(s.shopId, { back: hrefFor({}) })}>جزئیات فروشگاه</Link>
+                      </li>
+                    ))}
+                  </ul>
                 </>
               ) : null}
             </div>
@@ -301,7 +487,7 @@ export function SellersExplorer({ initial, params, presets }: { initial: Sellers
 
         <div id="panel-map" role="tabpanel" aria-label="نقشه" className={cn("min-w-0", view === "list" && "hidden lg:block")}>
           <div className="relative lg:sticky lg:top-4">
-            <div className="h-[28rem] sm:h-[34rem] lg:h-[calc(100vh-8rem)] lg:min-h-[28rem]">
+            <div className="h-[28rem] sm:h-[34rem] lg:h-[calc(100vh-8rem)] lg:min-h-[28rem] rounded-2xl overflow-hidden border border-line">
               <NearbyMap
                 origin={origin ? { lat: origin.lat, lon: origin.lon, label: origin.label ?? "نقطه‌ی شروع" } : null}
                 radiusMeters={params.radius} shops={mapShops} areas={mapAreas}
@@ -332,21 +518,22 @@ export function SellersExplorer({ initial, params, presets }: { initial: Sellers
               <span><span aria-hidden className="me-1 inline-block size-3 rounded-full border-2 border-[#1d4ed8] bg-white align-middle" />نقطه‌ی شروع</span>
             </p>
             <p>نشانگر شماره‌دار: چند فروشگاه با مختصات یکسان ثبت شده‌اند (معمولاً در یک پاساژ)؛ روی آن بزنید تا همه را ببینید.</p>
-            <label className="flex min-h-11 items-center gap-2"><input type="checkbox" className="size-5" checked={tilesEnabled} disabled={tilesFailed} onChange={(e) => { setTilesFailed(false); go({ tiles: e.target.checked }); }} />
+            <label className="flex min-h-11 items-center gap-2"><input type="checkbox" className="size-5 rounded text-brand focus:ring-brand" checked={tilesEnabled} disabled={tilesFailed} onChange={(e) => { setTilesFailed(false); go({ tiles: e.target.checked }); }} />
               نمایش نقشه‌ی خیابانی (بارگذاری کاشی از OpenStreetMap)</label>
             <p data-testid="tiles-note">{tilesFailed ? "کاشی‌های نقشه بارگذاری نشد؛ نشانگرها روی زمینه‌ی ساده دیده می‌شوند و فهرست کامل است. " : tilesEnabled ? "با روشن بودن نقشه، مرورگر شما کاشی‌ها را از سرور OpenStreetMap می‌گیرد و آن سرور ناحیه‌ی در حال دیدن را می‌بیند. " : "نقشه‌ی خیابانی خاموش است؛ هیچ درخواستی به سرور بیرونی نمی‌رود. "}<span dir="ltr">© OpenStreetMap contributors (ODbL)</span>.</p>
           </div>
         </div>
       </div>
+
       {cmpIds.length > 0 ? (
-        <section aria-label="فروشگاه‌های انتخاب‌شده برای مقایسه" data-testid="compare-bar" className="sticky bottom-20 z-30 space-y-2 rounded-2xl border border-brand bg-surface p-3 shadow-lg md:bottom-4">
+        <section aria-label="فروشگاه‌های انتخاب‌شده برای مقایسه" data-testid="compare-bar" className="selection-bar sticky z-30 space-y-2 rounded-2xl border border-brand bg-surface p-3.5 shadow-lg">
           <p className="text-sm font-semibold">{fa(cmpIds.length)} فروشگاه برای مقایسه <span className="font-normal text-ink-2">({cmpIds.map((id) => cmpNames[id] ?? sellersAll.find((x) => x.shopId === id)?.name ?? "فروشگاه").join("، ")})</span></p>
           <div className="flex flex-wrap items-center gap-2">
             {cmpIds.length >= COMPARE_LIMITS.minSellers ? (
               <Link href={compareHref} data-testid="compare-go" className="inline-flex min-h-11 items-center rounded-xl bg-brand px-5 font-semibold text-brand-ink hover:bg-brand-hover">مقایسه‌ی {fa(cmpIds.length)} فروشگاه</Link>
             ) : (
               <>
-                <Link href={compareHref} data-testid="compare-go" className="inline-flex min-h-11 items-center rounded-xl border border-line px-4 text-sm font-semibold text-brand">دیدن همین یک فروشگاه در مقایسه</Link>
+                <Link href={compareHref} data-testid="compare-go" className="inline-flex min-h-11 items-center rounded-xl border border-line px-4 text-sm font-semibold text-brand hover:bg-surface-2">دیدن همین یک فروشگاه در مقایسه</Link>
                 <span className="text-xs text-ink-2">برای مقایسه حداقل {fa(COMPARE_LIMITS.minSellers)} فروشگاه (حداکثر {fa(COMPARE_LIMITS.maxSellers)}) تیک بزنید.</span>
               </>
             )}
@@ -359,7 +546,6 @@ export function SellersExplorer({ initial, params, presets }: { initial: Sellers
   );
 }
 
-/** Messages for situations A (nothing in radius), B (no reliable variant), no-offers. Geographic states stay separate. */
 function SituationBlocks({ data, params, go }: { data: SellersResponse; params: SellersParams; go: (p: Partial<SellersParams>) => void }) {
   const fa = toFaDigits;
   if (data.situation === "NO_SHOP_IN_RADIUS") {

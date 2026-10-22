@@ -68,7 +68,7 @@ export function ReplyForm({ ctx, onSubmit }: { ctx: InquiryContext; onSubmit: (r
     <Card className="space-y-4" aria-labelledby="reply-h">
       <h2 id="reply-h" className="font-bold">ثبت پاسخ فروشنده (بعد از پرسیدن مستقل خودتان)</h2>
       <p className="text-sm leading-7 text-ink-2">پاسخ را خودتان از فروشنده گرفته‌اید؛ این‌جا فقط یادداشت می‌شود و <strong>مستقلاً تأیید نمی‌شود</strong>. متن چسبانده‌شده خودکار تفسیر نمی‌شود: پیشنهادها را خودتان تأیید کنید.</p>
-      <form onSubmit={submit} className="space-y-4" aria-label="فرم ثبت پاسخ">
+      <form onSubmit={submit} className="space-y-4" aria-label="فرم ثبت پاسخ" data-testid="reply-form">
         <div className="space-y-1.5">
           <label htmlFor="reply-text" className="text-sm font-semibold">متن پاسخ (اختیاری)</label>
           <textarea id="reply-text" value={text} onChange={(e) => setText(e.target.value)} maxLength={LIMITS.reply} rows={3} className={cn(inputStyles, "min-h-24 py-2 leading-7")} />

@@ -35,3 +35,7 @@ docker compose --profile tools run --rm importer && docker compose up -d --build
 
 ## قواعد اعتماد
 بدون ادعای موجودی؛ هیچ پیامی به فروشنده فرستاده نمی‌شود؛ شماره‌های دیتاست ساختگی‌اند؛ `.data/` هرگز commit نمی‌شود.
+
+## بازطراحی رابط کاربری
+
+[پلن فازبندی UI/UX](docs/ui-ux-redesign-plan.md) · [بستهٔ اول: پوسته و خانه](docs/qa/redesign/README.md) · [بستهٔ دوم: جست‌وجو و کارت محصول](docs/qa/redesign/search/README.md). برای QA مستقل جست‌وجو با دادهٔ کاملاً مصنوعی: `npm run qa:search` (build با Webpack، پورت آزمون ۳۱۱۴؛ بدون تغییر دیتابیس اصلی).

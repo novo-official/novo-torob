@@ -57,19 +57,27 @@ export default async function ProductPage({ params, searchParams }: { params: Pr
     <article className="space-y-6">
       {back ? <Link href={back} className="inline-flex min-h-11 items-center gap-1 text-sm text-brand hover:underline"><ArrowRight aria-hidden size={16} />بازگشت به نتایج (ترجیحات حفظ شده است)</Link> : null}
 
-      <header className="grid gap-5 md:grid-cols-[minmax(0,18rem)_1fr]">
+      <header className="grid gap-5 rounded-2xl border border-line bg-surface p-5 shadow-sm md:grid-cols-[minmax(0,18rem)_1fr]">
         <div className="space-y-2">
-          <ProductImage src={d.images[0] ?? null} alt={redacted ? "" : c.title} className="mx-auto aspect-square w-48 md:w-full" />
-          {d.images.length > 1 ? <ul className="flex gap-2">{d.images.slice(1, 5).map((u) => <li key={u}><ProductImage src={u} className="size-16" /></li>)}</ul> : null}
+          <ProductImage src={d.images[0] ?? null} alt={redacted ? "" : c.title} className="mx-auto aspect-square w-48 rounded-xl bg-surface-2 md:w-full" />
+          {d.images.length > 1 ? <ul className="flex justify-center gap-2">{d.images.slice(1, 5).map((u) => <li key={u}><ProductImage src={u} className="size-16 rounded-lg border border-line" /></li>)}</ul> : null}
         </div>
-        <div className="space-y-3">
-          <Badge>{c.categoryName}</Badge>
-          <h1 className="text-2xl font-extrabold leading-9"><bdi>{redacted ? "عنوان این محصول در داده حذف شده است" : c.title}</bdi></h1>
-          <p className="text-sm text-ink-2">
-            {c.brandName ? <>برند: {c.brandName} · </> : "برند ثبت نشده · "}
-            {c.model ? <>مدل: <Ltr>{c.model}</Ltr></> : "مدل ثبت نشده"}
-          </p>
-          <CompareToggle id={c.id} title={redacted ? c.categoryName : c.title} />
+        <div className="flex flex-col justify-between gap-3">
+          <div className="space-y-2.5">
+            <Badge tone="brand">{c.categoryName}</Badge>
+            <h1 className="text-2xl font-extrabold leading-9 text-ink"><bdi>{redacted ? "عنوان این محصول در داده حذف شده است" : c.title}</bdi></h1>
+            <p className="text-sm text-ink-2">
+              {c.brandName ? <>برند: <strong className="text-ink">{c.brandName}</strong> · </> : "برند ثبت نشده · "}
+              {c.model ? <>مدل: <Ltr className="font-semibold text-ink">{c.model}</Ltr></> : "مدل ثبت نشده"}
+            </p>
+          </div>
+          <div className="flex flex-wrap items-center gap-3 pt-2">
+            <CompareToggle id={c.id} title={redacted ? c.categoryName : c.title} />
+            <ButtonLink href={`/sellers?${sellers.toString()}`} className="min-h-11">
+              <Store aria-hidden size={16} />
+              مشاهده فروشنده‌های اطراف
+            </ButtonLink>
+          </div>
         </div>
       </header>
 

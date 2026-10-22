@@ -1,0 +1,106 @@
+[
+  {
+    "name": "home",
+    "width": 390,
+    "colorScheme": "light",
+    "scrollWidth": 390,
+    "clientWidth": 390,
+    "height": 2839,
+    "searchBottom": 828
+  },
+  {
+    "name": "search",
+    "width": 390,
+    "colorScheme": "light",
+    "scrollWidth": 390,
+    "clientWidth": 390,
+    "height": 894,
+    "searchBottom": 407
+  },
+  {
+    "name": "inquiry",
+    "width": 390,
+    "colorScheme": "light",
+    "scrollWidth": 390,
+    "clientWidth": 390,
+    "height": 1652
+  },
+  {
+    "name": "home",
+    "width": 1440,
+    "colorScheme": "light",
+    "scrollWidth": 1440,
+    "clientWidth": 1440,
+    "height": 1474,
+    "searchBottom": 674
+  },
+  {
+    "name": "search",
+    "width": 1440,
+    "colorScheme": "light",
+    "scrollWidth": 1440,
+    "clientWidth": 1440,
+    "height": 900,
+    "searchBottom": 351.25
+  },
+  {
+    "name": "inquiry",
+    "width": 1440,
+    "colorScheme": "light",
+    "scrollWidth": 1440,
+    "clientWidth": 1440,
+    "height": 1100
+  },
+  {
+    "name": "home",
+    "width": 390,
+    "colorScheme": "dark",
+    "scrollWidth": 390,
+    "clientWidth": 390,
+    "height": 2839,
+    "searchBottom": 828
+  },
+  {
+    "name": "search",
+    "width": 390,
+    "colorScheme": "dark",
+    "scrollWidth": 390,
+    "clientWidth": 390,
+    "height": 894,
+    "searchBottom": 407
+  },
+  {
+    "name": "inquiry",
+    "width": 390,
+    "colorScheme": "dark",
+    "scrollWidth": 390,
+    "clientWidth": 390,
+    "height": 1652
+  },
+  {
+    "name": "home",
+    "width": 1440,
+    "colorScheme": "dark",
+    "scrollWidth": 1440,
+    "clientWidth": 1440,
+    "height": 1474,
+    "searchBottom": 674
+  },
+  {
+    "name": "search",
+    "width": 1440,
+    "colorScheme": "dark",
+    "scrollWidth": 1440,
+    "clientWidth": 1440,
+    "height": 900,
+    "searchBottom": 351.25
+  },
+  {
+    "name": "inquiry",
+    "width": 1440,
+    "colorScheme": "dark",
+    "scrollWidth": 1440,
+    "clientWidth": 1440,
+    "height": 1100
+  }
+]

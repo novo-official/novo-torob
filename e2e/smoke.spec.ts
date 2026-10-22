@@ -81,7 +81,7 @@ test("navigation: aria-current marks the active page (mobile bottom nav)", async
   await page.goto("/discover");
   const nav = page.getByRole("navigation", { name: "ناوبری اصلی (موبایل)" });
   await expect(nav).toBeVisible();
-  await expect(nav.getByRole("link", { name: "مشاور" })).toHaveAttribute("aria-current", "page");
+  await expect(nav.getByRole("link", { name: "راهنما" })).toHaveAttribute("aria-current", "page");
 });
 
 test("navigation: desktop shows the top nav and hides the bottom nav", async ({ page }) => {

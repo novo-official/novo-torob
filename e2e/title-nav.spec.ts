@@ -36,7 +36,7 @@ test.describe("document title", () => {
     await page.waitForFunction(() => !!document.querySelector("next-route-announcer"));
     const nav = page.getByRole("navigation", { name: "ناوبری اصلی (موبایل)" });
     const announcer = page.locator("#__next-route-announcer__");
-    const order: Array<[string, string]> = [["دستیار", "/assistant"], ["مشاور", "/discover"], ["ماموریت", "/missions"], ["مقایسه", "/compare"], ["خانه", "/"]];
+    const order: Array<[string, string]> = [["دستیار", "/assistant"], ["راهنما", "/discover"], ["خریدهای من", "/missions"], ["جست‌وجو", "/search"], ["خانه", "/"]];
     for (let round = 0; round < 3; round++) {
       for (const [label, path] of order) {
         await nav.getByRole("link", { name: label }).click();

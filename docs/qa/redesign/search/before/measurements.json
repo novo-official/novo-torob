@@ -1,0 +1,138 @@
+[
+  {
+    "name": "results",
+    "width": 390,
+    "colorScheme": "light",
+    "height": 4419,
+    "sw": 390,
+    "cw": 390,
+    "firstCardTop": 535.1875,
+    "firstCardHeight": 280.796875
+  },
+  {
+    "name": "empty",
+    "width": 390,
+    "colorScheme": "light",
+    "height": 1066,
+    "sw": 390,
+    "cw": 390
+  },
+  {
+    "name": "no-results",
+    "width": 390,
+    "colorScheme": "light",
+    "height": 1166,
+    "sw": 390,
+    "cw": 390
+  },
+  {
+    "name": "invalid",
+    "width": 390,
+    "colorScheme": "light",
+    "height": 1142,
+    "sw": 390,
+    "cw": 390
+  },
+  {
+    "name": "results",
+    "width": 390,
+    "colorScheme": "dark",
+    "height": 4419,
+    "sw": 390,
+    "cw": 390,
+    "firstCardTop": 535.1875,
+    "firstCardHeight": 280.796875
+  },
+  {
+    "name": "empty",
+    "width": 390,
+    "colorScheme": "dark",
+    "height": 1066,
+    "sw": 390,
+    "cw": 390
+  },
+  {
+    "name": "no-results",
+    "width": 390,
+    "colorScheme": "dark",
+    "height": 1166,
+    "sw": 390,
+    "cw": 390
+  },
+  {
+    "name": "invalid",
+    "width": 390,
+    "colorScheme": "dark",
+    "height": 1142,
+    "sw": 390,
+    "cw": 390
+  },
+  {
+    "name": "results",
+    "width": 1440,
+    "colorScheme": "light",
+    "height": 3480,
+    "sw": 1440,
+    "cw": 1440,
+    "firstCardTop": 468.5,
+    "firstCardHeight": 216.796875
+  },
+  {
+    "name": "empty",
+    "width": 1440,
+    "colorScheme": "light",
+    "height": 900,
+    "sw": 1440,
+    "cw": 1440
+  },
+  {
+    "name": "no-results",
+    "width": 1440,
+    "colorScheme": "light",
+    "height": 900,
+    "sw": 1440,
+    "cw": 1440
+  },
+  {
+    "name": "invalid",
+    "width": 1440,
+    "colorScheme": "light",
+    "height": 948,
+    "sw": 1440,
+    "cw": 1440
+  },
+  {
+    "name": "results",
+    "width": 1440,
+    "colorScheme": "dark",
+    "height": 3480,
+    "sw": 1440,
+    "cw": 1440,
+    "firstCardTop": 468.5,
+    "firstCardHeight": 216.796875
+  },
+  {
+    "name": "empty",
+    "width": 1440,
+    "colorScheme": "dark",
+    "height": 900,
+    "sw": 1440,
+    "cw": 1440
+  },
+  {
+    "name": "no-results",
+    "width": 1440,
+    "colorScheme": "dark",
+    "height": 900,
+    "sw": 1440,
+    "cw": 1440
+  },
+  {
+    "name": "invalid",
+    "width": 1440,
+    "colorScheme": "dark",
+    "height": 948,
+    "sw": 1440,
+    "cw": 1440
+  }
+]

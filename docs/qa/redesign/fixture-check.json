@@ -1,0 +1,314 @@
+{
+  "source": "Synthetic CSV fixtures only; route IDs hashed for validation. No real catalog available.",
+  "checks": [
+    {
+      "name": "search",
+      "width": 390,
+      "colorScheme": "light",
+      "sw": 390,
+      "cw": 390,
+      "serious": []
+    },
+    {
+      "name": "discover",
+      "width": 390,
+      "colorScheme": "light",
+      "sw": 390,
+      "cw": 390,
+      "serious": []
+    },
+    {
+      "name": "product",
+      "width": 390,
+      "colorScheme": "light",
+      "sw": 390,
+      "cw": 390,
+      "serious": []
+    },
+    {
+      "name": "sellers",
+      "width": 390,
+      "colorScheme": "light",
+      "sw": 390,
+      "cw": 390,
+      "serious": []
+    },
+    {
+      "name": "shop",
+      "width": 390,
+      "colorScheme": "light",
+      "sw": 390,
+      "cw": 390,
+      "serious": []
+    },
+    {
+      "name": "compare-products",
+      "width": 390,
+      "colorScheme": "light",
+      "sw": 390,
+      "cw": 390,
+      "serious": []
+    },
+    {
+      "name": "compare-sellers",
+      "width": 390,
+      "colorScheme": "light",
+      "sw": 390,
+      "cw": 390,
+      "serious": []
+    },
+    {
+      "name": "inquiry",
+      "width": 390,
+      "colorScheme": "light",
+      "sw": 390,
+      "cw": 390,
+      "serious": []
+    },
+    {
+      "name": "mission",
+      "width": 390,
+      "colorScheme": "light",
+      "sw": 390,
+      "cw": 390,
+      "serious": []
+    },
+    {
+      "name": "search",
+      "width": 390,
+      "colorScheme": "dark",
+      "sw": 390,
+      "cw": 390,
+      "serious": []
+    },
+    {
+      "name": "discover",
+      "width": 390,
+      "colorScheme": "dark",
+      "sw": 390,
+      "cw": 390,
+      "serious": []
+    },
+    {
+      "name": "product",
+      "width": 390,
+      "colorScheme": "dark",
+      "sw": 390,
+      "cw": 390,
+      "serious": []
+    },
+    {
+      "name": "sellers",
+      "width": 390,
+      "colorScheme": "dark",
+      "sw": 390,
+      "cw": 390,
+      "serious": []
+    },
+    {
+      "name": "shop",
+      "width": 390,
+      "colorScheme": "dark",
+      "sw": 390,
+      "cw": 390,
+      "serious": []
+    },
+    {
+      "name": "compare-products",
+      "width": 390,
+      "colorScheme": "dark",
+      "sw": 390,
+      "cw": 390,
+      "serious": []
+    },
+    {
+      "name": "compare-sellers",
+      "width": 390,
+      "colorScheme": "dark",
+      "sw": 390,
+      "cw": 390,
+      "serious": []
+    },
+    {
+      "name": "inquiry",
+      "width": 390,
+      "colorScheme": "dark",
+      "sw": 390,
+      "cw": 390,
+      "serious": []
+    },
+    {
+      "name": "mission",
+      "width": 390,
+      "colorScheme": "dark",
+      "sw": 390,
+      "cw": 390,
+      "serious": []
+    },
+    {
+      "name": "search",
+      "width": 1440,
+      "colorScheme": "light",
+      "sw": 1440,
+      "cw": 1440,
+      "serious": []
+    },
+    {
+      "name": "discover",
+      "width": 1440,
+      "colorScheme": "light",
+      "sw": 1440,
+      "cw": 1440,
+      "serious": []
+    },
+    {
+      "name": "product",
+      "width": 1440,
+      "colorScheme": "light",
+      "sw": 1440,
+      "cw": 1440,
+      "serious": []
+    },
+    {
+      "name": "sellers",
+      "width": 1440,
+      "colorScheme": "light",
+      "sw": 1440,
+      "cw": 1440,
+      "serious": []
+    },
+    {
+      "name": "shop",
+      "width": 1440,
+      "colorScheme": "light",
+      "sw": 1440,
+      "cw": 1440,
+      "serious": []
+    },
+    {
+      "name": "compare-products",
+      "width": 1440,
+      "colorScheme": "light",
+      "sw": 1440,
+      "cw": 1440,
+      "serious": []
+    },
+    {
+      "name": "compare-sellers",
+      "width": 1440,
+      "colorScheme": "light",
+      "sw": 1440,
+      "cw": 1440,
+      "serious": []
+    },
+    {
+      "name": "inquiry",
+      "width": 1440,
+      "colorScheme": "light",
+      "sw": 1440,
+      "cw": 1440,
+      "serious": []
+    },
+    {
+      "name": "mission",
+      "width": 1440,
+      "colorScheme": "light",
+      "sw": 1440,
+      "cw": 1440,
+      "serious": []
+    },
+    {
+      "name": "search",
+      "width": 1440,
+      "colorScheme": "dark",
+      "sw": 1440,
+      "cw": 1440,
+      "serious": []
+    },
+    {
+      "name": "discover",
+      "width": 1440,
+      "colorScheme": "dark",
+      "sw": 1440,
+      "cw": 1440,
+      "serious": []
+    },
+    {
+      "name": "product",
+      "width": 1440,
+      "colorScheme": "dark",
+      "sw": 1440,
+      "cw": 1440,
+      "serious": []
+    },
+    {
+      "name": "sellers",
+      "width": 1440,
+      "colorScheme": "dark",
+      "sw": 1440,
+      "cw": 1440,
+      "serious": []
+    },
+    {
+      "name": "shop",
+      "width": 1440,
+      "colorScheme": "dark",
+      "sw": 1440,
+      "cw": 1440,
+      "serious": []
+    },
+    {
+      "name": "compare-products",
+      "width": 1440,
+      "colorScheme": "dark",
+      "sw": 1440,
+      "cw": 1440,
+      "serious": []
+    },
+    {
+      "name": "compare-sellers",
+      "width": 1440,
+      "colorScheme": "dark",
+      "sw": 1440,
+      "cw": 1440,
+      "serious": []
+    },
+    {
+      "name": "inquiry",
+      "width": 1440,
+      "colorScheme": "dark",
+      "sw": 1440,
+      "cw": 1440,
+      "serious": []
+    },
+    {
+      "name": "mission",
+      "width": 1440,
+      "colorScheme": "dark",
+      "sw": 1440,
+      "cw": 1440,
+      "serious": []
+    }
+  ],
+  "overlay": {
+    "tray": {
+      "x": 12,
+      "y": 746,
+      "width": 366,
+      "height": 70
+    },
+    "selection": {
+      "x": 16,
+      "y": 616,
+      "width": 358,
+      "height": 118
+    },
+    "navigation": {
+      "x": 0,
+      "y": 827,
+      "width": 390,
+      "height": 73
+    },
+    "pass": true
+  }
+}
