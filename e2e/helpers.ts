@@ -16,6 +16,12 @@ export const test = base.extend({
 });
 export { expect };
 
+/** Origin the tests drive: the local server by default, or the deployed instance under SMOKE_BASE_URL. Used for "no request leaves the app" assertions. */
+export const SELF_ORIGIN = process.env.SMOKE_BASE_URL ? new URL(process.env.SMOKE_BASE_URL).origin : "http://127.0.0.1";
+export const SELF_HOSTNAME = new URL(SELF_ORIGIN).hostname;
+const escRe = (s: string) => s.replace(/[.*+?^${}()|[\]\\/]/g, "\\$&");
+/** requests a read-only journey may make: the app itself, inline data, and the two stubbed third-party hosts (map tiles, product photos) */
+export const ALLOWED_REQUEST_RE = new RegExp(`^(${escRe(SELF_ORIGIN)}|data:|blob:|https:\\/\\/tile\\.openstreetmap\\.org\\/|https:\\/\\/image\\.torob\\.com\\/)`);
 export const DB_PATH = path.resolve(process.env.DATABASE_PATH || "data/app.sqlite");
 /** True only for the FULL real catalog (225,903 products). A fixture/partial database never counts, so dataset-backed specs skip instead of passing on fake data. */
 export const HAS_DB = probeCatalog().real;

@@ -1,6 +1,6 @@
 import path from "node:path";
 import type { Page, Request } from "@playwright/test";
-import { collectErrors, DAHUA, dbRow, expect, expectNoHorizontalOverflow, HAS_DB, REAL_CATALOG_REQUIRED, test } from "./helpers";
+import { ALLOWED_REQUEST_RE, collectErrors, DAHUA, dbRow, expect, expectNoHorizontalOverflow, HAS_DB, REAL_CATALOG_REQUIRED, test } from "./helpers";
 import { QA_OUT } from "../tests/helpers/qa-out";
 
 test.skip(!HAS_DB, REAL_CATALOG_REQUIRED);
@@ -33,7 +33,7 @@ function watch(page: Page) {
     for (const r of reqs) {
       expect(r.url(), `forbidden: ${r.url()}`).not.toMatch(/^(tel|sms|mailto|whatsapp):|wa\.me|whatsapp\.com|t\.me|telegram/i);
       expect(["GET", "HEAD", "OPTIONS"], `${r.method()} ${r.url()}`).toContain(r.method());
-      expect(r.url()).toMatch(/^(http:\/\/127\.0\.0\.1|data:|blob:|https:\/\/tile\.openstreetmap\.org\/|https:\/\/image\.torob\.com\/)/);
+      expect(r.url()).toMatch(ALLOWED_REQUEST_RE);
     }
   } };
 }

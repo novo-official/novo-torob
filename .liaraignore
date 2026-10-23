@@ -1,8 +1,9 @@
-# Upload-context exclusions for a (future, owner-approved) `liara deploy`. Never upload data, secrets or test artifacts.
-.git
-.data
-data
-.cache
+# Upload-context exclusions for `liara deploy`. Never upload data, secrets or test artifacts.
+# ROOT-ANCHORED on purpose: Liara matches bare names at any depth, and a bare `data` would also drop the source route src/app/data (the /data page).
+/.git
+/.data
+/data
+/.cache
 .env
 .env.*
 !.env.example
@@ -14,12 +15,12 @@ data
 *.zip
 *.mp4
 node_modules
-.next
-coverage
-test-results
-playwright-report
-qa-artifacts
-docs/qa
+/.next
+/coverage
+/test-results
+/playwright-report
+/qa-artifacts
+/docs/qa
 # nested copies (patterns above are root-anchored)
 **/*.sqlite
 **/*.sqlite3
@@ -30,5 +31,5 @@ docs/qa
 **/.env
 **/.env.*
 !.env.example
-.claude
-.brud
+/.claude
+/.brud

@@ -1,0 +1,18 @@
+{
+  "platform": "docker",
+  "app": "hamghadam",
+  "port": 3000,
+  "build": {
+    "dockerfile": "deploy/liara/Dockerfile.liara",
+    "cache": true,
+    "args": [
+      "NEXT_PUBLIC_MAP_TILES_DISABLED=1"
+    ]
+  },
+  "disks": [
+    {
+      "name": "hamghadam-data",
+      "mountTo": "/app/data"
+    }
+  ]
+}

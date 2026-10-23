@@ -1,4 +1,4 @@
-import { collectErrors, expect, expectNoHorizontalOverflow, FORBIDDEN_CLAIMS, HAS_DB, REAL_CATALOG_REQUIRED, ROUTES, test } from "./helpers";
+import { collectErrors, expect, expectNoHorizontalOverflow, FORBIDDEN_CLAIMS, HAS_DB, REAL_CATALOG_REQUIRED, ROUTES, SELF_HOSTNAME, test } from "./helpers";
 
 for (const route of ROUTES) {
   test(`route ${route} renders RTL Persian without errors`, async ({ page }) => {
@@ -19,7 +19,9 @@ test("unknown routes show the framework 404", async ({ page }) => {
 });
 
 test("malformed percent-escapes in dynamic ids give a 404 page, not a 500", async ({ page }) => {
-  for (const route of ["/products/%E0%A4%A", "/shops/%E0%A4%A", "/missions/%E0%A4%A"]) expect((await page.goto(route))?.status(), route).toBe(404);
+  // behind a hosting edge (SMOKE_BASE_URL) the edge itself may reject the malformed URL with 400 before the app sees it; never a 5xx
+  const ok = process.env.SMOKE_BASE_URL ? [400, 404] : [404];
+  for (const route of ["/products/%E0%A4%A", "/shops/%E0%A4%A", "/missions/%E0%A4%A"]) expect(ok, route).toContain((await page.goto(route))?.status());
 });
 
 test("an unknown or malformed product id is a real 404 with a recovery path", async ({ page }) => {
@@ -60,7 +62,7 @@ test("mission Q&A: draft + copy never claims delivery and no network call goes t
   const outbound: string[] = [];
   page.on("request", (r) => {
     const u = new URL(r.url());
-    if (!["127.0.0.1", "localhost", "image.torob.com"].includes(u.hostname)) outbound.push(r.url());
+    if (![SELF_HOSTNAME, "127.0.0.1", "localhost", "image.torob.com"].includes(u.hostname)) outbound.push(r.url());
     if (r.method() !== "GET" && u.pathname !== "/_next/webpack-hmr") outbound.push(`${r.method()} ${r.url()}`);
   });
   await page.goto("/missions/new");

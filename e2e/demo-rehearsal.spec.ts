@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import type { Page, Request } from "@playwright/test";
-import { collectErrors, DAHUA, dbRow, expect, expectNoHorizontalOverflow, FORBIDDEN_CLAIMS, HAS_DB, REAL_CATALOG_REQUIRED, test } from "./helpers";
+import { ALLOWED_REQUEST_RE, collectErrors, DAHUA, dbRow, expect, expectNoHorizontalOverflow, FORBIDDEN_CLAIMS, HAS_DB, REAL_CATALOG_REQUIRED, SELF_ORIGIN, test } from "./helpers";
 import { qaPath } from "../tests/helpers/qa-out";
 
 test.skip(!HAS_DB, REAL_CATALOG_REQUIRED);
@@ -140,8 +140,8 @@ test("demo rehearsal (mock only): the five-minute script runs end to end on the 
   // whole run: no sends, no foreign hosts, no errors
   for (const r of reqs) {
     const u = r.url();
-    if (r.method() !== "GET" && r.method() !== "HEAD" && r.method() !== "OPTIONS") expect(u, `${r.method()} ${u}`).toMatch(/^http:\/\/127\.0\.0\.1:\d+\/api\/(sellers|compare\/sellers|agent\/turn)$/);
-    expect(u).toMatch(/^(http:\/\/127\.0\.0\.1|data:|blob:|https:\/\/tile\.openstreetmap\.org\/|https:\/\/image\.torob\.com\/)/);
+    if (r.method() !== "GET" && r.method() !== "HEAD" && r.method() !== "OPTIONS") expect(u, `${r.method()} ${u}`).toMatch(new RegExp(`^${SELF_ORIGIN.replace(/[.*+?^${}()|[\]\\/]/g, "\\$&")}(:\\d+)?\\/api\\/(sellers|compare\\/sellers|agent\\/turn)$`));
+    expect(u).toMatch(ALLOWED_REQUEST_RE);
     expect(u).not.toMatch(/^(tel|sms|mailto|whatsapp):|wa\.me|openai|anthropic|boxapi/i);
   }
   expect(errors).toEqual([]);

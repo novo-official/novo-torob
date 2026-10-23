@@ -34,8 +34,15 @@ describe("deployment templates (config only — nothing is deployed)", () => {
   });
 
   it.each([".dockerignore", ".liaraignore"])("%s keeps data, secrets and test artifacts out of the build/upload context", (f) => {
-    const l = lines(f);
+    const l = lines(f).map((x) => x.replace(/^\//, "")); // anchored (/data) and bare (data) spellings both count
     for (const x of [".data", "data", ".env", "*.sqlite", "**/*.sqlite", "*.zip", "qa-artifacts", "test-results", ".claude"]) expect(l, `${f} must exclude ${x}`).toContain(x);
+  });
+
+  it(".liaraignore never drops source directories: data/.data/.cache/.next must be root-anchored (a bare `data` removed src/app/data from the Liara build)", () => {
+    const l = lines(".liaraignore");
+    for (const x of ["data", ".data", ".cache", ".next", "coverage", "test-results", "qa-artifacts"]) expect(l, `bare "${x}" matches at any depth`).not.toContain(x);
+    for (const x of ["/data", "/.data", "/.cache", "/.next"]) expect(l).toContain(x);
+    expect(fs.existsSync(path.join(ROOT, "src/app/data/page.tsx"))).toBe(true);
   });
 
   it(".gitignore keeps the dataset, databases, env files and QA artifacts out of Git", () => {

@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import type { Page, Request } from "@playwright/test";
-import { collectErrors, DAHUA, dbRow, expect, expectNoHorizontalOverflow, HAS_DB, REAL_CATALOG_REQUIRED, test } from "./helpers";
+import { ALLOWED_REQUEST_RE, collectErrors, DAHUA, dbRow, expect, expectNoHorizontalOverflow, HAS_DB, REAL_CATALOG_REQUIRED, SELF_HOSTNAME, test } from "./helpers";
 import { QA_OUT } from "../tests/helpers/qa-out";
 
 test.skip(!HAS_DB, REAL_CATALOG_REQUIRED);
@@ -27,7 +27,7 @@ function watch(page: Page) {
         expect(u, `forbidden scheme/host: ${u}`).not.toMatch(/^(tel|sms|mailto|whatsapp):|wa\.me|api\.whatsapp|whatsapp\.com|t\.me|telegram/i);
         expect(["GET", "HEAD", "OPTIONS"], `${r.method()} ${u} — the inquiry flow must not send anything`).toContain(r.method());
         // same origin, or read-only GET of stubbed map tiles / product photos loaded by the earlier pages of the journey
-        expect(u).toMatch(/^(http:\/\/127\.0\.0\.1|data:|blob:|https:\/\/tile\.openstreetmap\.org\/|https:\/\/image\.torob\.com\/)/);
+        expect(u).toMatch(ALLOWED_REQUEST_RE);
       }
     },
   };
@@ -316,7 +316,7 @@ test.describe("external public links and keyboard", () => {
     const row = dbRow<{ shop_id: string; product_id: string; offer_id: string; website_url: string }>("SELECT o.shop_id, o.product_id, o.offer_id, s.website_url FROM offers o JOIN shops s USING(shop_id) WHERE s.website_url LIKE 'https://%' LIMIT 1");
     const popups: string[] = [];
     context.on("page", (p) => popups.push(p.url()));
-    await context.route(/^https?:\/\/(?!127\.0\.0\.1)/, (r) => r.fulfill({ status: 200, contentType: "text/html", body: "<title>ext</title>" }));
+    await context.route((u) => /^https?:/.test(u.href) && u.hostname !== SELF_HOSTNAME, (r) => r.fulfill({ status: 200, contentType: "text/html", body: "<title>ext</title>" }));
     await page.goto(`/missions/new?product=${row.product_id}&shop=${row.shop_id}&offer=${row.offer_id}`);
     await page.waitForTimeout(400);
     expect(popups).toEqual([]);
