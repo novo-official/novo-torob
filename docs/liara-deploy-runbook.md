@@ -15,15 +15,15 @@
 ## ۲. گام‌ها (فرمان‌های بدون راز؛ فقط پس از Gate L)
 | # | عمل | بررسی |
 |---|---|---|
-| 1 | کنسول/داشبورد: حساب، اپ Docker، پلن سخت‌افزاری، **قیمت و فضای قابل‌رزرو را از داشبورد بخوانید** (مستندات عمومی قیمت/RAM را نشان نداد) | RAM ≥ ۱ GB (ترجیحاً ۲ GB)؛ فضای دیسک ≥ ۲٫۵ GB (برآورد: DB فعال + دریافت جدید + rollback) |
+| 1 | `liara login` (مالک در ترمینال خودش؛ اعتبارنامه به Claude داده نمی‌شود) · `liara plan list` (قیمت/RAM) · `liara app create -a <APP_ID> --platform docker --plan <PLAN> -r true` (rootfs فقط‌خواندنی؛ آزموده‌شده محلی) · `liara env set AGENT_PROVIDER=mock -a <APP_ID>` — **قیمت و فضای قابل‌رزرو را از داشبورد/`plan list` بخوانید** (مستندات عمومی نشان نداد) | RAM ≥ ۱ GB (ترجیحاً ۲ GB)؛ فضای دیسک ≥ ۲٫۵ GB (برآورد: DB فعال + دریافت جدید + rollback) |
 | 2 | `liara disk:create -a <APP_ID> -n <DISK_NAME> -s 3` (اعشار مجاز) | وضعیت دیسک «آماده» |
 | 3 | `liara deploy` از ریشهٔ پروژه (با `.liaraignore`؛ از **commit/working tree نهایی**) | build سبز؛ `/api/health`=200؛ `/api/ready`=**503** (DB هنوز نیست) |
 | 4 | کنسول: FTP access برای دیسک بسازید؛ `rclone config` با `explicit_tls=true` (FTPS) | اتصال TLS |
 | 5 | از ماشین مالک، با نام موقت (اپ فایل `.part` را نمی‌بیند): `rclone copyto data/app.sqlite <remote>:/app.sqlite.part -P` | اندازه = 827,924,480 |
-| 6 | **کنسول shell Liara** (مستند برای بازیابی پشتیبان؛ برای اپ Docker تأییدنشده): `sha256sum /app/data/app.sqlite.part` | = `47225ae564418042bc6f558e0653f63d3fb570228460074e0f43b4a99b156de5` |
-| 7 | همان shell: `node -e "const{DatabaseSync}=require('node:sqlite');const d=new DatabaseSync('/app/data/app.sqlite.part',{readOnly:true});console.log(d.prepare('PRAGMA integrity_check').get(),d.prepare('select count(*) n from products').get())"` | `ok` و ۲۲۵٬۹۰۳ |
+| 6 | `liara shell -a <APP_ID> -c "sha256sum /app/data/app.sqlite.part"` (دستور `liara shell` در CLI 9.5.1 موجود است؛ کار کردن آن روی این اپ هنگام اجرا تأیید می‌شود) — معادل: `sha256sum /app/data/app.sqlite.part` | = `47225ae564418042bc6f558e0653f63d3fb570228460074e0f43b4a99b156de5` |
+| 7 | همان shell (`liara shell -a <APP_ID> -c '…'`): `node -e "const{DatabaseSync}=require('node:sqlite');const d=new DatabaseSync('/app/data/app.sqlite.part',{readOnly:true});console.log(d.prepare('PRAGMA integrity_check').get(),d.prepare('select count(*) n from products').get())"` | `ok` و ۲۲۵٬۹۰۳ |
 | 8 | `[ -f /app/data/app.sqlite ] && mv /app/data/app.sqlite /app/data/app.prev.sqlite; mv /app/data/app.sqlite.part /app/data/app.sqlite` (rename در همان فایل‌سیستم اتمیک است) | — |
-| 9 | **اپ را restart کنید** (اتصال SQLite در حافظه کش می‌شود؛ تا restart فایل جدید دیده نمی‌شود) | `/api/ready`=200 با `snapshotRef 2026-10-13T00:02:35.297Z` |
+| 9 | **`liara restart -a <APP_ID>`** (اتصال SQLite در حافظه کش می‌شود؛ تا restart فایل جدید دیده نمی‌شود) | `/api/ready`=200 با `snapshotRef 2026-10-13T00:02:35.297Z` |
 | 10 | smoke عمومی: `SMOKE_BASE_URL=https://<دامنه> npx playwright test e2e/smoke.spec.ts e2e/security.spec.ts` + دستی ۳۶۰/۳۹۰/۷۶۸/۱۴۴۰ (چهار مرحله + بازیابی) | بدون خطای کنسول؛ برچسب mock |
 اگر shell در دسترس نبود: مسیر جایگزین = اندازهٔ بایتی از لیست FTP + `/api/ready`/شمارش‌ها پس از restart؛ هش `NOT VERIFIED` گزارش شود.
 **Rollback:** `mv app.sqlite app.bad.sqlite; mv app.prev.sqlite app.sqlite` + restart؛ یا استقرار image قبلی. هیچ حذف دیسک/اپ بدون تأیید.
