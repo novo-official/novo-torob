@@ -304,3 +304,37 @@ describe("BoxAPI-style wire compatibility (mocked HTTP only — no network, no k
     expect(redact("authorization: Bearer abcdef0123456789abcdef")).not.toContain("abcdef0123456789");
   });
 });
+
+describe("a rejected call (HTTP 400) is diagnosable and does not masquerade as a missing-usage success", () => {
+  const cfg = { baseUrl: BASE, apiKey: KEY, model: "gpt-6-luna", limits: readAgentConfig({}).limits };
+  const reject = (status: number, errBody: unknown) => vi.fn(async () => new Response(JSON.stringify(errBody), { status, headers: { "content-type": "application/json" } }));
+  const req = (): ProviderRequest => ({ system: "s", messages: [{ role: "user", content: "سلام" }], tools: toolSpecs(), maxOutputChars: 1400, context: { state: initialAgentState(), userMessage: null, control: null } });
+
+  it("default wire for gpt-5/6/o-series ids is max_completion_tokens without temperature; classic models keep max_tokens + temperature; env overrides win", () => {
+    expect(wireOptionsFromEnv({}, "gpt-6-luna")).toEqual({ tokenParam: "max_completion_tokens", sendTemperature: false });
+    expect(wireOptionsFromEnv({}, "openai/gpt-6-luna")).toEqual({ tokenParam: "max_completion_tokens", sendTemperature: false });
+    expect(wireOptionsFromEnv({}, "gpt-4o-mini")).toEqual({ tokenParam: "max_tokens", sendTemperature: true });
+    expect(wireOptionsFromEnv({ AGENT_TOKEN_PARAM: "max_tokens", AGENT_SEND_TEMPERATURE: "1" }, "gpt-6-luna")).toEqual({ tokenParam: "max_tokens", sendTemperature: true });
+  });
+  it("the provider's error type/code/param/message reaches the operator (redacted, capped), never the request content", async () => {
+    const seen: Array<[number, string]> = [];
+    const f = reject(400, { error: { message: `Unsupported parameter: 'max_tokens' ... key ${KEY}`, type: "invalid_request_error", param: "max_tokens", code: "unsupported_parameter" } });
+    const p = createOpenAiCompatibleProvider({ ...cfg, onProviderError: (s, d) => seen.push([s, d]) }, f as unknown as typeof fetch);
+    await expect(p.complete(req())).rejects.toMatchObject({ code: "INVALID_RESPONSE" });
+    expect(seen).toHaveLength(1);
+    expect(seen[0]![0]).toBe(400);
+    expect(seen[0]![1]).toContain("code=unsupported_parameter"); expect(seen[0]![1]).toContain("param=max_tokens");
+    expect(seen[0]![1]).not.toContain(KEY); expect(seen[0]![1]).not.toContain("سلام");
+  });
+  it("a 400 is recorded as status_400 and counts toward the breaker; it does not set the 'usage missing' halt", async () => {
+    const g = createLiveGuard(opts({ allowedModel: "gpt-6-luna", maxRequests: 5, maxUsd: 1 }));
+    const w = g.wrap(reject(400, { error: { message: "bad" } }) as unknown as typeof fetch);
+    const r = await w(URL_OK, init(body({ model: "gpt-6-luna" })));
+    expect(r.status).toBe(400);
+    expect(g.ledger()[0]).toMatchObject({ outcome: "failed", reason: "status_400" });
+    expect(g.state().haltReason).not.toBe("usage_metadata_missing");
+    expect(g.state().halted).toBe(false);
+    await w(URL_OK, init(body({ model: "gpt-6-luna" })));
+    expect(g.state()).toMatchObject({ halted: true, haltReason: "circuit_breaker" }); // two failures in a row stop it
+  });
+});

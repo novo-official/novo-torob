@@ -5,6 +5,7 @@
 #   BOXAPI_API_KEY=… ./scripts/run-live-trial.sh          # or just run it and type the key
 #   MODEL=openai/gpt-6-luna ./scripts/run-live-trial.sh   # only if the bare model name is rejected as unknown
 #   TOKEN_PARAM=max_completion_tokens NO_TEMPERATURE=1 ./scripts/run-live-trial.sh   # only if the first call is rejected for those parameters
+#   CLEAR_HALT=1 ./scripts/run-live-trial.sh              # after a halted run: keeps the spent/request counters, clears only the halted flag
 #   DRY_RUN=1 ./scripts/run-live-trial.sh                 # flips and restores the lock, sends NOTHING
 set -euo pipefail
 cd "$(dirname "$0")/.."
@@ -12,6 +13,15 @@ GATE=src/server/agent/live-gate.ts
 [ -e .live-kill ] && { echo "STOP: .live-kill exists (stop switch). Remove it only if you really want to continue."; exit 3; }
 git diff --quiet -- "$GATE" || { echo "STOP: $GATE already has uncommitted changes."; exit 3; }
 grep -q 'LIVE_MODEL_CALLS_ENABLED_IN_CODE = false as const' "$GATE" || { echo "STOP: unexpected lock line."; exit 3; }
+
+LEDGER="$PWD/.cache/live-ledger.json"
+if [ -f "$LEDGER" ]; then
+  echo "[ledger] $(node -p 'const j=require(process.argv[1]);`requests=${j.requests} spentUsd=${j.spentUsd.toFixed(6)} halted=${j.halted}${j.halted?" ("+j.haltReason+")":""}`' "$LEDGER")"
+  if node -p 'require(process.argv[1]).halted' "$LEDGER" | grep -q true; then
+    if [ "${CLEAR_HALT:-0}" = "1" ] && [ "${DRY_RUN:-0}" != "1" ]; then node -e 'const f=require("fs"),p=process.argv[1],j=JSON.parse(f.readFileSync(p,"utf8"));j.halted=false;j.haltReason=null;f.writeFileSync(p,JSON.stringify(j),{mode:0o600})' "$LEDGER"; echo "[ledger] halted flag cleared (counters kept)"
+    elif [ "${DRY_RUN:-0}" != "1" ]; then echo "STOP: the previous run halted the guard. Read qa-artifacts/live-trial.json, then re-run with CLEAR_HALT=1 to continue (spend counters are kept)."; exit 3; fi
+  fi
+fi
 
 restore() { sed -i 's/LIVE_MODEL_CALLS_ENABLED_IN_CODE = true as const/LIVE_MODEL_CALLS_ENABLED_IN_CODE = false as const/' "$GATE"; git diff --quiet -- "$GATE" && echo "[lock restored: LIVE_MODEL_CALLS_ENABLED_IN_CODE=false, git diff empty]" || echo "!! LOCK NOT RESTORED — run: sed -i 's/= true as const/= false as const/' $GATE"; }
 trap restore EXIT

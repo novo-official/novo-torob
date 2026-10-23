@@ -38,8 +38,9 @@ async function main() {
   if (process.env.LIVE_TRIAL_CONFIRM !== `SPEND-UP-TO-${opts.maxUsd}`) { console.error(`REFUSED: set LIVE_TRIAL_CONFIRM=SPEND-UP-TO-${opts.maxUsd} to confirm the approved cap.`); process.exit(3); }
   const db = openRealDb();
   if (!db) { console.error("real catalog required"); process.exit(2); }
+  const providerErrors: Array<{ status: number; detail: string }> = [];
   const guard = createLiveGuard(opts);
-  const provider = createOpenAiCompatibleProvider({ ...config, maxOutputTokens: opts.maxOutputTokens, ...wireOptionsFromEnv(process.env) }, guard.wrap(fetch));
+  const provider = createOpenAiCompatibleProvider({ ...config, maxOutputTokens: opts.maxOutputTokens, ...wireOptionsFromEnv(process.env, config.model), onProviderError: (status, detail) => providerErrors.push({ status, detail }) }, guard.wrap(fetch));
   let h = new Harness(db, config, provider, new Date());
   const rows: Array<{ id: string; stage: string; ok: boolean; problems: string[]; fallback: string | null; tools: string[]; ms: number; textChars: number }> = [];
   const turns: AgentTurnResponse[] = [];
@@ -61,11 +62,13 @@ async function main() {
     liveCalls: ledger.filter((e) => e.outcome !== "refused").length, refusedByGuard: ledger.filter((e) => e.outcome === "refused").length,
     spentUsdReserveAdjusted: Number(st.spentUsd.toFixed(6)), cappedAtUsd: opts.maxUsd, requestCap: opts.maxRequests, halted: st.halted, haltReason: st.haltReason,
     ledger: ledger.map((e) => ({ seq: e.seq, outcome: e.outcome, reason: e.reason ?? null, in: e.inputTokens, out: e.outputTokens, chargedUsd: Number(e.chargedUsd.toFixed(6)) })),
+    providerErrors, wire: wireOptionsFromEnv(process.env, config.model),
     cases: rows, safety: scan(turns), casesPassed: rows.filter((r) => r.ok).length, casesTotal: rows.length,
     verdict: rows.every((r) => r.ok) && !st.halted ? "LIVE TOOL-CALL SMOKE + HOLDOUT PASSED (cost per ledger; provider-side billing not independently checked)" : "NOT VERIFIED — see problems; roll back to mock",
   };
   fs.mkdirSync(QA_OUT, { recursive: true });
   fs.writeFileSync(path.join(QA_OUT, "live-trial.json"), JSON.stringify(report, null, 2));
+  if (providerErrors.length) console.log("provider errors (status, detail):", JSON.stringify(providerErrors));
   console.log(JSON.stringify({ liveCalls: report.liveCalls, spentUsd: report.spentUsdReserveAdjusted, casesPassed: `${report.casesPassed}/${report.casesTotal}`, halted: st.halted, verdict: report.verdict }, null, 1));
   process.exit(report.casesPassed === report.casesTotal ? 0 : 1);
 }

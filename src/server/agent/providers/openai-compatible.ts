@@ -35,12 +35,27 @@ export function toWireMessages(req: ProviderRequest): unknown[] {
  * (AGENT_TOKEN_PARAM, AGENT_SEND_TEMPERATURE=0) so the first live call does not fail on a parameter we could have known; defaults are unchanged.
  */
 export interface WireOptions { tokenParam: "max_tokens" | "max_completion_tokens"; sendTemperature: boolean }
-export const wireOptionsFromEnv = (env: Record<string, string | undefined>): WireOptions => ({
-  tokenParam: env.AGENT_TOKEN_PARAM === "max_completion_tokens" ? "max_completion_tokens" : "max_tokens",
-  sendTemperature: env.AGENT_SEND_TEMPERATURE !== "0",
-});
+/** gpt-5 / gpt-6 / o-series style models reject `max_tokens` and a non-default `temperature`; older chat models want the classic fields. Env overrides win. */
+const NEW_STYLE_MODEL = /^(?:openai\/)?(?:gpt-[5-9]|o[1-9])/i;
+export const wireOptionsFromEnv = (env: Record<string, string | undefined>, model: string | null = env.AGENT_MODEL ?? null): WireOptions => {
+  const newStyle = !!model && NEW_STYLE_MODEL.test(model);
+  return {
+    tokenParam: env.AGENT_TOKEN_PARAM === "max_completion_tokens" || (env.AGENT_TOKEN_PARAM !== "max_tokens" && newStyle) ? "max_completion_tokens" : "max_tokens",
+    sendTemperature: env.AGENT_SEND_TEMPERATURE === "1" ? true : env.AGENT_SEND_TEMPERATURE === "0" ? false : !newStyle,
+  };
+};
 
-export function createOpenAiCompatibleProvider(cfg: Pick<AgentConfig, "baseUrl" | "apiKey" | "model" | "limits"> & { maxOutputTokens?: number } & Partial<WireOptions>, fetchImpl: typeof fetch = fetch): LlmProvider {
+/** The provider's own error (type/code/param/message only — never request content), key-redacted and length-capped, so a rejected call is diagnosable. */
+export async function describeProviderError(res: Response, secrets: Array<string | null | undefined>): Promise<string> {
+  try {
+    const j = JSON.parse((await res.text()).slice(0, 4_000)) as { error?: { message?: unknown; type?: unknown; code?: unknown; param?: unknown } | string; message?: unknown };
+    const e = typeof j.error === "object" && j.error ? j.error : { message: typeof j.error === "string" ? j.error : j.message };
+    const part = (k: string, v: unknown) => (typeof v === "string" && v ? `${k}=${v.slice(0, 160)}` : "");
+    return redact([part("type", e.type), part("code", e.code), part("param", e.param), part("message", e.message)].filter(Boolean).join(" "), secrets) || "no error detail";
+  } catch { return "no parsable error body"; }
+}
+
+export function createOpenAiCompatibleProvider(cfg: Pick<AgentConfig, "baseUrl" | "apiKey" | "model" | "limits"> & { maxOutputTokens?: number } & Partial<WireOptions> & { onProviderError?: (status: number, detail: string) => void }, fetchImpl: typeof fetch = fetch): LlmProvider {
   const full = { provider: "openai-compatible" as const, model: cfg.model, baseUrl: cfg.baseUrl, apiKey: cfg.apiKey, evidenceMode: "off" as const, evidenceReproduce: false, limits: cfg.limits, liveGate: { requested: true, open: true, reasonFa: "", missing: [] } };
   return {
     info: providerInfo(full),
@@ -61,10 +76,15 @@ export function createOpenAiCompatibleProvider(cfg: Pick<AgentConfig, "baseUrl" 
         if (req.signal?.aborted) throw new ProviderError("TIMEOUT", "request timed out", true);
         throw new ProviderError("UNAVAILABLE", redact(e instanceof Error ? e.message : "network error", [cfg.apiKey]), true);
       }
+      if (!res.ok && (res.status === 401 || res.status === 403 || res.status === 429 || res.status >= 500)) cfg.onProviderError?.(res.status, await describeProviderError(res.clone(), [cfg.apiKey]));
       if (res.status === 401 || res.status === 403) throw new ProviderError("AUTH", "provider rejected the credentials");
       if (res.status === 429) throw new ProviderError("RATE_LIMITED", "provider rate limit", true);
       if (res.status >= 500) throw new ProviderError("UNAVAILABLE", `provider status ${res.status}`, true);
-      if (!res.ok) throw new ProviderError("INVALID_RESPONSE", `provider status ${res.status}`);
+      if (!res.ok) {
+        const detail = await describeProviderError(res, [cfg.apiKey]);
+        cfg.onProviderError?.(res.status, detail);
+        throw new ProviderError("INVALID_RESPONSE", `provider status ${res.status}: ${detail}`);
+      }
       let json: unknown;
       try { json = await res.json(); } catch { throw new ProviderError("INVALID_RESPONSE", "response is not JSON"); }
       const p = ChatResponse.safeParse(json);

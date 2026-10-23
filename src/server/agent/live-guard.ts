@@ -123,9 +123,13 @@ export function createLiveGuard(opts: LiveGuardOptions, now: () => Date = () => 
         st.spentUsd += actual - worst;                                  // replace the reservation by the reported usage
         if (actual > worst) halt("usage_exceeded_estimate");
         log({ outcome: res.ok ? "ok" : "failed", reason: res.ok ? undefined : `status_${res.status}`, reservedUsd: worst, chargedUsd: Math.max(actual, 0), inputTokens: pt, outputTokens: ct });
+      } else if (!res.ok) {
+        // an HTTP error carries no usage by design (rejected before generation). Count it as a failure (the breaker stops repeats), keep the worst case
+        // reserved, and record WHY — do not treat it as a successful call with missing metadata.
+        log({ outcome: "failed", reason: `status_${res.status}`, reservedUsd: worst, chargedUsd: worst, inputTokens: null, outputTokens: null });
       } else {
-        halt("usage_metadata_missing");                                 // uncertainty ⇒ the worst case stays charged and nothing more is sent
-        log({ outcome: res.ok ? "ok" : "failed", reason: "usage_metadata_missing", reservedUsd: worst, chargedUsd: worst, inputTokens: null, outputTokens: null });
+        halt("usage_metadata_missing");                                 // a SUCCESSFUL answer without usage ⇒ uncertainty: the worst case stays charged and nothing more is sent
+        log({ outcome: "ok", reason: "usage_metadata_missing", reservedUsd: worst, chargedUsd: worst, inputTokens: null, outputTokens: null });
       }
       if (res.ok) st.consecutiveFailures = 0;
       else { st.consecutiveFailures++; if (st.consecutiveFailures >= threshold) halt("circuit_breaker"); }
