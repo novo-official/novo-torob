@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # One-command, OWNER-RUN live trial (BoxAPI). The API key is read from YOUR shell (BOXAPI_API_KEY) or typed silently; it is never written to a file.
 # What it does: (1) temporarily flips the compile-time lock in the working tree, (2) runs scripts/live-trial.ts with the approved caps, (3) ALWAYS restores
-# the lock (trap) and verifies `git diff` of live-gate.ts is empty. Approved caps: max 100 requests, USD 0.25, 700 output tokens, 12000 input tokens.
+# the lock (trap) and verifies `git diff` of live-gate.ts is empty. Approved caps: max 100 requests, USD 0.25, 700 output tokens, 30000 input tokens (pessimistic estimate: real ≈ estimate/4.5).
 #   BOXAPI_API_KEY=… ./scripts/run-live-trial.sh          # or just run it and type the key
 #   MODEL=openai/gpt-6-luna ./scripts/run-live-trial.sh   # only if the bare model name is rejected as unknown
 #   TOKEN_PARAM=max_completion_tokens NO_TEMPERATURE=1 ./scripts/run-live-trial.sh   # only if the first call is rejected for those parameters
@@ -33,8 +33,9 @@ MODEL="${MODEL:-gpt-6-luna}"
 export AGENT_PROVIDER=openai-compatible AGENT_BASE_URL=https://ai.boxapi.ir/ai/v1 AGENT_MODEL="$MODEL"
 export AGENT_LIVE_ALLOW_BASE_URL=https://ai.boxapi.ir/ai/v1 AGENT_LIVE_ALLOW_MODEL="$MODEL"
 export AGENT_LIVE_PRICE_IN_PER_M=0.115 AGENT_LIVE_PRICE_OUT_PER_M=0.575      # openai/gpt-6-luna, boxapi.ir/docs/ai/models, read 2026-10-23 — re-check on the day
-export AGENT_LIVE_MAX_REQUESTS=100 AGENT_LIVE_MAX_USD=0.25 AGENT_LIVE_MAX_TOKENS=700 AGENT_LIVE_MAX_INPUT_TOKENS=12000
+export AGENT_LIVE_MAX_REQUESTS=100 AGENT_LIVE_MAX_USD=0.25 AGENT_LIVE_MAX_TOKENS=700 AGENT_LIVE_MAX_INPUT_TOKENS=30000
 export AGENT_LIVE_APPROVAL="APPROVED-$(date +%s)" AGENT_LIVE_APPROVAL_EXPIRES="$(date -u -d '+2 hours' +%Y-%m-%dT%H:%M:%SZ)"
+export AGENT_TURN_DEADLINE_MS=60000 AGENT_PROVIDER_TIMEOUT_MS=30000 AGENT_MAX_HOPS=8   # gpt-6-luna measured 3-10 s per call; the first live run hit the 28 s turn deadline and the 6-hop limit
 export AGENT_LIVE_ADMIN_TOKEN="$(head -c 24 /dev/urandom | base64 | tr -dc 'A-Za-z0-9' | head -c 32)aaaaaaaa"
 export AGENT_LIVE_LEDGER_PATH="$PWD/.cache/live-ledger.json" AGENT_EVIDENCE_MODE=off AGENT_RATE_PER_MIN=600
 [ -n "${TOKEN_PARAM:-}" ] && export AGENT_TOKEN_PARAM="$TOKEN_PARAM"

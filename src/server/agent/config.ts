@@ -77,6 +77,8 @@ export function readAgentConfig(env: Record<string, string | undefined> = proces
       ratePerMinute: num(env.AGENT_RATE_PER_MIN, DEFAULT_LIMITS.ratePerMinute, 1, 600),
       maxConcurrent: num(env.AGENT_MAX_CONCURRENT, DEFAULT_LIMITS.maxConcurrent, 1, 32),
       providerTimeoutMs: num(env.AGENT_PROVIDER_TIMEOUT_MS, DEFAULT_LIMITS.providerTimeoutMs, 500, 60_000),
+      // a live model answers in seconds per hop (measured 3-10 s on gpt-6-luna), so the whole-turn deadline is tunable; default unchanged
+      turnDeadlineMs: num(env.AGENT_TURN_DEADLINE_MS, DEFAULT_LIMITS.turnDeadlineMs, 5_000, 120_000),
       // a retry against a paid endpoint is a second charge: none for the live provider (the guard counts every attempt anyway)
       providerRetries: provider === "openai-compatible" ? 0 : DEFAULT_LIMITS.providerRetries,
     },

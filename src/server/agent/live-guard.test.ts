@@ -340,3 +340,12 @@ describe("a rejected call (HTTP 400) is diagnosable and does not masquerade as a
     expect(g.state()).toMatchObject({ halted: true, haltReason: "circuit_breaker" }); // two failures in a row stop it
   });
 });
+
+describe("live-turn timing knobs", () => {
+  it("AGENT_TURN_DEADLINE_MS is clamped to 5-120 s and defaults to 28 s", () => {
+    expect(readAgentConfig({}).limits.turnDeadlineMs).toBe(28_000);
+    expect(readAgentConfig({ AGENT_TURN_DEADLINE_MS: "60000" }).limits.turnDeadlineMs).toBe(60_000);
+    expect(readAgentConfig({ AGENT_TURN_DEADLINE_MS: "999999" }).limits.turnDeadlineMs).toBe(28_000);
+    expect(readAgentConfig({ AGENT_TURN_DEADLINE_MS: "10" }).limits.turnDeadlineMs).toBe(28_000);
+  });
+});

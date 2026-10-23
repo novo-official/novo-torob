@@ -40,19 +40,23 @@ async function main() {
   if (!db) { console.error("real catalog required"); process.exit(2); }
   const providerErrors: Array<{ status: number; detail: string }> = [];
   const guard = createLiveGuard(opts);
-  const provider = createOpenAiCompatibleProvider({ ...config, maxOutputTokens: opts.maxOutputTokens, ...wireOptionsFromEnv(process.env, config.model), onProviderError: (status, detail) => providerErrors.push({ status, detail }) }, guard.wrap(fetch));
+  const inner = createOpenAiCompatibleProvider({ ...config, maxOutputTokens: opts.maxOutputTokens, ...wireOptionsFromEnv(process.env, config.model), onProviderError: (status, detail) => providerErrors.push({ status, detail }) }, guard.wrap(fetch));
+  // content-free trace of what the live model asked for on each call (kind + tool names), to explain degraded turns
+  const providerTrace: Array<{ call: number; kind: string; tools: string[] }> = [];
+  const provider: typeof inner = { info: inner.info, async complete(req) { const r = await inner.complete(req); providerTrace.push({ call: providerTrace.length + 1, kind: r.kind, tools: r.kind === "tool_calls" ? r.calls.map((c) => c.name) : [] }); return r; } };
   let h = new Harness(db, config, provider, new Date());
-  const rows: Array<{ id: string; stage: string; ok: boolean; problems: string[]; fallback: string | null; tools: string[]; ms: number; textChars: number }> = [];
+  const rows: Array<{ id: string; stage: string; ok: boolean; problems: string[]; fallback: string | null; tools: string[]; ms: number; textChars: number; liveCalls?: number; liveToolSequence?: string }> = [];
   const turns: AgentTurnResponse[] = [];
   for (const c of CASES) {
     if (guard.state().halted) { rows.push({ id: c.id, stage: c.stage, ok: false, problems: [`not run: guard halted (${guard.state().haltReason})`], fallback: null, tools: [], ms: 0, textChars: 0 }); continue; }
     if (c.fresh) h = new Harness(db, config, provider, new Date());
+    const traceStart = providerTrace.length;
     let r: AgentTurnResponse;
     try { r = await h.say(c.say); } catch (e) { rows.push({ id: c.id, stage: c.stage, ok: false, problems: [`threw: ${e instanceof Error ? e.name : "error"}`], fallback: null, tools: [], ms: 0, textChars: 0 }); continue; }
     turns.push(r);
     const s = scan([r]);
     const problems = [...c.expect(r), ...(r.fallback.used ? [`degraded to deterministic planner: ${r.fallback.reason}`] : []), ...(s.offenders.length ? s.offenders : [])];
-    rows.push({ id: c.id, stage: c.stage, ok: problems.length === 0, problems, fallback: r.fallback.reason, tools: toolsOf(r), ms: r.durationMs, textChars: r.assistant.text.length });
+    rows.push({ id: c.id, stage: c.stage, ok: problems.length === 0, problems, fallback: r.fallback.reason, tools: toolsOf(r), ms: r.durationMs, textChars: r.assistant.text.length, liveCalls: providerTrace.length - traceStart, liveToolSequence: providerTrace.slice(traceStart).map((x) => (x.kind === "final" ? "FINAL" : x.tools.join("+"))).join(" > ") });
     console.log(`${problems.length ? "FAIL" : "PASS"} ${c.id}  tools=[${toolsOf(r).join(",")}]  ${r.durationMs}ms${problems.length ? "  — " + problems.join("; ") : ""}`);
   }
   const st = guard.state();
@@ -62,7 +66,7 @@ async function main() {
     liveCalls: ledger.filter((e) => e.outcome !== "refused").length, refusedByGuard: ledger.filter((e) => e.outcome === "refused").length,
     spentUsdReserveAdjusted: Number(st.spentUsd.toFixed(6)), cappedAtUsd: opts.maxUsd, requestCap: opts.maxRequests, halted: st.halted, haltReason: st.haltReason,
     ledger: ledger.map((e) => ({ seq: e.seq, outcome: e.outcome, reason: e.reason ?? null, in: e.inputTokens, out: e.outputTokens, chargedUsd: Number(e.chargedUsd.toFixed(6)) })),
-    providerErrors, wire: wireOptionsFromEnv(process.env, config.model),
+    providerTrace, providerErrors, wire: wireOptionsFromEnv(process.env, config.model),
     cases: rows, safety: scan(turns), casesPassed: rows.filter((r) => r.ok).length, casesTotal: rows.length,
     verdict: rows.every((r) => r.ok) && !st.halted ? "LIVE TOOL-CALL SMOKE + HOLDOUT PASSED (cost per ledger; provider-side billing not independently checked)" : "NOT VERIFIED — see problems; roll back to mock",
   };
