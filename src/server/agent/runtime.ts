@@ -1,4 +1,4 @@
-import { readAgentConfig, type AgentConfig } from "./config";
+import { DEFAULT_LIMITS, readAgentConfig, type AgentConfig } from "./config";
 import { RateLimiter, Semaphore } from "./guard";
 import type { LlmProvider } from "./provider";
 import { createMockProvider } from "./providers/mock";
@@ -13,7 +13,11 @@ export function createLockedProvider(config: AgentConfig): LlmProvider {
   return { info: providerInfo(config), async complete() { throw new ProviderError("UNAVAILABLE", "provider is locked or disabled", false); } };
 }
 
-export interface AgentRuntime { config: AgentConfig; provider: LlmProvider; limiter: RateLimiter; gate: Semaphore }
+export interface AgentRuntime {
+  config: AgentConfig; provider: LlmProvider; limiter: RateLimiter; gate: Semaphore;
+  /** what every NON-admin request gets: the offline planner under a mock-labelled config (same limits, never billable). Equals config/provider when no live provider is configured. */
+  publicConfig: AgentConfig; publicProvider: LlmProvider;
+}
 
 let cached: AgentRuntime | null = null;
 
@@ -27,7 +31,9 @@ function buildLiveProvider(config: AgentConfig): LlmProvider {
 export function buildRuntime(config: AgentConfig = readAgentConfig()): AgentRuntime {
   // the live adapter is constructed ONLY when the gate is open (never before the owner-approved Phase 10B); a locked provider can never be called
   const provider = config.provider === "openai-compatible" ? buildLiveProvider(config) : config.provider === "live-locked" || config.provider === "disabled" ? createLockedProvider(config) : createMockProvider();
-  return { config, provider, limiter: new RateLimiter(config.limits.ratePerMinute), gate: new Semaphore(config.limits.maxConcurrent) };
+  const live = config.provider === "openai-compatible";
+  const publicConfig: AgentConfig = live ? { ...config, provider: "mock", model: null, baseUrl: null, apiKey: null, limits: { ...config.limits, providerRetries: DEFAULT_LIMITS.providerRetries } } : config;
+  return { config, provider, limiter: new RateLimiter(config.limits.ratePerMinute), gate: new Semaphore(config.limits.maxConcurrent), publicConfig, publicProvider: live ? createMockProvider() : provider };
 }
 export function getRuntime(): AgentRuntime { return (cached ??= buildRuntime()); }
 /** test hook: inject a runtime (scripted provider, tiny limits, evidence fixtures…) */

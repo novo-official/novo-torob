@@ -32,7 +32,7 @@ const ATTRIBUTED = /(?:طبق\s*گزارش\s*شما|گزارش\s*شما\s*:?)\s*
 const latin = (s: string) => stripIds(s).replace(/[۰-۹]/g, (d) => String("۰۱۲۳۴۵۶۷۸۹".indexOf(d)));
 const pct = (xs: number[], p: number) => { if (!xs.length) return 0; const s = [...xs].sort((a, b) => a - b); return s[Math.min(s.length - 1, Math.ceil((p / 100) * s.length) - 1)]!; };
 
-function scan(turns: AgentTurnResponse[]) {
+export function scan(turns: AgentTurnResponse[]) {
   let fa = 0, fc = 0, hi = 0, ext = 0, leak = 0; const off: string[] = [];
   const snip = (s: string, re: RegExp) => { const m = re.exec(s); return m ? s.slice(Math.max(0, m.index - 40), m.index + 60).replace(/\s+/g, " ") : ""; };
   for (const t of turns) {

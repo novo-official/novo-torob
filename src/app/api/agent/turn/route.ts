@@ -8,6 +8,7 @@ import { runTurn } from "@/server/agent/orchestrator";
 import { getRuntime } from "@/server/agent/runtime";
 import { AgentControlSchema, validateState } from "@/server/agent/state";
 import { agentLog } from "@/server/agent/config";
+import { isAdmin } from "@/server/agent/admin";
 
 export const dynamic = "force-dynamic";
 const NO_STORE = { "Cache-Control": "no-store" };
@@ -50,7 +51,9 @@ export async function POST(req: Request) {
     }
     const sv = validateState(b.data.state, db);
     if (!sv.ok) return err(400, { ok: false, error: "INVALID_INPUT", messageFa: "وضعیت گفت‌وگو معتبر نیست؛ گفت‌وگو را از نو شروع کنید." });
-    const out = await runTurn({ db, config: rt.config, provider: rt.provider, state: sv.state, message, control: b.data.control ?? null });
+    // the billable model is private: only an admin request may use it; everybody else is served by the labelled offline planner
+    const publicOnly = rt.config.provider === "openai-compatible" && !isAdmin(req.headers);
+    const out = await runTurn({ db, config: publicOnly ? rt.publicConfig : rt.config, provider: publicOnly ? rt.publicProvider : rt.provider, state: sv.state, message, control: b.data.control ?? null });
     return NextResponse.json(out, { headers: NO_STORE });
   } catch (e) {
     agentLog("turn_error", { kind: e instanceof Error ? e.name : "unknown" }, rt.config);

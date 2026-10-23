@@ -5,10 +5,11 @@ import { readAgentConfig } from "@/server/agent/config";
 import { createScriptedProvider } from "@/server/agent/providers/mock";
 import { buildRuntime, setRuntimeForTests } from "@/server/agent/runtime";
 import { openRealDb } from "../../../../tests/helpers/real-db";
-import { GET as status } from "./status/route";
+import { GET as statusGet } from "./status/route";
 import { POST as turn } from "./turn/route";
 
 const hasDb = !!openRealDb();
+const status = () => statusGet(new Request("http://localhost:3100/api/agent/status"));
 const URL_ = "http://localhost:3100/api/agent/turn";
 const req = (body: unknown, headers: Record<string, string> = {}, raw?: string) => new Request(URL_, { method: "POST", headers: { "content-type": "application/json", ...headers }, body: raw ?? JSON.stringify(body) });
 const use = (env: Record<string, string> = {}) => setRuntimeForTests(buildRuntime(readAgentConfig({ AGENT_EVIDENCE_MODE: "fixture", AGENT_RATE_PER_MIN: "1000", ...env })));

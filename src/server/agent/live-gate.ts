@@ -35,6 +35,10 @@ export function liveGate(env: Record<string, string | undefined>): LiveGate {
   if (!env.AGENT_LIVE_ALLOW_MODEL || env.AGENT_LIVE_ALLOW_MODEL !== env.AGENT_MODEL) missing.push("model_not_allowlisted");
   const pin = Number(env.AGENT_LIVE_PRICE_IN_PER_M); const pout = Number(env.AGENT_LIVE_PRICE_OUT_PER_M);
   if (!(Number.isFinite(pin) && pin > 0 && Number.isFinite(pout) && pout > 0)) missing.push("owner_verified_prices");
+  // live traffic is PRIVATE: only a holder of the admin token can reach the paid model; the public always gets the (labelled) offline planner
+  if ((env.AGENT_LIVE_ADMIN_TOKEN ?? "").length < 24) missing.push("admin_token");
+  // the global budget ledger must live in a file that survives restarts, otherwise a restart loop would reset the spend counter
+  if (!(env.AGENT_LIVE_LEDGER_PATH ?? "").trim()) missing.push("ledger_path");
   if (env.AGENT_LIVE_KILL === "1") missing.push("kill_switch_engaged");
   const open = requested && missing.length === 0;
   return {

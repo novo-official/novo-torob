@@ -1,4 +1,7 @@
 // @vitest-environment node
+import fs from "node:fs";
+import os from "node:os";
+import path from "node:path";
 import { describe, expect, it, vi } from "vitest";
 import { createLiveGuard, estimateInputTokens, liveGuardOptionsFromEnv, LiveGuardError, type LiveGuardOptions } from "./live-guard";
 import { liveGate, LIVE_MODEL_CALLS_ENABLED_IN_CODE } from "./live-gate";
@@ -171,6 +174,13 @@ describe("handshake gate (second lock; the first is the code constant)", () => {
     AGENT_LIVE_APPROVAL: "APPROVED-ABCDEFGH12", AGENT_LIVE_MAX_REQUESTS: "5", AGENT_LIVE_MAX_USD: "0.2", AGENT_LIVE_MAX_TOKENS: "300",
     AGENT_LIVE_APPROVAL_EXPIRES: new Date(Date.now() + 3_600_000).toISOString(), AGENT_LIVE_ALLOW_BASE_URL: BASE, AGENT_LIVE_ALLOW_MODEL: "model-x",
     AGENT_LIVE_PRICE_IN_PER_M: "1", AGENT_LIVE_PRICE_OUT_PER_M: "2",
+    AGENT_LIVE_ADMIN_TOKEN: "t".repeat(32), AGENT_LIVE_LEDGER_PATH: "/tmp/never-written-ledger.json",
+  });
+  it("live mode also needs a private admin token and a persistent ledger path", () => {
+    const m = (patch: Record<string, string | undefined>) => liveGate({ ...good(), ...patch }).missing;
+    expect(m({ AGENT_LIVE_ADMIN_TOKEN: undefined })).toContain("admin_token");
+    expect(m({ AGENT_LIVE_ADMIN_TOKEN: "short" })).toContain("admin_token");
+    expect(m({ AGENT_LIVE_LEDGER_PATH: "" })).toContain("ledger_path");
   });
   it("only the code lock remains when every other condition is met", () => {
     expect(liveGate(good()).missing).toEqual(["code_lock"]);
@@ -198,6 +208,55 @@ describe("handshake gate (second lock; the first is the code constant)", () => {
   it("guard options from env are null unless every limit is present", () => {
     expect(liveGuardOptionsFromEnv(good())).toBeNull(); // AGENT_LIVE_MAX_INPUT_TOKENS missing
     expect(liveGuardOptionsFromEnv({ ...good(), AGENT_LIVE_MAX_INPUT_TOKENS: "4000" })).toMatchObject({ allowedModel: "model-x", maxInputTokens: 4000 });
+    expect(liveGuardOptionsFromEnv({ ...good(), AGENT_LIVE_MAX_INPUT_TOKENS: "4000", AGENT_LIVE_LEDGER_PATH: "" })).toBeNull(); // no ledger file ⇒ no live
     expect(liveGuardOptionsFromEnv({ ...good(), AGENT_LIVE_MAX_INPUT_TOKENS: "4000", AGENT_LIVE_ALLOW_BASE_URL: "http://insecure/v1" })).toBeNull();
+  });
+});
+
+describe("persistent global budget ledger (survives restarts; fails closed)", () => {
+  const tmp = () => path.join(fs.mkdtempSync(path.join(os.tmpdir(), "live-ledger-")), "ledger.json");
+  const okFetch = () => vi.fn(async () => reply({ prompt_tokens: 100, completion_tokens: 50 }));
+  const wrapOf = (o: LiveGuardOptions, f: ReturnType<typeof okFetch>) => createLiveGuard(o).wrap(f as unknown as typeof fetch);
+  // the real network function is unreachable while the code lock is on; an injected transport is the test seam
+  it("a restart resumes the spent budget and request count instead of resetting it", async () => {
+    const ledgerPath = tmp();
+    const f1 = okFetch();
+    const g1 = createLiveGuard(opts({ ledgerPath, maxRequests: 2, maxUsd: 1 }));
+    await g1.wrap(f1 as unknown as typeof fetch)(URL_OK, init());
+    const spent1 = g1.state().spentUsd;
+    expect(JSON.parse(fs.readFileSync(ledgerPath, "utf8"))).toMatchObject({ v: 1, requests: 1 });
+    // "process restart": a brand-new guard on the same file
+    const f2 = okFetch();
+    const g2 = createLiveGuard(opts({ ledgerPath, maxRequests: 2, maxUsd: 1 }));
+    expect(g2.state()).toMatchObject({ requests: 1 });
+    expect(g2.state().spentUsd).toBeCloseTo(spent1, 10);
+    await g2.wrap(f2 as unknown as typeof fetch)(URL_OK, init());
+    await expect(g2.wrap(f2 as unknown as typeof fetch)(URL_OK, init())).rejects.toThrow(/request_cap/); // 2 requests TOTAL across both processes
+    expect(f2).toHaveBeenCalledTimes(1);
+  });
+  it("a halted state is sticky across restarts", async () => {
+    const ledgerPath = tmp();
+    const g1 = createLiveGuard(opts({ ledgerPath }));
+    await g1.wrap((async () => reply(null)) as unknown as typeof fetch)(URL_OK, init()); // no usage ⇒ halts
+    expect(g1.state().halted).toBe(true);
+    const f = okFetch();
+    await expect(wrapOf(opts({ ledgerPath }), f)(URL_OK, init())).rejects.toThrow(/halted/);
+    expect(f).not.toHaveBeenCalled();
+  });
+  it("a corrupt or unwritable ledger refuses every request and sends nothing", async () => {
+    const bad = tmp(); fs.writeFileSync(bad, "{not json");
+    const f = okFetch();
+    await expect(wrapOf(opts({ ledgerPath: bad }), f)(URL_OK, init())).rejects.toThrow(/ledger_unreadable/);
+    const blocked = path.join(fs.mkdtempSync(path.join(os.tmpdir(), "live-ledger-")), "file-as-dir");
+    fs.writeFileSync(blocked, "x");
+    const f2 = okFetch();
+    await expect(wrapOf(opts({ ledgerPath: path.join(blocked, "ledger.json") }), f2)(URL_OK, init())).rejects.toThrow(/ledger_unwritable/);
+    expect(f).not.toHaveBeenCalled(); expect(f2).not.toHaveBeenCalled();
+  });
+  it("the ledger file holds counters only — never prompts, responses or keys", async () => {
+    const ledgerPath = tmp();
+    await wrapOf(opts({ ledgerPath }), okFetch())(URL_OK, init());
+    const raw = fs.readFileSync(ledgerPath, "utf8");
+    expect(raw).not.toContain(KEY); expect(raw).not.toContain("سلام"); expect(Object.keys(JSON.parse(raw)).sort()).toEqual(["haltReason", "halted", "requests", "spentUsd", "updatedAt", "v"]);
   });
 });

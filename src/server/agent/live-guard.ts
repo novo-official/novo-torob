@@ -1,3 +1,5 @@
+import fs from "node:fs";
+import path from "node:path";
 import { LIVE_MODEL_CALLS_ENABLED_IN_CODE } from "./live-gate";
 
 /**
@@ -23,6 +25,11 @@ export interface LiveGuardOptions {
   priceOutPerM: number;
   breakerThreshold?: number;
   isKilled?: () => boolean;
+  /**
+   * File that persists the CUMULATIVE budget (requests, reserved/charged USD, halted) across restarts. Read at construction, written (atomic
+   * rename) BEFORE every send and after every response. Unreadable/corrupt/unwritable ⇒ the guard refuses everything (fail closed).
+   */
+  ledgerPath?: string;
 }
 export interface LiveLedgerEntry { seq: number; at: string; outcome: "ok" | "refused" | "failed"; reason?: string; reservedUsd: number; chargedUsd: number; inputTokens: number | null; outputTokens: number | null }
 export interface LiveGuardState { requests: number; spentUsd: number; halted: boolean; haltReason: string | null; consecutiveFailures: number; inFlight: number }
@@ -41,7 +48,30 @@ export function createLiveGuard(opts: LiveGuardOptions, now: () => Date = () => 
   const st: LiveGuardState = { requests: 0, spentUsd: 0, halted: false, haltReason: null, consecutiveFailures: 0, inFlight: 0 };
   const endpoint = `${opts.allowedBaseUrl.replace(/\/$/, "")}/chat/completions`;
   const valid = [opts.maxRequests, opts.maxUsd, opts.maxOutputTokens, opts.maxInputTokens, opts.priceInPerM, opts.priceOutPerM].every((n) => Number.isFinite(n) && n > 0);
-  const halt = (reason: string) => { st.halted = true; st.haltReason ??= reason; };
+  const halt = (reason: string) => { st.halted = true; st.haltReason ??= reason; persistSoon(); };
+  let persistSoon: () => void = () => {};
+  // ---- persistent cumulative budget (survives restarts) ----
+  let persistBroken: string | null = null;
+  const persist = () => {
+    if (!opts.ledgerPath) return;
+    try {
+      const tmp = `${opts.ledgerPath}.tmp`;
+      fs.mkdirSync(path.dirname(opts.ledgerPath), { recursive: true });
+      fs.writeFileSync(tmp, JSON.stringify({ v: 1, requests: st.requests, spentUsd: st.spentUsd, halted: st.halted, haltReason: st.haltReason, updatedAt: now().toISOString() }), { mode: 0o600 });
+      fs.renameSync(tmp, opts.ledgerPath);
+    } catch { persistBroken = "ledger_unwritable"; }
+  };
+  persistSoon = persist;
+  if (opts.ledgerPath) {
+    try {
+      if (fs.existsSync(opts.ledgerPath)) {
+        const j = JSON.parse(fs.readFileSync(opts.ledgerPath, "utf8")) as { v?: number; requests?: unknown; spentUsd?: unknown; halted?: unknown; haltReason?: unknown };
+        if (j.v !== 1 || !Number.isInteger(j.requests) || !(typeof j.spentUsd === "number" && Number.isFinite(j.spentUsd) && j.spentUsd >= 0)) throw new Error("bad ledger");
+        st.requests = j.requests as number; st.spentUsd = j.spentUsd;
+        if (j.halted === true) { st.halted = true; st.haltReason = typeof j.haltReason === "string" ? j.haltReason : "halted_previous_run"; }
+      } else persist();
+    } catch { persistBroken = "ledger_unreadable"; }
+  }
   const log = (e: Omit<LiveLedgerEntry, "seq" | "at">) => { entries.push({ seq: entries.length + 1, at: now().toISOString(), ...e }); };
   const refuse = (reason: string, haltToo = false): never => { if (haltToo) halt(reason); log({ outcome: "refused", reason, reservedUsd: 0, chargedUsd: 0, inputTokens: null, outputTokens: null }); throw new LiveGuardError(reason); };
 
@@ -49,6 +79,7 @@ export function createLiveGuard(opts: LiveGuardOptions, now: () => Date = () => 
     // the real network function is unreachable while the code lock is on — even if this wrapper is constructed
     if (inner === fetch && !LIVE_MODEL_CALLS_ENABLED_IN_CODE) throw new LiveGuardError("code_lock");
     return (async (input: RequestInfo | URL, init?: RequestInit) => {
+      if (persistBroken) return refuse(persistBroken, true);
       if (!valid) return refuse("invalid_owner_limits", true);
       if (st.halted) return refuse(`halted:${st.haltReason}`);
       if (opts.isKilled?.()) return refuse("stop_switch", true);
@@ -67,6 +98,8 @@ export function createLiveGuard(opts: LiveGuardOptions, now: () => Date = () => 
       if (st.spentUsd + worst > opts.maxUsd) return refuse("usd_cap", true);
 
       st.inFlight++; st.requests++; st.spentUsd += worst;               // reserve the worst case BEFORE sending
+      persist();
+      if (persistBroken) { st.inFlight--; st.requests--; st.spentUsd -= worst; return refuse(persistBroken, true); } // cannot record the spend ⇒ do not spend
       let res: Response;
       try {
         res = await inner(url, { ...init, redirect: "error" });
@@ -74,6 +107,7 @@ export function createLiveGuard(opts: LiveGuardOptions, now: () => Date = () => 
         st.inFlight--; st.consecutiveFailures++;                        // charge stays reserved: a timed-out call may still have been billed
         log({ outcome: "failed", reason: "network", reservedUsd: worst, chargedUsd: worst, inputTokens: null, outputTokens: null });
         if (st.consecutiveFailures >= threshold) halt("circuit_breaker");
+        persist();
         throw e;
       }
       st.inFlight--;
@@ -92,6 +126,7 @@ export function createLiveGuard(opts: LiveGuardOptions, now: () => Date = () => 
       }
       if (res.ok) st.consecutiveFailures = 0;
       else { st.consecutiveFailures++; if (st.consecutiveFailures >= threshold) halt("circuit_breaker"); }
+      persist();
       return res;
     }) as typeof fetch;
   }
@@ -106,7 +141,9 @@ export function liveGuardOptionsFromEnv(env: Record<string, string | undefined>,
     maxRequests: n(env.AGENT_LIVE_MAX_REQUESTS), maxUsd: n(env.AGENT_LIVE_MAX_USD), maxOutputTokens: n(env.AGENT_LIVE_MAX_TOKENS),
     maxInputTokens: n(env.AGENT_LIVE_MAX_INPUT_TOKENS), priceInPerM: n(env.AGENT_LIVE_PRICE_IN_PER_M), priceOutPerM: n(env.AGENT_LIVE_PRICE_OUT_PER_M),
     isKilled: () => env.AGENT_LIVE_KILL === "1" || killFileExists(),
+    ledgerPath: (env.AGENT_LIVE_LEDGER_PATH ?? "").trim() || undefined,
   };
+  if (!o.ledgerPath) return null;
   if (!o.allowedBaseUrl.startsWith("https://") || !o.allowedModel) return null;
   if (![o.maxRequests, o.maxUsd, o.maxOutputTokens, o.maxInputTokens, o.priceInPerM, o.priceOutPerM].every((x) => Number.isFinite(x) && x > 0)) return null;
   return o;
