@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { DatabaseUnavailableError, getImportInfo, getReadDb } from "@/server";
+import { CatalogMismatchError, CorruptDatabaseError, DatabaseUnavailableError, getImportInfo, getReadDb } from "@/server";
 
 export const dynamic = "force-dynamic";
 
@@ -16,7 +16,7 @@ export function GET() {
       { headers },
     );
   } catch (e) {
-    const reason = e instanceof DatabaseUnavailableError ? "database file missing" : "database error";
+    const reason = e instanceof CatalogMismatchError ? "catalog does not match the expected size" : e instanceof CorruptDatabaseError ? "database file incomplete or corrupt" : e instanceof DatabaseUnavailableError ? "database file missing" : "database error";
     return NextResponse.json({ status: "not_ready", reason }, { status: 503, headers });
   }
 }

@@ -1,6 +1,6 @@
 // @vitest-environment node
 import { describe, expect, it } from "vitest";
-import { clientKey, isCrossSite, RateLimiter, Semaphore } from "./guard";
+import { clientKey, isCrossSite, proxyHops, RateLimiter, Semaphore } from "./guard";
 
 describe("rate limiter", () => {
   it("allows N per minute, then reports a wait; recovers after the window", () => {
@@ -23,9 +23,17 @@ describe("concurrency gate", () => {
 describe("request identity and CSRF", () => {
   const h = (o: Record<string, string>) => ({ get: (n: string) => o[n.toLowerCase()] ?? null });
   it("client key is a coarse bucket, never message content; X-Forwarded-For is IGNORED unless a trusted proxy is declared", () => {
-    expect(clientKey(h({ "x-forwarded-for": "1.2.3.4, 9.9.9.9" }), true)).toBe("1.2.3.4"); expect(clientKey(h({ "x-forwarded-for": "<script>" }), true)).toBe("local"); expect(clientKey(h({}), true)).toBe("local");
+    expect(clientKey(h({ "x-forwarded-for": "1.2.3.4" }), true)).toBe("1.2.3.4"); expect(clientKey(h({ "x-forwarded-for": "<script>" }), true)).toBe("local"); expect(clientKey(h({}), true)).toBe("local");
     // untrusted (default): rotating the header must not create new buckets
     expect(clientKey(h({ "x-forwarded-for": "1.2.3.4" }), false)).toBe("shared"); expect(clientKey(h({ "x-forwarded-for": "5.6.7.8" }), false)).toBe("shared");
+  });
+  it("behind a proxy that APPENDS to X-Forwarded-For the client-sent (left) entries cannot choose the bucket", () => {
+    // attacker sends "X-Forwarded-For: 6.6.6.6"; the trusted proxy appends the address it saw → the rightmost entry is the real client
+    expect(clientKey(h({ "x-forwarded-for": "6.6.6.6, 203.0.113.9" }), true, 1)).toBe("203.0.113.9");
+    expect(clientKey(h({ "x-forwarded-for": "7.7.7.7, 203.0.113.9" }), true, 1)).toBe("203.0.113.9"); // rotating the spoofed part changes nothing
+    expect(clientKey(h({ "x-forwarded-for": "6.6.6.6, 203.0.113.9, 10.0.0.2" }), true, 2)).toBe("203.0.113.9"); // two trusted hops
+    expect(clientKey(h({ "x-forwarded-for": "10.0.0.2" }), true, 2)).toBe("local"); // fewer entries than hops → never fall back to a spoofable value
+    expect(proxyHops({})).toBe(1); expect(proxyHops({ TRUST_PROXY_HOPS: "2" })).toBe(2); expect(proxyHops({ TRUST_PROXY_HOPS: "99" })).toBe(5); expect(proxyHops({ TRUST_PROXY_HOPS: "abc" })).toBe(1); expect(proxyHops({ TRUST_PROXY_HOPS: "0" })).toBe(1);
   });
   it("refuses cross-site browser requests, allows same-origin and header-less clients", () => {
     expect(isCrossSite(h({ "sec-fetch-site": "cross-site" }), "http://a.test/x")).toBe(true);
