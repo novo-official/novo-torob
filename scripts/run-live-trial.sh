@@ -39,6 +39,7 @@ export AGENT_LIVE_ADMIN_TOKEN="$(head -c 24 /dev/urandom | base64 | tr -dc 'A-Za
 export AGENT_LIVE_LEDGER_PATH="$PWD/.cache/live-ledger.json" AGENT_EVIDENCE_MODE=off AGENT_RATE_PER_MIN=600
 [ -n "${TOKEN_PARAM:-}" ] && export AGENT_TOKEN_PARAM="$TOKEN_PARAM"
 [ -n "${NO_TEMPERATURE:-}" ] && export AGENT_SEND_TEMPERATURE=0
+[ -n "${REASONING:-}" ] && export AGENT_REASONING_EFFORT="$REASONING"   # none (default for gpt-6-luna) | low | … | omit
 export LIVE_TRIAL_CONFIRM="SPEND-UP-TO-0.25"
 
 sed -i 's/LIVE_MODEL_CALLS_ENABLED_IN_CODE = false as const/LIVE_MODEL_CALLS_ENABLED_IN_CODE = true as const/' "$GATE"

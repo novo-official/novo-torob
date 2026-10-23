@@ -279,10 +279,10 @@ describe("BoxAPI-style wire compatibility (mocked HTTP only — no network, no k
   });
   it("newer-model wire options: max_completion_tokens instead of max_tokens, and no temperature field", async () => {
     const { seen, f } = capture();
-    await createOpenAiCompatibleProvider({ ...cfg, tokenParam: "max_completion_tokens", sendTemperature: false }, f as unknown as typeof fetch).complete(req());
-    expect(seen[0]!.body.max_completion_tokens).toBe(700); expect("max_tokens" in seen[0]!.body).toBe(false); expect("temperature" in seen[0]!.body).toBe(false);
-    expect(wireOptionsFromEnv({})).toEqual({ tokenParam: "max_tokens", sendTemperature: true });
-    expect(wireOptionsFromEnv({ AGENT_TOKEN_PARAM: "max_completion_tokens", AGENT_SEND_TEMPERATURE: "0" })).toEqual({ tokenParam: "max_completion_tokens", sendTemperature: false });
+    await createOpenAiCompatibleProvider({ ...cfg, tokenParam: "max_completion_tokens", sendTemperature: false, reasoningEffort: "none" }, f as unknown as typeof fetch).complete(req());
+    expect(seen[0]!.body.reasoning_effort).toBe("none"); expect(seen[0]!.body.max_completion_tokens).toBe(700); expect("max_tokens" in seen[0]!.body).toBe(false); expect("temperature" in seen[0]!.body).toBe(false);
+    expect(wireOptionsFromEnv({})).toEqual({ tokenParam: "max_tokens", sendTemperature: true, reasoningEffort: null });
+    expect(wireOptionsFromEnv({ AGENT_TOKEN_PARAM: "max_completion_tokens", AGENT_SEND_TEMPERATURE: "0" })).toEqual({ tokenParam: "max_completion_tokens", sendTemperature: false, reasoningEffort: null });
   });
   it("the guard accepts exactly one output-token field within the cap, for either spelling", async () => {
     const g = createLiveGuard(opts({ allowedModel: "gpt-6-luna", maxRequests: 5, maxUsd: 1 }));
@@ -311,10 +311,12 @@ describe("a rejected call (HTTP 400) is diagnosable and does not masquerade as a
   const req = (): ProviderRequest => ({ system: "s", messages: [{ role: "user", content: "سلام" }], tools: toolSpecs(), maxOutputChars: 1400, context: { state: initialAgentState(), userMessage: null, control: null } });
 
   it("default wire for gpt-5/6/o-series ids is max_completion_tokens without temperature; classic models keep max_tokens + temperature; env overrides win", () => {
-    expect(wireOptionsFromEnv({}, "gpt-6-luna")).toEqual({ tokenParam: "max_completion_tokens", sendTemperature: false });
-    expect(wireOptionsFromEnv({}, "openai/gpt-6-luna")).toEqual({ tokenParam: "max_completion_tokens", sendTemperature: false });
-    expect(wireOptionsFromEnv({}, "gpt-4o-mini")).toEqual({ tokenParam: "max_tokens", sendTemperature: true });
-    expect(wireOptionsFromEnv({ AGENT_TOKEN_PARAM: "max_tokens", AGENT_SEND_TEMPERATURE: "1" }, "gpt-6-luna")).toEqual({ tokenParam: "max_tokens", sendTemperature: true });
+    expect(wireOptionsFromEnv({}, "gpt-6-luna")).toEqual({ tokenParam: "max_completion_tokens", sendTemperature: false, reasoningEffort: "none" });
+    expect(wireOptionsFromEnv({}, "openai/gpt-6-luna")).toEqual({ tokenParam: "max_completion_tokens", sendTemperature: false, reasoningEffort: "none" });
+    expect(wireOptionsFromEnv({}, "gpt-4o-mini")).toEqual({ tokenParam: "max_tokens", sendTemperature: true, reasoningEffort: null });
+    expect(wireOptionsFromEnv({ AGENT_TOKEN_PARAM: "max_tokens", AGENT_SEND_TEMPERATURE: "1", AGENT_REASONING_EFFORT: "omit" }, "gpt-6-luna")).toEqual({ tokenParam: "max_tokens", sendTemperature: true, reasoningEffort: null });
+    expect(wireOptionsFromEnv({ AGENT_REASONING_EFFORT: "low" }, "gpt-6-luna").reasoningEffort).toBe("low");
+    expect(wireOptionsFromEnv({ AGENT_REASONING_EFFORT: "bad value!" }, "gpt-6-luna").reasoningEffort).toBe("none");
   });
   it("the provider's error type/code/param/message reaches the operator (redacted, capped), never the request content", async () => {
     const seen: Array<[number, string]> = [];

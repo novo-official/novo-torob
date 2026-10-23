@@ -34,7 +34,7 @@ export function toWireMessages(req: ProviderRequest): unknown[] {
  * Some newer chat models reject `max_tokens` (they want `max_completion_tokens`) or any non-default `temperature`. Both are owner-selectable at run time
  * (AGENT_TOKEN_PARAM, AGENT_SEND_TEMPERATURE=0) so the first live call does not fail on a parameter we could have known; defaults are unchanged.
  */
-export interface WireOptions { tokenParam: "max_tokens" | "max_completion_tokens"; sendTemperature: boolean }
+export interface WireOptions { tokenParam: "max_tokens" | "max_completion_tokens"; sendTemperature: boolean; /** sent as `reasoning_effort` when set; gpt-6-luna rejects function tools on chat/completions unless it is explicit (BoxAPI 400, 2026-10-23) */ reasoningEffort: string | null }
 /** gpt-5 / gpt-6 / o-series style models reject `max_tokens` and a non-default `temperature`; older chat models want the classic fields. Env overrides win. */
 const NEW_STYLE_MODEL = /^(?:openai\/)?(?:gpt-[5-9]|o[1-9])/i;
 export const wireOptionsFromEnv = (env: Record<string, string | undefined>, model: string | null = env.AGENT_MODEL ?? null): WireOptions => {
@@ -42,6 +42,8 @@ export const wireOptionsFromEnv = (env: Record<string, string | undefined>, mode
   return {
     tokenParam: env.AGENT_TOKEN_PARAM === "max_completion_tokens" || (env.AGENT_TOKEN_PARAM !== "max_tokens" && newStyle) ? "max_completion_tokens" : "max_tokens",
     sendTemperature: env.AGENT_SEND_TEMPERATURE === "1" ? true : env.AGENT_SEND_TEMPERATURE === "0" ? false : !newStyle,
+    // new-style reasoning models: explicit "none" (no hidden reasoning ⇒ tools allowed, cheaper, deterministic latency). AGENT_REASONING_EFFORT=omit sends nothing; any other value is passed through.
+    reasoningEffort: env.AGENT_REASONING_EFFORT === "omit" ? null : /^[a-z]{3,12}$/.test(env.AGENT_REASONING_EFFORT ?? "") ? env.AGENT_REASONING_EFFORT! : newStyle ? "none" : null,
   };
 };
 
@@ -50,7 +52,7 @@ export async function describeProviderError(res: Response, secrets: Array<string
   try {
     const j = JSON.parse((await res.text()).slice(0, 4_000)) as { error?: { message?: unknown; type?: unknown; code?: unknown; param?: unknown } | string; message?: unknown };
     const e = typeof j.error === "object" && j.error ? j.error : { message: typeof j.error === "string" ? j.error : j.message };
-    const part = (k: string, v: unknown) => (typeof v === "string" && v ? `${k}=${v.slice(0, 160)}` : "");
+    const part = (k: string, v: unknown) => (typeof v === "string" && v ? `${k}=${v.slice(0, 400)}` : "");
     return redact([part("type", e.type), part("code", e.code), part("param", e.param), part("message", e.message)].filter(Boolean).join(" "), secrets) || "no error detail";
   } catch { return "no parsable error body"; }
 }
@@ -65,7 +67,7 @@ export function createOpenAiCompatibleProvider(cfg: Pick<AgentConfig, "baseUrl" 
       if (fetchImpl === fetch && !LIVE_MODEL_CALLS_ENABLED_IN_CODE) throw new ProviderError("UNAVAILABLE", "live model calls are code-locked", false);
       if (!cfg.baseUrl || !cfg.apiKey || !cfg.model) throw new ProviderError("UNAVAILABLE", "provider not configured");
       const body = {
-        model: cfg.model, ...(cfg.sendTemperature === false ? {} : { temperature: 0 }), [cfg.tokenParam ?? "max_tokens"]: cfg.maxOutputTokens ?? 700, tool_choice: "auto",
+        model: cfg.model, ...(cfg.sendTemperature === false ? {} : { temperature: 0 }), ...(cfg.reasoningEffort ? { reasoning_effort: cfg.reasoningEffort } : {}), [cfg.tokenParam ?? "max_tokens"]: cfg.maxOutputTokens ?? 700, tool_choice: "auto",
         messages: toWireMessages(req),
         tools: req.tools.map((t) => ({ type: "function", function: { name: t.name, description: t.description, parameters: t.parameters } })),
       };
