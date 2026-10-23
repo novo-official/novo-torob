@@ -1,0 +1,34 @@
+# Upload-context exclusions for a (future, owner-approved) `liara deploy`. Never upload data, secrets or test artifacts.
+.git
+.data
+data
+.cache
+.env
+.env.*
+!.env.example
+*.sqlite
+*.sqlite3
+*.db
+*.db-wal
+*.db-shm
+*.zip
+*.mp4
+node_modules
+.next
+coverage
+test-results
+playwright-report
+qa-artifacts
+docs/qa
+# nested copies (patterns above are root-anchored)
+**/*.sqlite
+**/*.sqlite3
+**/*.db
+**/*.db-wal
+**/*.db-shm
+**/*.mp4
+**/.env
+**/.env.*
+!.env.example
+.claude
+.brud

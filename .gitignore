@@ -32,9 +32,10 @@ next-env.d.ts
 .cache/
 .turbo/
 
-# test artifacts (screenshots are kept under docs/qa/)
+# test artifacts: automated runs write screenshots/reports to /qa-artifacts (never to the tracked docs/qa/ reference set)
 playwright-report/
 test-results/
+/qa-artifacts/
 
 # OS / editor
 .DS_Store
@@ -49,3 +50,9 @@ Thumbs.db
 
 # live-trial stop switch flag (never commit)
 .live-kill
+
+# local agent/tool state
+.claude/
+
+# live-model trial budget ledger (counters only)
+.live-ledger*
