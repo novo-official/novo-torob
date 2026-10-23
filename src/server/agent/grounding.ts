@@ -46,6 +46,9 @@ export function validateAssistantText(text: string, ledger: Ledger, maxChars = 1
   for (const m of text.matchAll(NUM_RE)) {
     const n = parseNum(m[0]);
     if (n === null) continue;
+    // digits glued to Latin letters are part of a model code / identifier (HDW1200CLQP, JD8500THEB), not a numeric claim — the live model quoting a product code must not be rejected
+    const idx = m.index ?? 0;
+    if (/[A-Za-z]/.test(text[idx - 1] ?? "") || /[A-Za-z]/.test(text[idx + m[0].length] ?? "")) continue;
     const after = text.slice((m.index ?? 0) + m[0].length, (m.index ?? 0) + m[0].length + 14);
     const needs = n >= 1000 ? !isYear(n) : UNIT_AFTER.test(after);
     if (needs && !ledger.numbers.has(n) && !ledger.numbers.has(Math.round(n))) v.push(`UNGROUNDED_NUMBER:${m[0]}`);

@@ -19,6 +19,11 @@ describe("grounding validator", () => {
     bad("فقط ۹۰۰ متر فاصله دارد.", "UNGROUNDED_NUMBER");
     bad("۲۰۰۰۰۰۰", "UNGROUNDED_NUMBER");
   });
+  it("digits inside Latin model codes are not numeric claims, but a price next to them still is", () => {
+    ok("مدل DH-HAC-HDW1200CLQP-IL-A و موتور برق JD8500THEB پیدا شد.");
+    bad("مدل HDW1200CLQP قیمت ۳٬۹۰۰٬۰۰۰ تومان است.", "UNGROUNDED_NUMBER");
+    bad("۱۲۰۰۰۰۰ تومان", "UNGROUNDED_NUMBER");
+  });
   it("years and tiny unitless numbers are not treated as claims", () => { ok("در ۱۴۰۵ ثبت شده؛ مرحله ۲."); });
   it("blocks links, phones, coordinates", () => {
     bad("برو به https://evil.com", "URL_IN_TEXT"); bad("www.shop.ir", "URL_IN_TEXT"); bad("زنگ بزن ۰۹۱۲۳۴۵۶۷۸۹", "PHONE_IN_TEXT"); bad("+989123456789", "PHONE_IN_TEXT"); bad("مختصات 35.6892 و 51.389", "COORDINATES_IN_TEXT");
