@@ -154,3 +154,6 @@ axe/Lighthouse و صفحه‌خوان اجرا نشد؛ فقط Chrome؛ کلیپ
 
 ## فاز ۱۰A
 لاگ گیت: `docs/qa/release-gate-latest.txt`؛ اثبات fail‑closed: `gate-b-proof.json`؛ تمرین دمو: `demo-rehearsal.json`؛ عملکرد Docker: `perf-profile-docker.json`؛ پروتکل‌های انسانی: `human-test-protocols.md`.
+
+
+> **خروجی خودکار تست‌ها** دیگر در این پوشه نوشته نمی‌شود؛ به `qa-artifacts/` (ignore‌شده) می‌رود. این پوشه مرجع دستی/تاییدشده است؛ برای به‌روزرسانی عمدی: `QA_OUTPUT_DIR=docs/qa npx playwright test …` (با تأیید مالک).
