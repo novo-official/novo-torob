@@ -13,7 +13,7 @@ import { QA_OUT } from "../tests/helpers/qa-out";
 import { readAgentConfig } from "../src/server/agent/config";
 import { LIVE_MODEL_CALLS_ENABLED_IN_CODE } from "../src/server/agent/live-gate";
 import { createLiveGuard, liveGuardOptionsFromEnv } from "../src/server/agent/live-guard";
-import { createOpenAiCompatibleProvider } from "../src/server/agent/providers/openai-compatible";
+import { createOpenAiCompatibleProvider, wireOptionsFromEnv } from "../src/server/agent/providers/openai-compatible";
 import { Harness } from "../src/server/agent/eval/harness";
 import { scan } from "../src/server/agent/eval/run";
 import type { AgentTurnResponse } from "../src/domain/agent";
@@ -39,7 +39,7 @@ async function main() {
   const db = openRealDb();
   if (!db) { console.error("real catalog required"); process.exit(2); }
   const guard = createLiveGuard(opts);
-  const provider = createOpenAiCompatibleProvider({ ...config, maxOutputTokens: opts.maxOutputTokens }, guard.wrap(fetch));
+  const provider = createOpenAiCompatibleProvider({ ...config, maxOutputTokens: opts.maxOutputTokens, ...wireOptionsFromEnv(process.env) }, guard.wrap(fetch));
   let h = new Harness(db, config, provider, new Date());
   const rows: Array<{ id: string; stage: string; ok: boolean; problems: string[]; fallback: string | null; tools: string[]; ms: number; textChars: number }> = [];
   const turns: AgentTurnResponse[] = [];

@@ -62,7 +62,8 @@ export function readAgentConfig(env: Record<string, string | undefined> = proces
   // a requested live provider is `live-locked` unless EVERY live condition holds; there is no silent fallback to the mock
   let provider: ProviderKind = p === "openai-compatible" ? (gate.open ? "openai-compatible" : "live-locked") : p === "disabled" ? "disabled" : "mock";
   const baseUrl = httpsUrl(env.AGENT_BASE_URL);
-  const apiKey = env.AGENT_API_KEY?.trim() || null;
+  // server-side env only; BOXAPI_API_KEY is the name the hackathon reference uses, AGENT_API_KEY stays as an alias
+  const apiKey = (env.BOXAPI_API_KEY ?? env.AGENT_API_KEY)?.trim() || null;
   const model = env.AGENT_MODEL?.trim().slice(0, 80) || null;
   // an incomplete configuration of an OPEN gate stays closed too (never guess an endpoint/model)
   if (provider === "openai-compatible" && (!baseUrl || !apiKey || !model)) provider = "live-locked";

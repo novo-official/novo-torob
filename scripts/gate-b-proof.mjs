@@ -84,7 +84,7 @@ await withServer({ AGENT_PROVIDER: "mock", AGENT_RATE_PER_MIN: "600" }, port++, 
 });
 // secrets never in logs or the client bundle
 const staticDir = path.join(ROOT, ".next/static"); let hits = 0; let files = 0;
-const walk = (d) => { for (const e of fs.readdirSync(d, { withFileTypes: true })) { const f = path.join(d, e.name); if (e.isDirectory()) walk(f); else if (/\.(js|css|map|txt|json|html)$/.test(e.name)) { files++; const t = fs.readFileSync(f, "utf8"); if (/AGENT_API_KEY|LIVE_MODEL_CALLS_ENABLED_IN_CODE|openai-compatible|sk-FAKE|api\.openai|boxapi/i.test(t)) { hits++; out.bundle.offenders = [...(out.bundle.offenders ?? []), path.relative(ROOT, f)]; } } } };
+const walk = (d) => { for (const e of fs.readdirSync(d, { withFileTypes: true })) { const f = path.join(d, e.name); if (e.isDirectory()) walk(f); else if (/\.(js|css|map|txt|json|html)$/.test(e.name)) { files++; const t = fs.readFileSync(f, "utf8"); if (/AGENT_API_KEY|BOXAPI_API_KEY|LIVE_MODEL_CALLS_ENABLED_IN_CODE|openai-compatible|sk-FAKE|api\.openai|boxapi/i.test(t)) { hits++; out.bundle.offenders = [...(out.bundle.offenders ?? []), path.relative(ROOT, f)]; } } } };
 walk(staticDir);
 out.bundle = { ...out.bundle, filesScanned: files, filesWithModelOrSecretStrings: hits };
 out.logs = { lines: allLogs.join("").split("\n").filter(Boolean).length, containsFakeKey: allLogs.join("").includes(FAKE_KEY) };

@@ -4,7 +4,7 @@ import type { LlmProvider } from "./provider";
 import { createMockProvider } from "./providers/mock";
 import { ProviderError } from "./provider";
 import { providerInfo } from "./config";
-import { createOpenAiCompatibleProvider } from "./providers/openai-compatible";
+import { createOpenAiCompatibleProvider, wireOptionsFromEnv } from "./providers/openai-compatible";
 import { createLiveGuard, liveGuardOptionsFromEnv } from "./live-guard";
 import { existsSync } from "node:fs";
 
@@ -25,7 +25,7 @@ let cached: AgentRuntime | null = null;
 function buildLiveProvider(config: AgentConfig): LlmProvider {
   const opts = liveGuardOptionsFromEnv(process.env, () => existsSync(".live-kill"));
   if (!opts || opts.allowedModel !== config.model || opts.allowedBaseUrl.replace(/\/$/, "") !== (config.baseUrl ?? "")) return createLockedProvider(config);
-  try { return createOpenAiCompatibleProvider({ ...config, maxOutputTokens: opts.maxOutputTokens }, createLiveGuard(opts).wrap(fetch)); } catch { return createLockedProvider(config); }
+  try { return createOpenAiCompatibleProvider({ ...config, maxOutputTokens: opts.maxOutputTokens, ...wireOptionsFromEnv(process.env) }, createLiveGuard(opts).wrap(fetch)); } catch { return createLockedProvider(config); }
 }
 
 export function buildRuntime(config: AgentConfig = readAgentConfig()): AgentRuntime {

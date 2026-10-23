@@ -30,7 +30,17 @@ export function toWireMessages(req: ProviderRequest): unknown[] {
   return msgs;
 }
 
-export function createOpenAiCompatibleProvider(cfg: Pick<AgentConfig, "baseUrl" | "apiKey" | "model" | "limits"> & { maxOutputTokens?: number }, fetchImpl: typeof fetch = fetch): LlmProvider {
+/**
+ * Some newer chat models reject `max_tokens` (they want `max_completion_tokens`) or any non-default `temperature`. Both are owner-selectable at run time
+ * (AGENT_TOKEN_PARAM, AGENT_SEND_TEMPERATURE=0) so the first live call does not fail on a parameter we could have known; defaults are unchanged.
+ */
+export interface WireOptions { tokenParam: "max_tokens" | "max_completion_tokens"; sendTemperature: boolean }
+export const wireOptionsFromEnv = (env: Record<string, string | undefined>): WireOptions => ({
+  tokenParam: env.AGENT_TOKEN_PARAM === "max_completion_tokens" ? "max_completion_tokens" : "max_tokens",
+  sendTemperature: env.AGENT_SEND_TEMPERATURE !== "0",
+});
+
+export function createOpenAiCompatibleProvider(cfg: Pick<AgentConfig, "baseUrl" | "apiKey" | "model" | "limits"> & { maxOutputTokens?: number } & Partial<WireOptions>, fetchImpl: typeof fetch = fetch): LlmProvider {
   const full = { provider: "openai-compatible" as const, model: cfg.model, baseUrl: cfg.baseUrl, apiKey: cfg.apiKey, evidenceMode: "off" as const, evidenceReproduce: false, limits: cfg.limits, liveGate: { requested: true, open: true, reasonFa: "", missing: [] } };
   return {
     info: providerInfo(full),
@@ -40,7 +50,7 @@ export function createOpenAiCompatibleProvider(cfg: Pick<AgentConfig, "baseUrl" 
       if (fetchImpl === fetch && !LIVE_MODEL_CALLS_ENABLED_IN_CODE) throw new ProviderError("UNAVAILABLE", "live model calls are code-locked", false);
       if (!cfg.baseUrl || !cfg.apiKey || !cfg.model) throw new ProviderError("UNAVAILABLE", "provider not configured");
       const body = {
-        model: cfg.model, temperature: 0, max_tokens: cfg.maxOutputTokens ?? 700, tool_choice: "auto",
+        model: cfg.model, ...(cfg.sendTemperature === false ? {} : { temperature: 0 }), [cfg.tokenParam ?? "max_tokens"]: cfg.maxOutputTokens ?? 700, tool_choice: "auto",
         messages: toWireMessages(req),
         tools: req.tools.map((t) => ({ type: "function", function: { name: t.name, description: t.description, parameters: t.parameters } })),
       };

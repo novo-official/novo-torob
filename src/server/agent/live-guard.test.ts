@@ -5,9 +5,9 @@ import path from "node:path";
 import { describe, expect, it, vi } from "vitest";
 import { createLiveGuard, estimateInputTokens, liveGuardOptionsFromEnv, LiveGuardError, type LiveGuardOptions } from "./live-guard";
 import { liveGate, LIVE_MODEL_CALLS_ENABLED_IN_CODE } from "./live-gate";
-import { createOpenAiCompatibleProvider } from "./providers/openai-compatible";
+import { createOpenAiCompatibleProvider, wireOptionsFromEnv } from "./providers/openai-compatible";
 import { buildRuntime } from "./runtime";
-import { readAgentConfig } from "./config";
+import { publicStatus, readAgentConfig, redact } from "./config";
 import { initialAgentState } from "@/domain/agent";
 import { toolSpecs } from "./orchestrator";
 import { ProviderError, type ProviderRequest } from "./provider";
@@ -258,5 +258,49 @@ describe("persistent global budget ledger (survives restarts; fails closed)", ()
     await wrapOf(opts({ ledgerPath }), okFetch())(URL_OK, init());
     const raw = fs.readFileSync(ledgerPath, "utf8");
     expect(raw).not.toContain(KEY); expect(raw).not.toContain("سلام"); expect(Object.keys(JSON.parse(raw)).sort()).toEqual(["haltReason", "halted", "requests", "spentUsd", "updatedAt", "v"]);
+  });
+});
+
+describe("BoxAPI-style wire compatibility (mocked HTTP only — no network, no key)", () => {
+  const cfg = { baseUrl: BASE, apiKey: KEY, model: "gpt-6-luna", limits: readAgentConfig({}).limits };
+  const req = (): ProviderRequest => ({ system: "s", messages: [{ role: "user", content: "سلام" }], tools: toolSpecs(), maxOutputChars: 1400, context: { state: initialAgentState(), userMessage: null, control: null } });
+  const capture = () => { const seen: Array<{ url: string; headers: Record<string, string>; body: Record<string, unknown> }> = []; const f = vi.fn(async (u: unknown, i?: RequestInit) => { seen.push({ url: String(u), headers: i?.headers as Record<string, string>, body: JSON.parse(String(i?.body)) }); return new Response(JSON.stringify({ choices: [{ message: { content: null, tool_calls: [{ id: "call_1", type: "function", function: { name: "search_products", arguments: "{\"query\":\"x\"}" } }] } }], usage: { prompt_tokens: 10, completion_tokens: 5 } }), { status: 200, headers: { "content-type": "application/json" } }); }); return { seen, f }; };
+
+  it("default wire: chat/completions, Bearer key in the header only, 12 function tools, tool_choice auto, max_tokens + temperature 0", async () => {
+    const { seen, f } = capture();
+    const r = await createOpenAiCompatibleProvider(cfg, f as unknown as typeof fetch).complete(req());
+    expect(r).toMatchObject({ kind: "tool_calls", calls: [{ id: "call_1", name: "search_products" }] });
+    expect(seen[0]!.url).toBe(`${BASE}/chat/completions`);
+    expect(seen[0]!.headers.Authorization).toBe(`Bearer ${KEY}`);
+    expect(JSON.stringify(seen[0]!.body)).not.toContain(KEY);
+    expect(seen[0]!.body).toMatchObject({ model: "gpt-6-luna", temperature: 0, max_tokens: 700, tool_choice: "auto" });
+    expect((seen[0]!.body.tools as unknown[]).length).toBe(12);
+    expect((seen[0]!.body.tools as Array<{ type: string }>).every((t) => t.type === "function")).toBe(true);
+  });
+  it("newer-model wire options: max_completion_tokens instead of max_tokens, and no temperature field", async () => {
+    const { seen, f } = capture();
+    await createOpenAiCompatibleProvider({ ...cfg, tokenParam: "max_completion_tokens", sendTemperature: false }, f as unknown as typeof fetch).complete(req());
+    expect(seen[0]!.body.max_completion_tokens).toBe(700); expect("max_tokens" in seen[0]!.body).toBe(false); expect("temperature" in seen[0]!.body).toBe(false);
+    expect(wireOptionsFromEnv({})).toEqual({ tokenParam: "max_tokens", sendTemperature: true });
+    expect(wireOptionsFromEnv({ AGENT_TOKEN_PARAM: "max_completion_tokens", AGENT_SEND_TEMPERATURE: "0" })).toEqual({ tokenParam: "max_completion_tokens", sendTemperature: false });
+  });
+  it("the guard accepts exactly one output-token field within the cap, for either spelling", async () => {
+    const g = createLiveGuard(opts({ allowedModel: "gpt-6-luna", maxRequests: 5, maxUsd: 1 }));
+    const f = vi.fn(async () => reply({ prompt_tokens: 10, completion_tokens: 5 }));
+    const w = g.wrap(f as unknown as typeof fetch);
+    await w(URL_OK, init(body({ model: "gpt-6-luna", max_tokens: undefined, max_completion_tokens: 300 })));
+    await expect(w(URL_OK, init(body({ model: "gpt-6-luna", max_tokens: 300, max_completion_tokens: 300 })))).rejects.toThrow(/ambiguous_token_limit/);
+    await expect(w(URL_OK, init(body({ model: "gpt-6-luna", max_tokens: undefined, max_completion_tokens: 301 })))).rejects.toThrow(/max_tokens_missing_or_over_cap/);
+    await expect(w(URL_OK, init(body({ model: "gpt-6-luna", max_tokens: undefined })))).rejects.toThrow(/max_tokens_missing_or_over_cap/);
+    expect(f).toHaveBeenCalledTimes(1);
+  });
+  it("BOXAPI_API_KEY is read server-side only: never in the public status, never in a log line or error", () => {
+    const env = { AGENT_PROVIDER: "openai-compatible", AGENT_BASE_URL: BASE, BOXAPI_API_KEY: KEY, AGENT_MODEL: "gpt-6-luna", AGENT_LIVE_APPROVAL: "APPROVED-ABCDEFGH12" };
+    const c = readAgentConfig(env);
+    expect(c.provider).toBe("live-locked"); // the lock still wins
+    const json = JSON.stringify(publicStatus(c));
+    expect(json).not.toContain(KEY); expect(json).not.toContain("llm.invalid");
+    expect(redact(`upstream said Bearer ${KEY} while using ${KEY}`, [KEY])).not.toContain(KEY);
+    expect(redact("authorization: Bearer abcdef0123456789abcdef")).not.toContain("abcdef0123456789");
   });
 });

@@ -88,13 +88,16 @@ export function createLiveGuard(opts: LiveGuardOptions, now: () => Date = () => 
       const url = typeof input === "string" ? input : input instanceof URL ? input.toString() : (input as Request).url;
       if (url !== endpoint) return refuse("destination_not_allowlisted");
       if ((init?.method ?? "POST").toUpperCase() !== "POST" || typeof init?.body !== "string") return refuse("unexpected_request_shape");
-      let body: { model?: unknown; max_tokens?: unknown };
+      let body: { model?: unknown; max_tokens?: unknown; max_completion_tokens?: unknown };
       try { body = JSON.parse(init.body) as typeof body; } catch { return refuse("body_not_json"); }
       if (body.model !== opts.allowedModel) return refuse("model_not_allowlisted");
-      if (typeof body.max_tokens !== "number" || !(body.max_tokens > 0) || body.max_tokens > opts.maxOutputTokens) return refuse("max_tokens_missing_or_over_cap");
+      // exactly ONE output-token field, a positive number within the owner cap (reasoning models bill hidden reasoning tokens inside it)
+      const outCap = body.max_completion_tokens !== undefined ? body.max_completion_tokens : body.max_tokens;
+      if (body.max_completion_tokens !== undefined && body.max_tokens !== undefined) return refuse("ambiguous_token_limit");
+      if (typeof outCap !== "number" || !(outCap > 0) || outCap > opts.maxOutputTokens) return refuse("max_tokens_missing_or_over_cap");
       const inTok = estimateInputTokens(Buffer.byteLength(init.body, "utf8"));
       if (inTok > opts.maxInputTokens) return refuse("input_over_cap");
-      const worst = USD(inTok, opts.priceInPerM) + USD(body.max_tokens, opts.priceOutPerM);
+      const worst = USD(inTok, opts.priceInPerM) + USD(outCap, opts.priceOutPerM);
       if (st.spentUsd + worst > opts.maxUsd) return refuse("usd_cap", true);
 
       st.inFlight++; st.requests++; st.spentUsd += worst;               // reserve the worst case BEFORE sending
