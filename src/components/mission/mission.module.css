@@ -1,0 +1,205 @@
+/* Modern Design System for Missions & Shopping Plans */
+
+.hubContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+.privacyCard {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  padding: 1.25rem 1.5rem;
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.privacyHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--ink);
+}
+
+.privacyText {
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: var(--ink-2);
+  margin: 0;
+}
+
+.missionsList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.missionCard {
+  display: block;
+  background: var(--surface);
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius-card);
+  padding: 1.25rem 1.5rem;
+  box-shadow: var(--shadow-card);
+  text-decoration: none;
+  transition: all 0.2s ease;
+  min-height: 3.5rem;
+}
+
+.missionCard:hover {
+  border-color: var(--brand);
+  background: var(--brand-soft);
+  transform: translateY(-1px);
+}
+
+.missionTitle {
+  display: block;
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1.6;
+  color: var(--ink);
+}
+
+.missionMetaRow {
+  margin-top: 0.625rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.625rem;
+  font-size: 0.8125rem;
+  color: var(--ink-2);
+}
+
+.dangerCard {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  padding: 1.25rem 1.5rem;
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+}
+
+.dangerTitle {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 0;
+}
+
+.dangerText {
+  font-size: 0.875rem;
+  line-height: 1.7;
+  color: var(--ink-2);
+  margin: 0;
+}
+
+/* Mission View */
+.viewContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+.viewHeaderCard {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.viewMetaRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.625rem;
+}
+
+.viewTitle {
+  font-size: 1.25rem;
+  font-weight: 800;
+  line-height: 1.6;
+  color: var(--ink);
+  margin: 0;
+}
+
+.primaryStepBox {
+  border-radius: 1rem;
+  border: 1.5px solid var(--brand);
+  background: linear-gradient(135deg, var(--brand-soft) 0%, var(--surface) 100%);
+  padding: 1.125rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.primaryStepHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 0.8125rem;
+  font-weight: 800;
+  color: var(--brand);
+}
+
+.primaryStepLabel {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.5;
+}
+
+.primaryStepHint {
+  font-size: 0.8125rem;
+  color: var(--ink-2);
+  line-height: 1.6;
+}
+
+.tabList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 0.25rem 0;
+}
+
+.tabButton {
+  min-height: 2.75rem;
+  border-radius: 9999px;
+  border: 1.5px solid var(--line);
+  background: var(--surface);
+  padding: 0.375rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--ink-2);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+}
+
+.tabButton:hover {
+  background: var(--surface-2);
+  border-color: var(--brand);
+}
+
+.tabButtonActive {
+  background: var(--brand-soft);
+  border-color: var(--brand);
+  color: var(--brand-soft-ink);
+  box-shadow: 0 0 0 1px var(--brand);
+}

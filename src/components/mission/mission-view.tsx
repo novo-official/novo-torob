@@ -22,6 +22,7 @@ import { seedOfMission } from "@/lib/mission-seed";
 import { buildMissionPageHref, buildMissionStartHref, isMissionTab, MISSION_TABS, type MissionTab } from "@/lib/mission-url";
 import { buildAdvisorHref } from "@/lib/advisor-url";
 import { toFaDigits } from "@/lib/format";
+import styles from "./mission.module.css";
 
 const TAB_FA: Record<MissionTab, string> = { summary: "خلاصه", visit: "برنامه‌ی مراجعه", inquiry: "پرسش و پاسخ", recover: "جایگزین‌ها", device: "ذخیره‌سازی" };
 
@@ -90,29 +91,29 @@ export function MissionView({ id, seed, visitDefault }: { id: string; seed: Miss
   const step = nextStep(m, view);
   const tabs = MISSION_TABS.filter((t) => t !== "recover" || !!m.shop);
   return (
-    <div className="space-y-4" data-testid="mission-root" data-phase={view.phase} data-where={api.where ?? ""} data-rev={m.rev}>
-      {api.conflict ? <p role="alert" className="flex flex-wrap items-center gap-2 rounded-xl bg-warn-bg p-3 text-sm text-warn-ink" data-testid="conflict-banner">این ماموریت در تب دیگری تغییر کرده بود؛ نسخه‌ی تازه بارگذاری شد.<button type="button" className="min-h-11 underline" onClick={api.dismissConflict}>باشه</button></p> : null}
-      <Card className="space-y-3" data-testid="mission-header">
-        <div className="flex flex-wrap items-center gap-2">
+    <div className={styles.viewContainer} data-testid="mission-root" data-phase={view.phase} data-where={api.where ?? ""} data-rev={m.rev}>
+      {api.conflict ? <p role="alert" className="flex flex-wrap items-center gap-2 rounded-xl bg-warn-bg p-3 text-sm text-warn-ink border border-warn-line" data-testid="conflict-banner">این ماموریت در تب دیگری تغییر کرده بود؛ نسخه‌ی تازه بارگذاری شد.<button type="button" className="min-h-11 underline" onClick={api.dismissConflict}>باشه</button></p> : null}
+      <div className={styles.viewHeaderCard} data-testid="mission-header">
+        <div className={styles.viewMetaRow}>
           <Badge tone={view.phase === "VISIT_READY" ? "ok" : view.phase === "ABANDONED" ? "neutral" : "brand"} data-testid="phase-badge">{PHASE_FA[view.phase]}</Badge>
           <StorageBadge where={api.where} />
           {loading ? <span className="text-xs text-ink-2" role="status">در حال تازه‌سازی از داده…</span> : null}
         </div>
-        <h2 className="text-lg font-extrabold leading-8"><bdi>{facts?.product?.title ?? (m.need.text ? `نیاز: ${m.need.text}` : "ماموریت خرید")}</bdi></h2>
+        <h2 className={styles.viewTitle}><bdi>{facts?.product?.title ?? (m.need.text ? `نیاز: ${m.need.text}` : "ماموریت خرید")}</bdi></h2>
         <Stepper phase={view.phase} />
-        <div className="rounded-xl border border-brand/40 bg-brand-soft/40 p-3" data-testid="primary-step">
-          <p className="flex items-center gap-1.5 text-sm font-bold"><Flag aria-hidden size={14} />گام بعد</p>
-          <p className="font-semibold leading-7" data-testid="primary-step-label">{step.labelFa}</p>
-          <p className="text-xs leading-6 text-ink-2">{step.hintFa}</p>
+        <div className={styles.primaryStepBox} data-testid="primary-step">
+          <p className={styles.primaryStepHeader}><Flag aria-hidden size={14} />گام بعد</p>
+          <p className={styles.primaryStepLabel} data-testid="primary-step-label">{step.labelFa}</p>
+          <p className={styles.primaryStepHint}>{step.hintFa}</p>
           {step.href ? <ButtonLink href={step.href} className="mt-2" data-testid="primary-cta"><Compass aria-hidden size={16} />{step.labelFa}</ButtonLink>
-            : step.tab && step.tab !== tab ? <button type="button" className="mt-2 inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-brand px-5 text-[0.95rem] font-semibold text-brand-ink hover:bg-brand-hover" onClick={() => go(step.tab!)} data-testid="primary-cta"><ArrowLeft aria-hidden size={16} />{step.labelFa}</button> : null}
+            : step.tab && step.tab !== tab ? <button type="button" className="mt-2 inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-brand px-5 text-[0.95rem] font-semibold text-brand-ink hover:bg-brand-hover transition-colors" onClick={() => go(step.tab!)} data-testid="primary-cta"><ArrowLeft aria-hidden size={16} />{step.labelFa}</button> : null}
         </div>
-      </Card>
+      </div>
 
-      <div role="tablist" aria-label="بخش‌های ماموریت" className="flex flex-wrap gap-1.5" data-testid="mission-tabs">
+      <div role="tablist" aria-label="بخش‌های ماموریت" className={styles.tabList} data-testid="mission-tabs">
         {tabs.map((t) => (
           <button key={t} role="tab" id={`tab-${t}`} aria-selected={tab === t} aria-controls={`panel-${t}`} data-testid={`tab-${t}-btn`} type="button" onClick={() => go(t)}
-            className={cn("relative min-h-11 rounded-full border px-3.5 text-sm font-semibold", tab === t ? "border-brand bg-brand-soft text-brand-soft-ink" : "border-line bg-surface text-ink-2")}>
+            className={cn(styles.tabButton, tab === t && styles.tabButtonActive)}>
             {TAB_FA[t]}{t === "recover" && view.triggers.length ? <span aria-label="نیازمند تصمیم" className="ms-1.5 inline-block size-2 rounded-full bg-danger-ink align-middle" /> : null}
           </button>
         ))}

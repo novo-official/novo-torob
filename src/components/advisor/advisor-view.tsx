@@ -3,12 +3,13 @@
 import Link from "next/link";
 import { useEffect, useState, useSyncExternalStore, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { ArrowRight, Check, ChevronLeft, Compass, Info, Pencil, Search, SkipForward, TriangleAlert } from "lucide-react";
+import { ArrowRight, Check, ChevronLeft, Compass, Info, Pencil, Search, SkipForward, Sparkles, TriangleAlert } from "lucide-react";
 import type { AdvisorResponse, Candidate } from "@/domain/advisor";
 import { Badge, Button, Card, Chip, EmptyState, inputStyles } from "@/components/ui";
 import { ProductCardView } from "@/components/catalog/product-card";
 import { buildAdvisorHref, paramsFromIntent, type AdvisorParams } from "@/lib/advisor-url";
 import { formatNumberFa, formatToman, parseBudget, toFaDigits } from "@/lib/format";
+import styles from "./advisor.module.css";
 
 const LAST_KEY = "hamghadam.advisor.last.v1";
 
@@ -27,7 +28,7 @@ export function AdvisorView({ response, params }: { response: AdvisorResponse; p
   }, [response.stage, response.category]);
 
   return (
-    <div aria-busy={pending} className={pending ? "opacity-70 transition-opacity" : "transition-opacity"}>
+    <div aria-busy={pending} className={`${styles.advisorContainer} ${pending ? "opacity-70 transition-opacity" : "transition-opacity"}`}>
       <ProgressHeader response={response} onBack={() => (window.history.length > 1 ? router.back() : go("/discover"))} />
       {response.stage === "need" ? <NeedStep response={response} params={params} go={go} /> : null}
       {response.stage === "clarify_category" ? <ClarifyStep response={response} params={params} go={go} /> : null}
@@ -42,28 +43,28 @@ function ProgressHeader({ response, onBack }: { response: AdvisorResponse; onBac
   const { current, total } = response.progress;
   const results = response.stage === "results";
   return (
-    <div className="mb-5 space-y-3">
-      <div className="flex items-center justify-between gap-3">
+    <div className={styles.progressCard}>
+      <div className={styles.progressTop}>
         {response.stage !== "need" ? (
           <Button variant="ghost" onClick={onBack} className="-ms-3 px-3">
             <ArrowRight aria-hidden size={18} />
             مرحله‌ی قبل
           </Button>
         ) : <span />}
-        <p className="text-sm text-ink-2">{results ? "پیشنهادها" : `گام ${toFaDigits(current)} از ${toFaDigits(total)}`}</p>
+        <p className={styles.stepIndicator}>{results ? "پیشنهادها" : `گام ${toFaDigits(current)} از ${toFaDigits(total)}`}</p>
       </div>
-      <div role="progressbar" aria-valuemin={1} aria-valuemax={total} aria-valuenow={results ? total : current} aria-label="پیشرفت مشاور" className="h-1.5 overflow-hidden rounded-full bg-surface-2">
-        <div className="h-full rounded-full bg-brand transition-[width] duration-300" style={{ width: `${(100 * (results ? total : current)) / total}%` }} />
+      <div role="progressbar" aria-valuemin={1} aria-valuemax={total} aria-valuenow={results ? total : current} aria-label="پیشرفت مشاور" className={styles.progressBar}>
+        <div className={styles.progressFill} style={{ width: `${(100 * (results ? total : current)) / total}%` }} />
       </div>
       {response.category ? (
-        <p className="flex flex-wrap items-center gap-2 text-sm">
+        <div className={styles.categoryActiveRow}>
           <Badge tone="brand">دسته: {response.category.label}</Badge>
-          {response.category.autoSelected ? <span className="text-ink-2">(از توضیح شما تشخیص داده شد)</span> : null}
+          {response.category.autoSelected ? <span className="text-xs text-ink-2">(از توضیح شما تشخیص داده شد)</span> : null}
           {!response.category.supported ? <Badge tone="warn">پرسش‌های تخصصی این دسته تعریف نشده</Badge> : null}
-          <Link href="/discover" className="inline-flex min-h-11 items-center text-brand underline underline-offset-2">
+          <Link href="/discover" className={styles.changeCategoryLink}>
             تغییر دسته
           </Link>
-        </p>
+        </div>
       ) : null}
     </div>
   );
@@ -79,47 +80,74 @@ function NeedStep({ response, params, go }: { response: AdvisorResponse; params:
   );
   const resume = stored && /^\/discover\?/.test(stored) ? stored : null;
   return (
-    <div className="space-y-5">
-      <Card className="space-y-4">
-        <h2 className="text-lg font-bold">چه چیزی لازم دارید؟</h2>
+    <div className="space-y-6">
+      <div className={styles.needCard}>
+        <div className="space-y-1.5">
+          <h2 className={styles.needTitle}>چه چیزی لازم دارید؟</h2>
+          <p className={styles.needDescription}>نیازتان را کوتاه بنویسید؛ لازم نیست نام یا مدل دقیق را بدانید.</p>
+        </div>
         <form
-          className="space-y-3"
+          className={styles.needForm}
           onSubmit={(e) => {
             e.preventDefault();
             if (text.trim()) go(buildAdvisorHref({ text: text.trim() }));
           }}
         >
-          <label htmlFor="need-text" className="block text-sm text-ink-2">نیازتان را کوتاه بنویسید؛ لازم نیست مدل را بدانید.</label>
-          <input id="need-text" value={text} onChange={(e) => setText(e.target.value)} maxLength={200} placeholder="مثلاً: هدفون بی‌سیم برای ورزش" className={inputStyles} autoComplete="off" />
-          <Button type="submit" disabled={!text.trim()}>ادامه</Button>
+          <label htmlFor="need-text" className="sr-only">شرح نیاز خرید</label>
+          <div className={styles.needInputGroup}>
+            <input
+              id="need-text"
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+              maxLength={200}
+              placeholder="مثلاً: هدفون بی‌سیم برای ورزش، یا دوربین مداربسته"
+              className={styles.needInput}
+              autoComplete="off"
+            />
+          </div>
+          <div className="flex items-center gap-2">
+            <Button type="submit" disabled={!text.trim()} className="gap-2">
+              <Sparkles aria-hidden size={16} />
+              ادامه
+            </Button>
+          </div>
         </form>
-        {response.recovery ? <p role="status" className="rounded-xl bg-warn-bg p-3 text-sm leading-7 text-warn-ink">{response.recovery.message}</p> : null}
-      </Card>
+        {response.recovery ? <p role="status" className="rounded-xl bg-warn-bg p-3.5 text-sm leading-7 text-warn-ink border border-warn-line">{response.recovery.message}</p> : null}
+      </div>
 
-      <section aria-labelledby="cats-title" className="space-y-3">
-        <h2 id="cats-title" className="font-bold">یا از یک دسته شروع کنید</h2>
-        <p className="text-sm text-ink-2">این دسته‌ها پرسش‌های تخصصی دارند و ویژگی‌هایشان در داده سنجیده می‌شود.</p>
-        <ul className="grid gap-3 sm:grid-cols-2">
+      <section aria-labelledby="cats-title" className={styles.categorySection}>
+        <div className={styles.sectionHeader}>
+          <h2 id="cats-title" className={styles.sectionTitle}>یا از یک دسته شروع کنید</h2>
+          <p className={styles.sectionSubtitle}>این دسته‌ها پرسش‌های تخصصی دارند و ویژگی‌هایشان در کاتالوگ سنجیده می‌شود.</p>
+        </div>
+        <ul className={styles.categoryGrid}>
           {response.categoryChoices.map((c) => (
             <li key={c.category}>
-              <button type="button" onClick={() => go(buildAdvisorHref({ category: c.category }))} className="flex min-h-14 w-full items-center justify-between gap-3 rounded-2xl border border-line bg-surface px-4 py-3 text-start hover:border-brand">
-                <span className="font-semibold">{c.label}</span>
-                <span className="text-xs text-ink-2">{toFaDigits(c.productCount)} محصول</span>
+              <button
+                type="button"
+                onClick={() => go(buildAdvisorHref({ category: c.category }))}
+                className={styles.categoryBtn}
+              >
+                <span className={styles.categoryLabel}>{c.label}</span>
+                <span className={styles.categoryCount}>{toFaDigits(c.productCount)} محصول</span>
               </button>
             </li>
           ))}
         </ul>
-        <p className="text-sm text-ink-2">
+        <p className="text-sm text-ink-2 pt-1">
           دسته‌ی دیگری مدنظر دارید؟ با «جست‌وجوی مدل» پیدایش کنید.{" "}
-          <Link href="/search" className="text-brand underline underline-offset-2">رفتن به جست‌وجو</Link>
+          <Link href="/search" className="text-brand font-semibold underline underline-offset-2">رفتن به جست‌وجو</Link>
         </p>
       </section>
 
       {resume ? (
-        <Card className="flex flex-wrap items-center justify-between gap-3">
-          <p className="text-sm">مشاوره‌ی قبلی شما ذخیره شده است.</p>
+        <div className={styles.resumeCard}>
+          <div className="space-y-1">
+            <p className="font-semibold text-sm">مشاوره‌ی قبلی شما ذخیره شده است.</p>
+            <p className="text-xs text-ink-2">می‌توانید از همان‌جا ادامه دهید یا با نیاز جدید شروع کنید.</p>
+          </div>
           <Button variant="secondary" onClick={() => go(resume)}>ادامه از همان‌جا</Button>
-        </Card>
+        </div>
       ) : null}
     </div>
   );
@@ -128,24 +156,32 @@ function NeedStep({ response, params, go }: { response: AdvisorResponse; params:
 // ------------------------------------------------------------------ step: clarify category
 function ClarifyStep({ response, params, go }: { response: AdvisorResponse; params: AdvisorParams; go: (h: string) => void }) {
   return (
-    <Card className="space-y-4">
-      <h2 className="text-lg font-bold">منظورتان کدام دسته است؟</h2>
-      <p className="text-sm text-ink-2">«{params.text}» به چند دسته می‌خورد. دسته‌ی درست را انتخاب کنید؛ بقیه‌ی توضیح شما حفظ می‌شود.</p>
-      <ul className="space-y-2">
+    <div className={styles.questionCard}>
+      <div className={styles.questionHeader}>
+        <h2 className={styles.questionTitle}>منظورتان کدام دسته است؟</h2>
+        <p className={styles.questionHelp}>«{params.text}» به چند دسته می‌خورد. دسته‌ی درست را انتخاب کنید؛ بقیه‌ی توضیح شما حفظ می‌شود.</p>
+      </div>
+      <ul className={styles.categoryGrid}>
         {response.categoryChoices.map((c) => (
           <li key={c.category}>
-            <button type="button" onClick={() => go(buildAdvisorHref({ ...params, category: c.category }))} className="flex min-h-14 w-full items-center justify-between gap-3 rounded-2xl border border-line bg-surface px-4 py-3 text-start hover:border-brand">
-              <span>
-                <span className="font-semibold">{c.label}</span>
-                {c.supported ? <Badge tone="brand" className="ms-2">مشاور تخصصی</Badge> : null}
-              </span>
-              <span className="text-xs text-ink-2">{toFaDigits(c.productCount)} محصول</span>
+            <button
+              type="button"
+              onClick={() => go(buildAdvisorHref({ ...params, category: c.category }))}
+              className={styles.categoryBtn}
+            >
+              <div className="flex flex-col gap-1">
+                <span className={styles.categoryLabel}>{c.label}</span>
+                {c.supported ? <Badge tone="brand">مشاور تخصصی</Badge> : null}
+              </div>
+              <span className={styles.categoryCount}>{toFaDigits(c.productCount)} محصول</span>
             </button>
           </li>
         ))}
       </ul>
-      <Link href={`/search?q=${encodeURIComponent(params.text)}`} className="inline-block text-sm text-brand underline underline-offset-2">به‌جای آن، مستقیم جست‌وجو کنید</Link>
-    </Card>
+      <div className="pt-2">
+        <Link href={`/search?q=${encodeURIComponent(params.text)}`} className="inline-block text-sm font-semibold text-brand underline underline-offset-2">به‌جای آن، مستقیم جست‌وجو کنید</Link>
+      </div>
+    </div>
   );
 }
 
@@ -164,23 +200,35 @@ function QuestionStep({ response, base, go }: { response: AdvisorResponse; base:
     return buildAdvisorHref({ ...b, answers: rest, skipped: [...new Set([...b.skipped, q.id])] });
   };
   return (
-    <Card className="space-y-5" aria-labelledby="q-title">
-      <div>
-        <h2 id="q-title" className="text-lg font-bold">{q.text}</h2>
-        {q.help ? <p className="mt-1 text-sm leading-7 text-ink-2">{q.help}</p> : null}
-        <p className="mt-2 text-xs text-ink-2">{q.hardness === "hard" ? "این پاسخ محصولاتی را که صریحاً نمی‌خوانند کنار می‌گذارد." : "این پاسخ فقط ترتیب پیشنهادها را تغییر می‌دهد."}</p>
+    <div className={styles.questionCard} aria-labelledby="q-title">
+      <div className={styles.questionHeader}>
+        <h2 id="q-title" className={styles.questionTitle}>{q.text}</h2>
+        {q.help ? <p className={styles.questionHelp}>{q.help}</p> : null}
+        <p className={styles.questionNature}>{q.hardness === "hard" ? "این پاسخ محصولاتی را که صریحاً نمی‌خوانند کنار می‌گذارد." : "این پاسخ فقط ترتیب پیشنهادها را تغییر می‌دهد."}</p>
       </div>
       {q.kind === "budget" ? <BudgetInput bands={response.budgetBands} base={base} go={go} /> : (
-        <div role="radiogroup" aria-labelledby="q-title" className="grid gap-2">
-          {q.options.map((o) => (
-            <button key={o.id} type="button" role="radio" aria-checked={base().answers[q.id] === o.id} onClick={() => go(answerHref(o.id))} className={`flex min-h-12 items-center justify-between gap-3 rounded-2xl border px-4 py-3 text-start ${base().answers[q.id] === o.id ? "border-brand bg-brand-soft" : "border-line bg-surface hover:border-brand"}`}>
-              <span className="font-medium">{o.label}</span>
-              {o.evidenceCount !== undefined && o.id !== "any" ? <span className="shrink-0 text-xs text-ink-2">{toFaDigits(o.evidenceCount)} محصول با شاهد</span> : null}
-            </button>
-          ))}
+        <div role="radiogroup" aria-labelledby="q-title" className={styles.optionsGroup}>
+          {q.options.map((o) => {
+            const isSelected = base().answers[q.id] === o.id;
+            return (
+              <button
+                key={o.id}
+                type="button"
+                role="radio"
+                aria-checked={isSelected}
+                onClick={() => go(answerHref(o.id))}
+                className={`${styles.optionCard} ${isSelected ? styles.optionCardActive : ""}`}
+              >
+                <span className={styles.optionLabel}>{o.label}</span>
+                {o.evidenceCount !== undefined && o.id !== "any" ? (
+                  <span className={styles.optionEvidence}>{toFaDigits(o.evidenceCount)} محصول با شاهد</span>
+                ) : null}
+              </button>
+            );
+          })}
         </div>
       )}
-      <div className="flex flex-wrap items-center justify-between gap-3 border-t border-line pt-4">
+      <div className={styles.questionActions}>
         <Button variant="secondary" onClick={() => go(skipHref())}>
           <SkipForward aria-hidden size={16} />
           مطمئن نیستم / رد کردن
@@ -192,7 +240,7 @@ function QuestionStep({ response, base, go }: { response: AdvisorResponse; base:
           </Button>
         ) : null}
       </div>
-    </Card>
+    </div>
   );
 }
 
@@ -206,34 +254,41 @@ function BudgetInput({ bands, base, go }: { bands: AdvisorResponse["budgetBands"
   const inverted = lo !== null && hi !== null && lo > hi;
   const apply = (bmin: number | null, bmax: number | null) => go(buildAdvisorHref({ ...base(), bmin, bmax, skipped: base().skipped.filter((s) => s !== "budget") }));
   return (
-    <div className="space-y-4">
-      <div role="group" aria-label="بازه‌های پیشنهادی" className="grid gap-2">
+    <div className={styles.budgetWrapper}>
+      <div role="group" aria-label="بازه‌های پیشنهادی" className={styles.budgetBands}>
         {bands.map((band) => (
-          <button key={band.id} type="button" onClick={() => apply(band.min, band.max)} className="flex min-h-12 items-center justify-between gap-3 rounded-2xl border border-line bg-surface px-4 py-3 text-start hover:border-brand">
-            <span className="font-medium">{band.label}</span>
-            <span className="text-xs text-ink-2">{toFaDigits(band.count)} محصول با قیمت قابل اتکا</span>
+          <button
+            key={band.id}
+            type="button"
+            onClick={() => apply(band.min, band.max)}
+            className={styles.bandButton}
+          >
+            <span className={styles.bandLabel}>{band.label}</span>
+            <span className={styles.bandCount}>{toFaDigits(band.count)} محصول با قیمت قابل اتکا</span>
           </button>
         ))}
         {bands.length === 0 ? <p className="text-sm text-ink-2">برای این دسته قیمت قابل اتکای کافی برای ساخت بازه‌ی پیشنهادی نیست؛ عدد دلخواه بنویسید یا رد کنید.</p> : null}
       </div>
-      <fieldset className="space-y-2">
-        <legend className="text-sm font-semibold">یا عدد دلخواه (تومان)</legend>
-        <div className="grid grid-cols-2 gap-3">
+      <fieldset className={styles.customBudgetFieldset}>
+        <legend className={styles.customBudgetLegend}>یا عدد دلخواه (تومان)</legend>
+        <div className={styles.budgetInputsRow}>
           <div>
-            <label htmlFor="b-min" className="mb-1 block text-xs text-ink-2">از</label>
+            <label htmlFor="b-min" className="mb-1 block text-xs font-medium text-ink-2">از</label>
             <input id="b-min" inputMode="numeric" autoComplete="off" value={min} onChange={(e) => setMin(e.target.value)} onBlur={() => lo && setMin(formatNumberFa(lo))} placeholder="۱٬۰۰۰٬۰۰۰" className={inputStyles} />
           </div>
           <div>
-            <label htmlFor="b-max" className="mb-1 block text-xs text-ink-2">تا</label>
+            <label htmlFor="b-max" className="mb-1 block text-xs font-medium text-ink-2">تا</label>
             <input id="b-max" inputMode="numeric" autoComplete="off" value={max} onChange={(e) => setMax(e.target.value)} onBlur={() => hi && setMax(formatNumberFa(hi))} placeholder="۵٬۰۰۰٬۰۰۰" className={inputStyles} />
           </div>
         </div>
         {bad ? <p role="alert" className="text-sm text-danger-ink">مبلغ را فقط با عدد وارد کنید (مثلاً ۵٬۰۰۰٬۰۰۰).</p> : null}
         {inverted ? <p role="alert" className="text-sm text-danger-ink">حداقل بودجه از حداکثر بیشتر است.</p> : null}
-        <Button onClick={() => apply(lo, hi)} disabled={!!bad || inverted || (lo === null && hi === null)}>
-          <Check aria-hidden size={16} />
-          اعمال بودجه
-        </Button>
+        <div>
+          <Button onClick={() => apply(lo, hi)} disabled={!!bad || inverted || (lo === null && hi === null)}>
+            <Check aria-hidden size={16} />
+            اعمال بودجه
+          </Button>
+        </div>
       </fieldset>
     </div>
   );
@@ -250,10 +305,12 @@ function ResultsStep({ response, params, base, go, replace }: { response: Adviso
     return `/products/${c.card.id}?${sp.toString()}`;
   };
   return (
-    <div className="space-y-5">
-      <Card className="space-y-3">
-        <h2 className="text-lg font-bold">ترجیحات شما <span className="text-sm font-normal text-ink-2">(با زدن هر مورد تغییرش دهید)</span></h2>
-        <ul className="flex flex-wrap gap-2">
+    <div className="space-y-6">
+      <div className={styles.preferencesCard}>
+        <div className="flex items-baseline justify-between gap-2">
+          <h2 className={styles.preferencesTitle}>ترجیحات شما <span className={styles.preferencesSubtitle}>(با زدن هر مورد تغییرش دهید)</span></h2>
+        </div>
+        <ul className={styles.preferencesList}>
           {response.answered.map((a) => (
             <li key={a.questionId}>
               <Chip onClick={() => go(buildAdvisorHref({ ...base(), show: true, ask: a.questionId }))} aria-label={`${a.optionLabel} ${a.hardness === "hard" ? "شرط" : "ترجیح"} — تغییر پاسخ: ${a.questionText}`}>
@@ -272,13 +329,13 @@ function ResultsStep({ response, params, base, go, replace }: { response: Adviso
           {response.intent.text ? <li><Badge>توضیح: {response.intent.text}</Badge></li> : null}
         </ul>
         {f ? (
-          <p className="text-sm text-ink-2" aria-live="polite">
+          <p className={styles.funnelText} aria-live="polite">
             از {toFaDigits(f.inCategory)} محصول این دسته، {toFaDigits(f.afterHardFilters)} مورد با شرط‌های شما می‌خواند
             {f.outOfBudget ? ` (${toFaDigits(f.outOfBudget)} مورد خارج از بودجه)` : ""}
             {f.budgetUnverified ? ` · ${toFaDigits(f.budgetUnverified)} مورد قیمت قابل اتکا ندارد و بودجه‌اش قابل بررسی نیست` : ""}.
           </p>
         ) : null}
-      </Card>
+      </div>
 
       {response.recovery ? <RecoveryPanel response={response} base={base} go={go} /> : null}
 
@@ -287,7 +344,7 @@ function ResultsStep({ response, params, base, go, replace }: { response: Adviso
           <p>یکی از پیشنهادهای بالا را امتحان کنید، یا شرط‌ها را از چیپ‌های ترجیحات تغییر دهید.</p>
         </EmptyState>
       ) : (
-        <ol className="space-y-4" aria-label="محصولات پیشنهادی">
+        <ol className={styles.resultsList} aria-label="محصولات پیشنهادی">
           {response.candidates.map((c) => (
             <li key={c.card.id}>
               <ProductCardView card={c.card} href={withContext(c)} badge={<><Badge tone="brand">#{toFaDigits(c.rank)}</Badge>{c.budget === "in_budget" ? <Badge tone="ok">قیمت تأییدشده در بودجه</Badge> : c.budget === "unverified" ? <Badge tone="warn">بودجه قابل بررسی نیست</Badge> : null}</>}>
@@ -318,9 +375,9 @@ function ResultsStep({ response, params, base, go, replace }: { response: Adviso
         </Card>
       ) : null}
 
-      <details className="rounded-2xl border border-line bg-surface p-4 text-sm">
+      <details className="rounded-2xl border border-line bg-surface p-4 text-sm shadow-[var(--shadow-card)]">
         <summary className="flex min-h-11 cursor-pointer items-center gap-2 font-semibold">
-          <Info aria-hidden size={16} />
+          <Info aria-hidden size={16} className="text-brand" />
           محدودیت‌ها و منشأ داده
         </summary>
         <ul className="mt-2 list-disc space-y-1.5 ps-5 leading-7 text-ink-2">
@@ -334,17 +391,19 @@ function ResultsStep({ response, params, base, go, replace }: { response: Adviso
 function CandidateExplain({ c }: { c: Candidate }) {
   const shown = c.reasons.filter((r) => r.code !== "SPEC_COVERAGE" || true);
   return (
-    <details className="mt-3 rounded-xl bg-surface-2 p-3 text-sm">
-      <summary className="flex min-h-11 cursor-pointer items-center font-semibold">چرا پیشنهاد شد؟ <span className="ms-2 text-xs font-normal text-ink-2">(امتیاز مطابقت {toFaDigits(Math.round(c.score))})</span></summary>
-      <ul className="mt-2 space-y-2">
+    <details className={styles.candidateExplain}>
+      <summary className={styles.candidateSummary}>
+        چرا پیشنهاد شد؟ <span className={styles.scoreBadge}>(امتیاز مطابقت {toFaDigits(Math.round(c.score))})</span>
+      </summary>
+      <ul className={styles.reasonsList}>
         {shown.map((r, i) => (
-          <li key={`${r.code}-${i}`} className="leading-7">
-            <span className={r.effect === "match" ? "text-ok-ink" : r.effect === "mismatch" ? "text-danger-ink" : "text-ink-2"}>
+          <li key={`${r.code}-${i}`} className={styles.reasonItem}>
+            <span className={r.effect === "match" ? "text-ok-ink font-bold" : r.effect === "mismatch" ? "text-danger-ink font-bold" : "text-ink-2"}>
               {r.effect === "match" ? "✓ " : r.effect === "mismatch" ? "✗ " : r.effect === "unknown" ? "؟ " : "• "}
             </span>
-            {r.text}
+            <span>{r.text}</span>
             {r.evidence.length ? (
-              <span className="block text-xs text-ink-2">
+              <span className={styles.reasonEvidence}>
                 شاهد{r.evidence[0]!.confidence === "inferred" ? " (استنباطی)" : ""}: {r.evidence.map((e) => `${e.label}: ${e.text}`).join(" ؛ ")}
               </span>
             ) : null}
@@ -352,7 +411,7 @@ function CandidateExplain({ c }: { c: Candidate }) {
         ))}
       </ul>
       {c.cautions.length ? (
-        <div className="mt-3 border-t border-line pt-2">
+        <div className={styles.cautionsBox}>
           <p className="mb-1 flex items-center gap-1 font-semibold text-warn-ink"><TriangleAlert aria-hidden size={14} />پیش از اعتماد بررسی کنید</p>
           <ul className="list-disc space-y-1 ps-5 text-xs leading-6 text-ink-2">{c.cautions.map((x) => <li key={x}>{x}</li>)}</ul>
         </div>
@@ -364,9 +423,9 @@ function CandidateExplain({ c }: { c: Candidate }) {
 function RecoveryPanel({ response, base, go }: { response: AdvisorResponse; base: () => AdvisorParams; go: (h: string) => void }) {
   const r = response.recovery!;
   return (
-    <div role="status" className="space-y-3 rounded-2xl border border-warn-line bg-warn-bg p-4 text-warn-ink">
-      <p className="font-semibold">{r.message}</p>
-      <ul className="flex flex-wrap gap-2">
+    <div role="status" className={styles.recoveryNotice}>
+      <p className={styles.recoveryTitle}>{r.message}</p>
+      <ul className={styles.recoverySuggestions}>
         {r.suggestions.map((s) => (
           <li key={s.id}>
             <Button variant="secondary" className="text-start" onClick={() => {
@@ -378,7 +437,7 @@ function RecoveryPanel({ response, base, go }: { response: AdvisorResponse; base
           </li>
         ))}
         <li>
-          <Link href={`/search?q=${encodeURIComponent(response.category?.label ?? "")}`} className="inline-flex min-h-11 items-center gap-1 rounded-xl border border-line bg-surface px-4 text-sm font-semibold text-ink">
+          <Link href={`/search?q=${encodeURIComponent(response.category?.label ?? "")}`} className="inline-flex min-h-11 items-center gap-1.5 rounded-xl border border-line bg-surface px-4 text-sm font-semibold text-ink hover:bg-surface-2 transition-colors">
             <Search aria-hidden size={14} />
             جست‌وجوی دستی در این دسته
           </Link>
