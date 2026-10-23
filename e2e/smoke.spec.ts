@@ -1,4 +1,4 @@
-import { collectErrors, expect, expectNoHorizontalOverflow, FORBIDDEN_CLAIMS, HAS_DB, ROUTES, test } from "./helpers";
+import { collectErrors, expect, expectNoHorizontalOverflow, FORBIDDEN_CLAIMS, HAS_DB, REAL_CATALOG_REQUIRED, ROUTES, test } from "./helpers";
 
 for (const route of ROUTES) {
   test(`route ${route} renders RTL Persian without errors`, async ({ page }) => {
@@ -23,7 +23,7 @@ test("malformed percent-escapes in dynamic ids give a 404 page, not a 500", asyn
 });
 
 test("an unknown or malformed product id is a real 404 with a recovery path", async ({ page }) => {
-  test.skip(!HAS_DB, "needs data/app.sqlite");
+  test.skip(!HAS_DB, REAL_CATALOG_REQUIRED);
   for (const id of ["product_nope", "product_00000000000000000000dead", "x"]) {
     const res = await page.goto(`/products/${id}`);
     expect(res?.status(), id).toBe(404);

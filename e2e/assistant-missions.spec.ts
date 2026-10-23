@@ -2,18 +2,21 @@ import fs from "node:fs";
 import path from "node:path";
 import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
+import { qaPath } from "../tests/helpers/qa-out";
 
-const fixture = JSON.parse(fs.readFileSync(".cache/qa-sellers/manifest.json", "utf-8")) as {
-  camera: string;
-  pump: string;
-  firstShop: string;
-};
+// Loaded lazily and only for the synthetic-fixture project (npm run qa:assistant): a clean clone must not crash at import time,
+// and this spec must never run against the real catalog (its IDs are fixture IDs).
+let fixture: { camera: string; pump: string; firstShop: string };
+test.beforeAll(({}, info) => {
+  test.skip(info.project.metadata.syntheticCatalog !== true, "explicit synthetic-fixture opt-in: run npm run qa:assistant (isolated fixture catalog, not the real catalog)");
+  fixture = JSON.parse(fs.readFileSync(".cache/qa-sellers/manifest.json", "utf-8"));
+});
 
 // Valid sample offer from fixture SQLite
 const SAMPLE_OFFER = "offer_dfa64e798afd1cfb3e0f4264";
 const SAMPLE_SHOP = "shop_1038bc272de3c94ddf2a0f8f";
 
-const BASE_QA = path.resolve("docs/qa/redesign");
+const BASE_QA = qaPath("redesign");
 
 async function expectNoHorizontalOverflow(page: import("@playwright/test").Page) {
   const { sw, cw } = await page.evaluate(() => ({ sw: document.documentElement.scrollWidth, cw: document.documentElement.clientWidth }));

@@ -1,6 +1,6 @@
-import { collectErrors, DAHUA, expect, expectNoHorizontalOverflow, FORBIDDEN_CLAIMS, HAS_DB, test } from "./helpers";
+import { collectErrors, DAHUA, expect, expectNoHorizontalOverflow, FORBIDDEN_CLAIMS, HAS_DB, REAL_CATALOG_REQUIRED, test } from "./helpers";
 
-test.skip(!HAS_DB, "needs data/app.sqlite");
+test.skip(!HAS_DB, REAL_CATALOG_REQUIRED);
 const enc = encodeURIComponent;
 const DV = "unknown|HDW1200CLQP";
 
@@ -27,7 +27,7 @@ test("search → product → sellers → compare → inquiry → mission saved o
   const productUrl = page.url();
 
   // 2 — sellers (variant pinned by the product page link); refresh keeps the list
-  await page.getByRole("link", { name: "مشاهده فروشنده‌ها" }).click();
+  await page.getByRole("link", { name: "مشاهده فروشنده‌ها", exact: true }).click();
   await expect(page).toHaveURL(/\/sellers\?/);
   await expect(page.getByTestId("seller-card").first()).toBeVisible({ timeout: 20_000 });
   const sellersUrl = page.url();

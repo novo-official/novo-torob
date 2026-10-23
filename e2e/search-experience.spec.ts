@@ -4,7 +4,7 @@ import { expect, test } from "@playwright/test";
 
 let fixture: { product: string; camera: string; noPrice: string };
 test.beforeAll(({}, info) => {
-  test.skip(info.project.metadata.syntheticCatalog !== true, "Run npm run qa:search with the isolated synthetic catalog.");
+  test.skip(info.project.metadata.syntheticCatalog !== true, "explicit synthetic-fixture opt-in: run npm run qa:search (isolated fixture catalog, not the real catalog)");
   fixture = JSON.parse(fs.readFileSync(".cache/qa-search/manifest.json", "utf8"));
 });
 test.beforeEach(async ({ page }) => {

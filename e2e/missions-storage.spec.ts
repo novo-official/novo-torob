@@ -1,7 +1,7 @@
 import type { BrowserContext, Page } from "@playwright/test";
-import { DAHUA, expect, HAS_DB, test } from "./helpers";
+import { DAHUA, expect, HAS_DB, REAL_CATALOG_REQUIRED, test } from "./helpers";
 
-test.skip(!HAS_DB, "needs data/app.sqlite");
+test.skip(!HAS_DB, REAL_CATALOG_REQUIRED);
 const enc = encodeURIComponent;
 const DV = "unknown|HDW1200CLQP";
 const SHOP_A = "shop_8670c71ca3baff62d68de422";

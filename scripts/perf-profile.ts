@@ -1,10 +1,11 @@
 /**
  * Phase 9 performance profile against a RUNNING production server (default http://127.0.0.1:3100, started with `npm run build && npx next start -p 3100`).
- *   BASE=http://127.0.0.1:3100 npx tsx scripts/perf-profile.ts      → docs/qa/perf-profile.json
+ *   BASE=http://127.0.0.1:3100 npx tsx scripts/perf-profile.ts      → qa-artifacts/perf-profile.json
  * «cold» = the first request after the server process started (DB open, prepared statements, module init); «warm» = 40 sequential requests.
  * The agent endpoint is measured with the MOCK planner only (no model, no network).
  */
 import fs from "node:fs";
+import { QA_OUT, qaPath } from "../tests/helpers/qa-out";
 
 const BASE = process.env.BASE ?? "http://127.0.0.1:3100";
 const P = "product_7308febc43c2f793fd0e1cf9", V = encodeURIComponent("unknown|HDW1200CLQP"), S1 = "shop_8670c71ca3baff62d68de422", S2 = "shop_350520090b6a5a6163f919d3";
@@ -30,7 +31,7 @@ async function main() {
     out[c.name] = { status: r0.status, coldMs: Math.round(cold * 10) / 10, warm: { n: ms.length, p50: pct(ms, 50), p95: pct(ms, 95), max: Math.round(Math.max(...ms) * 10) / 10 } };
     console.log(c.name.padEnd(34), r0.status, `cold ${out[c.name]!.coldMs}ms`, `warm p50 ${out[c.name]!.warm.p50} p95 ${out[c.name]!.warm.p95}`);
   }
-  fs.mkdirSync("docs/qa", { recursive: true });
-  fs.writeFileSync("docs/qa/perf-profile.json", JSON.stringify({ at: new Date().toISOString(), base: BASE, note: "cold = first request of the freshly started server (cases run in the listed order, so later cold numbers include only their own first-call costs)", results: out }, null, 2));
+  fs.mkdirSync(QA_OUT, { recursive: true });
+  fs.writeFileSync(qaPath("perf-profile.json"), JSON.stringify({ at: new Date().toISOString(), base: BASE, note: "cold = first request of the freshly started server (cases run in the listed order, so later cold numbers include only their own first-call costs)", results: out }, null, 2));
 }
 void main();

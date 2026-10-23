@@ -1,8 +1,9 @@
 import path from "node:path";
-import { collectErrors, DAHUA, expect, expectNoHorizontalOverflow, FORBIDDEN_CLAIMS, HAS_DB, test } from "./helpers";
+import { collectErrors, DAHUA, expect, expectNoHorizontalOverflow, FORBIDDEN_CLAIMS, HAS_DB, REAL_CATALOG_REQUIRED, test } from "./helpers";
 import type { Page } from "@playwright/test";
+import { QA_OUT } from "../tests/helpers/qa-out";
 
-const SHOTS = path.resolve("docs/qa");
+const SHOTS = QA_OUT;
 const VIEWPORTS = [{ w: 360, h: 800 }, { w: 390, h: 844 }, { w: 768, h: 1024 }, { w: 1440, h: 900 }] as const;
 const send = async (page: Page, text: string) => {
   const before = await page.getByTestId("agent-assistant-msg").count();
@@ -29,7 +30,7 @@ test.describe("assistant: honesty banner + page shell", () => {
     expect(errors).toEqual([]);
   });
   test("keyboard: Ctrl+Enter sends from the textarea; focus is visible on card buttons; main targets ≥ 44px", async ({ page }) => {
-    test.skip(!HAS_DB, "needs data/app.sqlite");
+    test.skip(!HAS_DB, REAL_CATALOG_REQUIRED);
     await fresh(page);
     await page.setViewportSize({ width: 390, height: 844 });
     const tooSmall = await page.evaluate(() => [...document.querySelectorAll<HTMLElement>('[data-testid="agent-example"], [data-testid="agent-send"], [data-testid="agent-input"], [data-testid="agent-panel-toggle"]')].filter((e) => e.offsetParent !== null && e.getBoundingClientRect().height < 43.5).map((e) => e.textContent?.slice(0, 20)));
@@ -52,7 +53,7 @@ test.describe("assistant: honesty banner + page shell", () => {
 });
 
 test.describe("DEMO A — full guided flow (real dataset ids, mock planner)", () => {
-  test.skip(!HAS_DB, "needs data/app.sqlite");
+  test.skip(!HAS_DB, REAL_CATALOG_REQUIRED);
   test("undecided buyer → questions → ≥2 real products → nearby sellers → comparison → draft → manual reply (USER_REPORTED)", async ({ page }) => {
     test.setTimeout(120_000);
     const errors = collectErrors(page);
@@ -96,7 +97,7 @@ test.describe("DEMO A — full guided flow (real dataset ids, mock planner)", ()
 });
 
 test.describe("DEMO B — intelligent recovery with a district", () => {
-  test.skip(!HAS_DB, "needs data/app.sqlite");
+  test.skip(!HAS_DB, REAL_CATALOG_REQUIRED);
   test("absent model + district → honest coverage statement, shopping areas with sources, map action, no seller invented", async ({ page }) => {
     await fresh(page);
     await send(page, "دوربین مداربسته مدل ZZ9999X رو می‌خوام نزدیک بهارستان");
@@ -113,7 +114,7 @@ test.describe("DEMO B — intelligent recovery with a district", () => {
 });
 
 test.describe("DEMO C — external specs/reviews (clearly-marked FIXTURES)", () => {
-  test.skip(!HAS_DB, "needs data/app.sqlite");
+  test.skip(!HAS_DB, REAL_CATALOG_REQUIRED);
   test("opt-in → fixture evidence with source, date, citation and the sibling-model conflict; dataset untouched", async ({ page }) => {
     await fresh(page);
     await send(page, "HDW1200CLQP رو می‌خوام");
@@ -191,7 +192,7 @@ test.describe("navigation + coexistence with the explicit pages", () => {
     await expectNoHorizontalOverflow(page);
   });
   test("a product chosen in the assistant opens the explicit sellers page with the same product", async ({ page }) => {
-    test.skip(!HAS_DB, "needs data/app.sqlite");
+    test.skip(!HAS_DB, REAL_CATALOG_REQUIRED);
     await fresh(page);
     await send(page, "HDW1200CLQP رو می‌خوام");
     await latest(page).getByRole("link", { name: "جزئیات محصول" }).click();

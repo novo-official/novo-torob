@@ -1,7 +1,7 @@
-import { collectErrors, dbRow, expect, expectNoHorizontalOverflow, FORBIDDEN_CLAIMS, HAS_DB, HP, test } from "./helpers";
+import { collectErrors, dbRow, expect, expectNoHorizontalOverflow, FORBIDDEN_CLAIMS, HAS_DB, HP, REAL_CATALOG_REQUIRED, test } from "./helpers";
 import type { Page } from "@playwright/test";
 
-test.skip(!HAS_DB, "these journeys need the imported dataset (npm run db:import)");
+test.skip(!HAS_DB, REAL_CATALOG_REQUIRED);
 
 const CCTV = "دوربین مدار بسته";
 const enc = encodeURIComponent;
@@ -12,7 +12,7 @@ async function answerHeadphones(page: Page) {
   await page.goto("/");
   await page.getByRole("link", { name: "کمکم کن انتخاب کنم" }).click();
   await expect(page).toHaveURL(/\/discover$/);
-  await page.getByLabel(/نیازتان را کوتاه بنویسید/).fill("هدفون");
+  await page.getByRole("textbox", { name: "شرح نیاز خرید" }).fill("هدفون");
   await page.getByRole("button", { name: "ادامه" }).click();
   await expect(page.getByRole("heading", { name: /بیشتر برای چه کاری/ })).toBeVisible();
   await expect(page.getByText("گام ۲ از ۴")).toBeVisible();
@@ -63,7 +63,7 @@ for (const vp of [{ w: 390, h: 844 }, { w: 360, h: 800 }, { w: 1440, h: 900 }]) 
     await expect(page.getByRole("heading", { name: "قیمت ثبت‌شده" })).toBeVisible();
     await expect(page.getByText(/نه قیمت امروز و نه تضمین موجودی/)).toBeVisible();
     await expect(page.getByRole("link", { name: /بازگشت به نتایج/ })).toBeVisible();
-    await page.getByRole("link", { name: "مشاهده فروشنده‌ها" }).click();
+    await page.getByRole("link", { name: "مشاهده فروشنده‌ها", exact: true }).click();
     // Phase 4: the Selection now lands on the nearby-sellers step (matched offers only, stock never confirmed)
     await expect(page).toHaveURL(/\/sellers\?product=product_/);
     await expect(page.getByRole("heading", { level: 1, name: /پیشنهاد ثبت کرده‌اند/ })).toBeVisible();
@@ -185,12 +185,13 @@ test("variant ambiguity: the product page demands a variant and keeps the choice
   expect(await picker.getByRole("radio").count()).toBeGreaterThanOrEqual(3);
   await picker.getByRole("radio").first().click();
   await expect(page).toHaveURL(/variant=/);
-  await expect(page.getByRole("link", { name: "مشاهده فروشنده‌ها" })).toHaveAttribute("href", /variant=/);
+  await expect(page.getByRole("link", { name: "مشاهده فروشنده‌ها", exact: true })).toHaveAttribute("href", /variant=/);
   await expect(page.getByText(/کد مدل شبیه ولی متفاوت/).first()).toBeVisible();
 });
 
 test("keyboard only: tab to an answer and press Enter", async ({ page }) => {
   await page.goto(`/discover?cat=${enc(HP)}`);
+  await expect(page.getByRole("radiogroup")).toBeVisible(); // the advisor streams in after navigation; do not start tabbing into the loading shell
   for (let i = 0; i < 40; i++) {
     await page.keyboard.press("Tab");
     if (await page.evaluate(() => document.activeElement?.getAttribute("role") === "radio")) break;

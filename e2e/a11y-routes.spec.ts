@@ -1,6 +1,6 @@
 import AxeBuilder from "@axe-core/playwright";
 import type { Page } from "@playwright/test";
-import { DAHUA, expect, HAS_DB, HP, test } from "./helpers";
+import { DAHUA, expect, HAS_DB, HP, REAL_CATALOG_REQUIRED, test } from "./helpers";
 
 /**
  * Phase 9: axe-core (WCAG 2.0/2.1 A+AA, incl. colour contrast) over EVERY important route and state, at phone and desktop width.
@@ -35,7 +35,7 @@ for (const vp of [{ w: 390, h: 844 }, { w: 1440, h: 900 }]) {
     test.use({ viewport: { width: vp.w, height: vp.h } });
     for (const [name, url, db] of ROUTES) {
       test(`${name}`, async ({ page }) => {
-        test.skip(db && !HAS_DB, "needs data/app.sqlite");
+        test.skip(db && !HAS_DB, REAL_CATALOG_REQUIRED);
         await page.emulateMedia({ reducedMotion: "reduce" }); // the pages fade sections in; a mid-fade frame blends colours (false contrast reading)
         await page.goto(url);
         await page.evaluate(() => document.fonts.ready);

@@ -1,6 +1,6 @@
 import AxeBuilder from "@axe-core/playwright";
 import type { Page } from "@playwright/test";
-import { expect, HAS_DB, test } from "./helpers";
+import { expect, HAS_DB, REAL_CATALOG_REQUIRED, test } from "./helpers";
 
 /**
  * Automated accessibility audit (axe-core, WCAG 2.0/2.1 A + AA rules incl. colour contrast) of the new assistant in its main states.
@@ -23,7 +23,7 @@ const latest = (page: Page) => page.locator('[data-testid="agent-assistant-msg"]
 
 for (const vp of [{ w: 390, h: 844 }, { w: 1440, h: 900 }]) {
   test(`axe: assistant states at ${vp.w}×${vp.h} have no serious/critical violations`, async ({ page }) => {
-    test.skip(!HAS_DB, "needs data/app.sqlite");
+    test.skip(!HAS_DB, REAL_CATALOG_REQUIRED);
     test.setTimeout(120_000);
     await page.setViewportSize({ width: vp.w, height: vp.h });
     await page.goto("/assistant");
@@ -44,7 +44,7 @@ for (const vp of [{ w: 390, h: 844 }, { w: 1440, h: 900 }]) {
   });
 }
 test("axe: evidence card (fixtures) and the updated home page", async ({ page }) => {
-  test.skip(!HAS_DB, "needs data/app.sqlite");
+  test.skip(!HAS_DB, REAL_CATALOG_REQUIRED);
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/assistant");
   await page.evaluate(() => sessionStorage.clear());
@@ -70,7 +70,7 @@ const MSTART = `/missions/start?product=${MDAHUA}&variant=${encodeURIComponent("
 const mtab = async (page: Page, t: string) => { await page.getByTestId(`tab-${t}-btn`).click(); await expect(page.getByTestId(`tab-${t}`)).toBeVisible({ timeout: 20_000 }); };
 for (const vp of [{ w: 390, h: 844 }, { w: 1440, h: 900 }]) {
   test(`axe: mission states at ${vp.w}×${vp.h} have no serious/critical violations`, async ({ page }) => {
-    test.skip(!HAS_DB, "needs data/app.sqlite");
+    test.skip(!HAS_DB, REAL_CATALOG_REQUIRED);
     test.setTimeout(150_000);
     await page.emulateMedia({ reducedMotion: "reduce" });
     await page.setViewportSize({ width: vp.w, height: vp.h });

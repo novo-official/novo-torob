@@ -1,4 +1,4 @@
-import { expect, DAHUA, HAS_DB, test } from "./helpers";
+import { DAHUA, expect, HAS_DB, REAL_CATALOG_REQUIRED, test } from "./helpers";
 
 /**
  * Document-title regression (Phase 10A): the title must be correct after every full navigation, after a refresh, and after CLIENT-side
@@ -50,7 +50,7 @@ test.describe("document title", () => {
   });
 
   test("mission flow: start → mission → tab switches keep a non-empty, correct title", async ({ page }) => {
-    test.skip(!HAS_DB, "needs data/app.sqlite");
+    test.skip(!HAS_DB, REAL_CATALOG_REQUIRED);
     const start = `/missions/start?product=${DAHUA}&variant=${encodeURIComponent("unknown|HDW1200CLQP")}&shop=shop_8670c71ca3baff62d68de422&offer=offer_742932354aecd83d7fc7c266&visit=2026-10-24T11:00&district=ferdowsi&bmax=4500000`;
     for (let i = 0; i < 3; i++) {
       await page.goto(start);

@@ -1,11 +1,12 @@
 import fs from "node:fs";
 import path from "node:path";
 import type { Page, Request } from "@playwright/test";
-import { collectErrors, DAHUA, dbRow, expect, expectNoHorizontalOverflow, HAS_DB, test } from "./helpers";
+import { collectErrors, DAHUA, dbRow, expect, expectNoHorizontalOverflow, HAS_DB, REAL_CATALOG_REQUIRED, test } from "./helpers";
+import { QA_OUT } from "../tests/helpers/qa-out";
 
-test.skip(!HAS_DB, "needs data/app.sqlite");
+test.skip(!HAS_DB, REAL_CATALOG_REQUIRED);
 const enc = encodeURIComponent;
-const OUT = path.resolve(process.cwd(), "docs/qa");
+const OUT = QA_OUT;
 const DV = "unknown|HDW1200CLQP";
 const MID_A = "shop_8670c71ca3baff62d68de422";
 const MID_B = "shop_350520090b6a5a6163f919d3";

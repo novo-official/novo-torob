@@ -1,6 +1,6 @@
-import fs from "node:fs";
 import path from "node:path";
 import { DatabaseSync } from "node:sqlite";
+import { probeCatalog } from "../tests/helpers/real-catalog";
 import { expect, test as base, type Page } from "@playwright/test";
 
 /** 1×1 transparent PNG: product photos are stubbed so tests never depend on the external image host. */
@@ -17,7 +17,10 @@ export const test = base.extend({
 export { expect };
 
 export const DB_PATH = path.resolve(process.env.DATABASE_PATH || "data/app.sqlite");
-export const HAS_DB = fs.existsSync(DB_PATH);
+/** True only for the FULL real catalog (225,903 products). A fixture/partial database never counts, so dataset-backed specs skip instead of passing on fake data. */
+export const HAS_DB = probeCatalog().real;
+/** Standard skip annotation for specs that need the real Torob catalog. */
+export const REAL_CATALOG_REQUIRED = "requires real catalog (data/app.sqlite with 225,903 products) — BLOCKED: AWAITING REAL DATA";
 
 export function dbRow<T>(sql: string, ...p: Array<string | number>): T {
   const db = new DatabaseSync(DB_PATH, { readOnly: true });

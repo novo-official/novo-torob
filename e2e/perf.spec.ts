@@ -1,5 +1,6 @@
 import fs from "node:fs";
-import { DAHUA, expect, HAS_DB, HP, test } from "./helpers";
+import { DAHUA, expect, HAS_DB, HP, REAL_CATALOG_REQUIRED, test } from "./helpers";
+import { QA_OUT, qaPath } from "../tests/helpers/qa-out";
 
 /**
  * Browser-side load metrics (Chrome, local production build, desktop CPU, no network throttling, images/tiles stubbed):
@@ -13,7 +14,7 @@ const PAGES: Array<[string, string]> = [
   ["inquiry", `/missions/new?product=${DAHUA}&variant=${enc("unknown|HDW1200CLQP")}&shop=shop_8670c71ca3baff62d68de422&offer=offer_742932354aecd83d7fc7c266`], ["missions", "/missions"],
 ];
 test("page-load metrics on the production build (390×844 and 1440×900)", async ({ browser }) => {
-  test.skip(!HAS_DB, "needs data/app.sqlite");
+  test.skip(!HAS_DB, REAL_CATALOG_REQUIRED);
   test.setTimeout(240_000);
   const out: Record<string, Record<string, { ttfb: number; fcp: number; lcp: number; cls: number; domReady: number; load: number }>> = {};
   for (const vp of [{ w: 390, h: 844 }, { w: 1440, h: 900 }]) {
@@ -43,5 +44,6 @@ test("page-load metrics on the production build (390×844 and 1440×900)", async
     }
     await ctx.close();
   }
-  fs.writeFileSync("docs/qa/browser-perf.json", JSON.stringify({ at: new Date().toISOString(), note: "Chrome, local production build, no throttling, photos/tiles stubbed; not Lighthouse, not field data", metrics: out }, null, 2));
+  fs.mkdirSync(QA_OUT, { recursive: true });
+  fs.writeFileSync(qaPath("browser-perf.json"), JSON.stringify({ at: new Date().toISOString(), note: "Chrome, local production build, no throttling, photos/tiles stubbed; not Lighthouse, not field data", metrics: out }, null, 2));
 });

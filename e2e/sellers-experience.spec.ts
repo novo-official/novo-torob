@@ -2,12 +2,13 @@ import fs from "node:fs";
 import path from "node:path";
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
+import { qaPath } from "../tests/helpers/qa-out";
 
 let fixture: { camera: string; pump: string; wire: string; firstShop: string };
-const OUT = path.resolve(process.cwd(), "docs/qa/redesign/sellers");
+const OUT = qaPath("redesign/sellers");
 
 test.beforeAll(({}, info) => {
-  test.skip(info.project.metadata.syntheticCatalog !== true, "Run npm run qa:sellers with the isolated synthetic catalog.");
+  test.skip(info.project.metadata.syntheticCatalog !== true, "explicit synthetic-fixture opt-in: run npm run qa:sellers (isolated fixture catalog, not the real catalog)");
   fixture = JSON.parse(fs.readFileSync(".cache/qa-sellers/manifest.json", "utf8"));
 });
 

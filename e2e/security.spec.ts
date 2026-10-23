@@ -1,4 +1,4 @@
-import { DAHUA, expect, HAS_DB, test } from "./helpers";
+import { DAHUA, expect, HAS_DB, REAL_CATALOG_REQUIRED, test } from "./helpers";
 import type { Page } from "@playwright/test";
 
 const enc = encodeURIComponent;
@@ -35,7 +35,7 @@ test.describe("security headers and CSP", () => {
     for (const attrs of inline) expect(attrs, "inline script without nonce").toContain(`nonce="${na}"`);
   });
   test("no CSP violation on the main routes and journeys (map tiles/photos are stubbed hosts that the policy allows)", async ({ page }) => {
-    test.skip(!HAS_DB, "needs data/app.sqlite");
+    test.skip(!HAS_DB, REAL_CATALOG_REQUIRED);
     await page.addInitScript(() => { (window as unknown as { __csp: string[] }).__csp = []; document.addEventListener("securitypolicyviolation", (e) => (window as unknown as { __csp: string[] }).__csp.push(`${e.violatedDirective} ${e.blockedURI}`)); });
     const seen: string[] = [];
     for (const u of ["/", "/assistant", "/discover", "/search?q=هدفون", `/products/${DAHUA}`, `/sellers?product=${DAHUA}&variant=${enc(DV)}`, `/compare?product=${DAHUA}&variant=${enc(DV)}&shops=${SHOP}`, `/missions/new?product=${DAHUA}&variant=${enc(DV)}&shop=${SHOP}&offer=${OFFER}`, "/missions", "/data", `/missions/start?product=${DAHUA}&variant=${enc(DV)}&shop=${SHOP}&offer=${OFFER}`]) {
@@ -68,7 +68,7 @@ test.describe("DOM XSS and open redirect", () => {
     expect(dialogs).toEqual([]);
   });
   test("back / redirect parameters can never point off-site", async ({ page }) => {
-    test.skip(!HAS_DB, "needs data/app.sqlite");
+    test.skip(!HAS_DB, REAL_CATALOG_REQUIRED);
     for (const bad of ["//evil.example/x", "https://evil.example/", "javascript:alert(1)", "/\\evil.example", "/compare@evil.example", "///evil.example"]) {
       await page.goto(`/missions/new?product=${DAHUA}&variant=${enc(DV)}&shop=${SHOP}&offer=${OFFER}&back=${enc(bad)}`);
       const hrefs = await page.locator("a[href]").evaluateAll((a) => a.map((x) => (x as HTMLAnchorElement).getAttribute("href") ?? ""));

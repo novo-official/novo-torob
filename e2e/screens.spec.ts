@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
-import { collectErrors, DAHUA, expectNoHorizontalOverflow, HAS_DB, HP, test } from "./helpers";
+import { collectErrors, DAHUA, expectNoHorizontalOverflow, HAS_DB, HP, REAL_CATALOG_REQUIRED, test } from "./helpers";
+import { QA_OUT } from "../tests/helpers/qa-out";
 
 const VIEWPORTS = [
   { name: "360x800", width: 360, height: 800 },
@@ -33,14 +34,14 @@ const PAGES: Array<[string, string, boolean]> = [
   ["inquiry-context", `/missions/new?product=${DAHUA}&variant=${enc("unknown|HDW1200CLQP")}&shop=shop_8670c71ca3baff62d68de422&offer=offer_742932354aecd83d7fc7c266&visit=2026-10-24T11:00`, true],
   ["mission-start", `/missions/start?product=${DAHUA}&variant=${enc("unknown|HDW1200CLQP")}&shop=shop_8670c71ca3baff62d68de422&offer=offer_742932354aecd83d7fc7c266&visit=2026-10-24T11:00`, true],
 ];
-const OUT = path.resolve(process.cwd(), "docs/qa");
+const OUT = QA_OUT;
 
 for (const vp of VIEWPORTS) {
   test.describe(`viewport ${vp.name}`, () => {
     test.use({ viewport: { width: vp.width, height: vp.height } });
     for (const [name, url, needsDb] of PAGES) {
       test(`${name} @ ${vp.name}`, async ({ page }) => {
-        test.skip(needsDb && !HAS_DB, "needs data/app.sqlite");
+        test.skip(needsDb && !HAS_DB, REAL_CATALOG_REQUIRED);
         fs.mkdirSync(OUT, { recursive: true });
         const errors = collectErrors(page);
         await page.goto(url);

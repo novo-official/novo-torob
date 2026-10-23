@@ -1,9 +1,10 @@
 import fs from "node:fs";
 import path from "node:path";
 import type { Page, Request } from "@playwright/test";
-import { collectErrors, DAHUA, dbRow, expect, expectNoHorizontalOverflow, FORBIDDEN_CLAIMS, HAS_DB, test } from "./helpers";
+import { collectErrors, DAHUA, dbRow, expect, expectNoHorizontalOverflow, FORBIDDEN_CLAIMS, HAS_DB, REAL_CATALOG_REQUIRED, test } from "./helpers";
+import { qaPath } from "../tests/helpers/qa-out";
 
-test.skip(!HAS_DB, "needs data/app.sqlite");
+test.skip(!HAS_DB, REAL_CATALOG_REQUIRED);
 const enc = encodeURIComponent;
 const DV = "unknown|HDW1200CLQP";
 const SHOP_A = "shop_8670c71ca3baff62d68de422";
@@ -42,7 +43,7 @@ test("demo rehearsal (mock only): the five-minute script runs end to end on the 
 
   // 1:00 — stage 1, ambiguous need: 3 questions → real catalog cards with reasons and evidence
   await page.goto("/discover");
-  await page.getByLabel(/نیازتان را کوتاه بنویسید/).fill("هدفون");
+  await page.getByRole("textbox", { name: "شرح نیاز خرید" }).fill("هدفون");
   await page.getByRole("button", { name: "ادامه" }).click();
   await page.getByRole("radio", { name: /ورزش/ }).click();
   await page.getByRole("radio", { name: /بی‌سیم/ }).click();
@@ -145,6 +146,7 @@ test("demo rehearsal (mock only): the five-minute script runs end to end on the 
   }
   expect(errors).toEqual([]);
   const total = Date.now() - t0;
-  const out = path.resolve("docs/qa/demo-rehearsal.json");
+  const out = qaPath("demo-rehearsal.json");
+  fs.mkdirSync(path.dirname(out), { recursive: true });
   fs.writeFileSync(out, JSON.stringify({ at: new Date().toISOString(), mode: "mock only; UI-driven steps without narration or pauses; machine-specific", viewport: "390x844", scenes, totalMs: total, nonGetRequests: reqs.filter((r) => r.method() !== "GET").map((r) => `${r.method()} ${new URL(r.url()).pathname}`) }, null, 2));
 });

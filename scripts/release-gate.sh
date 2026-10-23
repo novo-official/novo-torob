@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
 # Hamghadam release gate (zero-cost): runs every local check in order and writes a sanitized, timestamped log.
 # It makes NO model/network-paid calls, downloads nothing, and never writes data/app.sqlite or .data/.
-# Usage: bash scripts/release-gate.sh [logfile]      (default: docs/qa/release-gate-latest.txt)
+# Usage: bash scripts/release-gate.sh [logfile]      (default: qa-artifacts/release-gate-latest.txt)
 set -u
 cd "$(dirname "$0")/.."
-LOG="${1:-docs/qa/release-gate-latest.txt}"
+LOG="${1:-qa-artifacts/release-gate-latest.txt}"
+mkdir -p "$(dirname "$LOG")"
 PWJSON="$(mktemp -t pw-gate-XXXX.json)"
 DB="${DATABASE_PATH:-data/app.sqlite}"
 FAIL=0
@@ -20,6 +21,8 @@ step() {  # step "<label>" cmd...
   return 0
 }
 say "# Hamghadam release gate — $(date -Is)"
+export REQUIRE_REAL_CATALOG=1   # missing real catalog => BLOCKED (exit 3), never a green "full pass"
+if [ ! -f "$DB" ]; then say "BLOCKED: AWAITING REAL DATA — no database at $DB (need .data/torob-dataset.zip + npm run db:import)"; exit 3; fi
 say "node=$(node -v) host=$(uname -sr) cpus=$(nproc)  (secrets/env values are never printed)"
 say "AGENT_PROVIDER=${AGENT_PROVIDER:-<unset>} AGENT_API_KEY=$([ -n "${AGENT_API_KEY:-}" ] && echo '<SET — abort>' || echo '<unset>')"
 [ -n "${AGENT_API_KEY:-}" ] && { say "refusing to run with AGENT_API_KEY set"; exit 2; }

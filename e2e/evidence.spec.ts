@@ -1,6 +1,7 @@
-import { DAHUA, expect, HAS_DB, test } from "./helpers";
+import { DAHUA, expect, HAS_DB, REAL_CATALOG_REQUIRED, test } from "./helpers";
+import { qaPath } from "../tests/helpers/qa-out";
 
-test.skip(!HAS_DB, "needs data/app.sqlite");
+test.skip(!HAS_DB, REAL_CATALOG_REQUIRED);
 const K20I = "product_b5360def23c574ad62d601e8";
 
 test.describe("external evidence on the product page (opt-in; fixture mode in e2e; no network)", () => {
@@ -49,6 +50,6 @@ test.describe("external evidence on the product page (opt-in; fixture mode in e2
     await expect(res.locator("a[href^='https://www.scarbir.com/']").first()).toHaveAttribute("rel", /noopener/);
     await expect(res).toContainText("حقوق بازنشر");
     expect(outbound).toEqual([]); // the browser never talks to the third party either; links open only on the user's click
-    await page.screenshot({ path: "docs/qa/p91-external-evidence-linkonly-390x844.png", fullPage: true });
+    await page.screenshot({ path: qaPath("p91-external-evidence-linkonly-390x844.png"), fullPage: true });
   });
 });

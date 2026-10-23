@@ -1,7 +1,7 @@
 import type { Locator, Page } from "@playwright/test";
-import { DAHUA, expect, HAS_DB, test } from "./helpers";
+import { DAHUA, expect, HAS_DB, REAL_CATALOG_REQUIRED, test } from "./helpers";
 
-test.skip(!HAS_DB, "needs data/app.sqlite");
+test.skip(!HAS_DB, REAL_CATALOG_REQUIRED);
 const enc = encodeURIComponent;
 const DV = "unknown|HDW1200CLQP";
 
@@ -28,14 +28,15 @@ test.describe("keyboard-only: the four official stages end to end", () => {
     await tabTo(page, box); focusLog.push(await focusVisible(page));
     await page.keyboard.type("hdw1200clqp");
     await page.keyboard.press("Enter");
-    const hit = page.locator(`a[href^="/products/${DAHUA}"]`).first();
+    // the card's image link is deliberately tabindex=-1/aria-hidden (no duplicate tab stop): target the keyboard-reachable link
+    const hit = page.locator(`a[href^="/products/${DAHUA}"]:not([tabindex="-1"])`).first();
     await expect(hit).toBeVisible({ timeout: 20_000 });
     await tabTo(page, hit); focusLog.push(await focusVisible(page));
     await page.keyboard.press("Enter");
     await expect(page).toHaveURL(new RegExp(`/products/${DAHUA}`));
 
     // stage 2 — sellers
-    const toSellers = page.getByRole("link", { name: "مشاهده فروشنده‌ها" });
+    const toSellers = page.getByRole("link", { name: "مشاهده فروشنده‌ها", exact: true });
     await tabTo(page, toSellers); focusLog.push(await focusVisible(page));
     await page.keyboard.press("Enter");
     await expect(page).toHaveURL(/\/sellers\?/);

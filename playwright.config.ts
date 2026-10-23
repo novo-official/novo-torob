@@ -7,6 +7,7 @@ const REMOTE = process.env.SMOKE_BASE_URL;
 // Uses the system Google Chrome (channel "chrome"); no browser download is performed.
 export default defineConfig({
   testDir: "./e2e",
+  globalSetup: REMOTE ? undefined : "./e2e/global-setup.ts",
   timeout: 60_000,
   fullyParallel: false,
   reporter: [["list"]],

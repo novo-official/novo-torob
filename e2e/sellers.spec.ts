@@ -1,12 +1,17 @@
 import fs from "node:fs";
 import path from "node:path";
 import type { Page, Request } from "@playwright/test";
-import { BIG_PRODUCT, collectErrors, dbRow, expect, expectNoHorizontalOverflow, FORBIDDEN_CLAIMS, HAS_DB, test } from "./helpers";
+import { BIG_PRODUCT, collectErrors, dbRow, expect, expectNoHorizontalOverflow, FORBIDDEN_CLAIMS, HAS_DB, REAL_CATALOG_REQUIRED, test } from "./helpers";
+import { QA_OUT } from "../tests/helpers/qa-out";
 
-test.skip(!HAS_DB, "needs data/app.sqlite");
+const TILES_DISABLED_SKIP = "explicit deployment opt-out: this build has map tiles disabled (NEXT_PUBLIC_MAP_TILES_DISABLED=1)";
+/** the tile toggle only exists when the build allows tiles at all */
+const tilesDisabledByDeployment = async (page: import("@playwright/test").Page) => (await page.getByRole("checkbox", { name: /نمایش نقشه/ }).count()) === 0;
+
+test.skip(!HAS_DB, REAL_CATALOG_REQUIRED);
 const enc = encodeURIComponent;
 const toLatin = (v: string) => v.replace(/[۰-۹]/g, (d) => String("۰۱۲۳۴۵۶۷۸۹".indexOf(d))).replace(/٬/g, "");
-const OUT = path.resolve(process.cwd(), "docs/qa");
+const OUT = QA_OUT;
 const cards = (page: Page) => page.locator('[data-testid="seller-list"] [data-testid="seller-card"]');
 const pins = (page: Page) => page.locator("[data-pin-kind]");
 let VARIANT = "";
@@ -24,7 +29,7 @@ test.describe("journey: Selection → nearby sellers → radius/location → map
   test("product page → sellers → change radius/location → map pin → sheet → shop detail → back", async ({ page }) => {
     const errors = collectErrors(page);
     await page.goto(`/products/${BIG_PRODUCT}?variant=${enc(VARIANT)}`);
-    await page.getByRole("link", { name: "مشاهده فروشنده‌ها" }).click();
+    await page.getByRole("link", { name: "مشاهده فروشنده‌ها", exact: true }).click();
     await expect(page).toHaveURL(/\/sellers\?product=product_.*variant=/);
     await expect(page.getByRole("heading", { name: "کجا هستید؟" })).toBeVisible();
 
@@ -235,7 +240,22 @@ test.describe("map: tiles are optional and disclosed", () => {
     await page.route("https://tile.openstreetmap.org/**", (r) => r.abort());
     await page.goto(sellersUrl("&r=3000&view=map"));
     await expect(pins(page).first()).toBeVisible();
+    test.skip(await tilesDisabledByDeployment(page), TILES_DISABLED_SKIP);
     await expect(page.getByTestId("tiles-note")).toContainText("کاشی‌های نقشه بارگذاری نشد", { timeout: 15_000 });
+    await page.getByRole("tab", { name: "فهرست" }).click();
+    await expect(cards(page).first()).toBeVisible();
+  });
+  test("deployment with map tiles disabled → honest note, no tile toggle, no tile request", async ({ page }) => {
+    const tileReqs: string[] = [];
+    page.on("request", (r) => { if (r.url().includes("tile.openstreetmap.org")) tileReqs.push(r.url()); });
+    await page.goto(sellersUrl("&r=3000&view=map"));
+    await expect(page.getByTestId("tiles-note")).toBeVisible();
+    test.skip(!(await tilesDisabledByDeployment(page)), "tiles are enabled in this build; the disabled-deployment contract does not apply (run against an image built with NEXT_PUBLIC_MAP_TILES_DISABLED=1)");
+    await expect(page.getByTestId("tiles-note")).toContainText("در این استقرار فعال نیست");
+    await expect(page.getByTestId("tiles-note")).not.toContainText("می‌گیرد");
+    await expect(pins(page).first()).toBeVisible();
+    await page.waitForTimeout(800);
+    expect(tileReqs).toEqual([]);
     await page.getByRole("tab", { name: "فهرست" }).click();
     await expect(cards(page).first()).toBeVisible();
   });
@@ -244,6 +264,7 @@ test.describe("map: tiles are optional and disclosed", () => {
     page.on("request", (r) => { if (r.url().includes("tile.openstreetmap.org")) tileReqs.push(r.url()); });
     await page.goto(sellersUrl("&r=3000&view=map&tiles=0"));
     await expect(pins(page).first()).toBeVisible();
+    test.skip(await tilesDisabledByDeployment(page), TILES_DISABLED_SKIP);
     await page.waitForTimeout(800);
     expect(tileReqs).toEqual([]);
     await expect(page.getByTestId("tiles-note")).toContainText("هیچ درخواستی به سرور بیرونی نمی‌رود");
@@ -251,6 +272,8 @@ test.describe("map: tiles are optional and disclosed", () => {
   });
   test("tiles on → attribution control is visible and the disclosure says the tile server sees the viewed area", async ({ page }) => {
     await page.goto(sellersUrl("&r=3000&view=map"));
+    await expect(page.getByTestId("tiles-note")).toBeVisible();
+    test.skip(await tilesDisabledByDeployment(page), TILES_DISABLED_SKIP);
     await expect(page.locator(".leaflet-control-attribution")).toContainText("OpenStreetMap");
     await expect(page.getByTestId("tiles-note")).toContainText("آن سرور ناحیه‌ی در حال دیدن را می‌بیند");
   });

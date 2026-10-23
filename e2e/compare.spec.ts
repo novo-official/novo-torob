@@ -1,11 +1,12 @@
 import fs from "node:fs";
 import path from "node:path";
 import type { Page } from "@playwright/test";
-import { BIG_PRODUCT, collectErrors, DAHUA, dbRow, expect, expectNoHorizontalOverflow, FORBIDDEN_CLAIMS, HAS_DB, test } from "./helpers";
+import { BIG_PRODUCT, collectErrors, DAHUA, dbRow, expect, expectNoHorizontalOverflow, FORBIDDEN_CLAIMS, HAS_DB, REAL_CATALOG_REQUIRED, test } from "./helpers";
+import { QA_OUT } from "../tests/helpers/qa-out";
 
-test.skip(!HAS_DB, "needs data/app.sqlite");
+test.skip(!HAS_DB, REAL_CATALOG_REQUIRED);
 const enc = encodeURIComponent;
-const OUT = path.resolve(process.cwd(), "docs/qa");
+const OUT = QA_OUT;
 const DV = "unknown|HDW1200CLQP"; // Dahua dominant variant group
 const LOW_A = "shop_0ca1ab09d6a27d703e3ea4a0"; // 2 480 000 (suspiciously low, offer_c5e7b056…)
 const LOW_B = "shop_af02adae0bdd7e072ca665d6"; // 2 800 000

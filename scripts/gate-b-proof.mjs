@@ -1,7 +1,7 @@
 // Gate B proof (zero-cost): runs the BUILT standalone server under several provider environments with FAKE secrets and a local TCP sink
 // standing in for an "LLM host". Proves: live-looking / malformed / expired / forged handshakes never open a connection, labels are honest,
 // cache/CSP/CSRF headers behave, and the fake key never appears in responses, logs or the client bundle.
-// Usage: node scripts/gate-b-proof.mjs   (needs `npm run build` first). Writes docs/qa/gate-b-proof.json. No paid/network calls.
+// Usage: node scripts/gate-b-proof.mjs   (needs `npm run build` first). Writes qa-artifacts/gate-b-proof.json (git-ignored). No paid/network calls.
 import { spawn } from "node:child_process";
 import net from "node:net";
 import fs from "node:fs";
@@ -90,5 +90,7 @@ out.bundle = { ...out.bundle, filesScanned: files, filesWithModelOrSecretStrings
 out.logs = { lines: allLogs.join("").split("\n").filter(Boolean).length, containsFakeKey: allLogs.join("").includes(FAKE_KEY) };
 out.sinkTotalConnections = sinkHits;
 sink.close();
-fs.writeFileSync(path.join(ROOT, "docs/qa/gate-b-proof.json"), JSON.stringify(out, null, 2));
+const QA_OUT = path.resolve(process.env.QA_OUTPUT_DIR || path.join(ROOT, "qa-artifacts"));
+fs.mkdirSync(QA_OUT, { recursive: true });
+fs.writeFileSync(path.join(QA_OUT, "gate-b-proof.json"), JSON.stringify(out, null, 2));
 console.log(JSON.stringify({ variants: out.variants.map((v) => ({ n: v.name.slice(0, 40), turn: v.turn?.map((t) => t[0]).join(), en: v.statusEnabled, id: v.providerId, sink: v.sinkConnections, ui: v.uiBannerProvider ?? v.uiLocked })), sinkTotal: sinkHits, logsLeak: out.logs.containsFakeKey, bundle: out.bundle, csp: out.csp, csrf: out.csrf }, null, 1));

@@ -1,11 +1,12 @@
 /**
  * Runs the Phase 7 evaluation corpus on the deterministic MOCK planner against data/app.sqlite and writes
- * docs/qa/agent-eval-mock.json. No network, no paid API. Live-model metrics are NOT produced (NOT LIVE VERIFIED).
+ * qa-artifacts/agent-eval-mock.json (git-ignored; QA_OUTPUT_DIR=docs/qa updates the tracked reference copy deliberately). No network, no paid API. Live-model metrics are NOT produced (NOT LIVE VERIFIED).
  *   npm run agent:eval            (all)       npm run agent:eval -- S05 S07   (subset)
  */
 import fs from "node:fs";
 import path from "node:path";
 import { openRealDb } from "../tests/helpers/real-db";
+import { qaPath } from "../tests/helpers/qa-out";
 import { runEval } from "../src/server/agent/eval/run";
 
 async function main() {
@@ -17,7 +18,7 @@ async function main() {
   const summary = { ...r, results: undefined };
   console.log("\n" + JSON.stringify(summary, null, 2));
   if (!only.length) {
-    const out = path.resolve("docs/qa/agent-eval-mock.json");
+    const out = qaPath("agent-eval-mock.json");
     fs.mkdirSync(path.dirname(out), { recursive: true });
     fs.writeFileSync(out, JSON.stringify({ generatedAt: new Date().toISOString().slice(0, 10), ...r }, null, 2));
     console.log(`\nwrote ${path.relative(process.cwd(), out)}`);
