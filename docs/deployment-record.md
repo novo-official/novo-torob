@@ -20,3 +20,8 @@
 Run serially on the final deployment: 197 passed, 2 latency-flaky (each passes when rerun alone), 4 skipped (labelled). Demo rehearsal (mock): 10 scenes, 16.6 s, only `POST /api/agent/turn`. Headers: CSP with nonce, X-Frame-Options DENY, nosniff, no-store; **no HSTS observed**; `POST /api/agent/admin` → 404 (no admin token configured), cross-site POST → 403.
 Known: Liara edge answers 400 (not 404) to malformed percent-escapes; `TRUST_PROXY_HEADERS` unset ⇒ one shared rate-limit bucket (30 agent turns/min, 120 POST/min for everyone).
 Not verified: Firefox/WebKit, screen reader, real phone, Liara edge `X-Forwarded-For` behaviour, billed amount.
+
+## Final deployment (source `8e04663`, 2026-10-23)
+Redeployed with mock, tiles off, live AI locked. DB on the disk re-hashed after the deploy: `47225ae5…156de5` (unchanged; persisted across deploys). `/api/ready` 200; `/api/agent/status` = mock (`isLanguageModel:false`); `POST /api/agent/admin` 404; cross-site POST 403.
+Public Playwright on the final deploy (real catalog IDs): 200 passed across two clean reruns (117 + 83), 4 labelled skips, 0 failures. The first pass over the same suite had 3 latency flakes (journeys @1440/@390, missions, security redirect) that all passed on rerun; server latency measured 0.2–1.4 s, test expectations are 5 s over a WAN. Demo rehearsal (mock): passed.
+Live AI: verified only locally (docs/live-trial-result.md: 6/6, 18 calls, ≈ $0.0051); NOT enabled on Liara.
