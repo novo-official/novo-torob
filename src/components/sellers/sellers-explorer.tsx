@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useRef, useState, useTransition } from "react";
 import { ArrowRight, Crosshair, List, LocateFixed, Map as MapIcon, MapPinned, PackageCheck, SearchX, TriangleAlert, X } from "lucide-react";
 import { COMPARE_LIMITS } from "@/domain/comparison";
+import { TILE_CONFIG } from "@/lib/map-config";
 import type { SellersResponse } from "@/domain/sellers";
 import { AreaLeadCard } from "@/components/sellers/area-lead-card";
 import { SellerCard } from "@/components/sellers/seller-card";
@@ -56,7 +57,8 @@ export function SellersExplorer({ initial, params, presets }: { initial: Sellers
   const gpsMode = params.origin === "gps";
   const filtersKey = `${params.product}|${params.variant}|${params.radius}|${params.uncertain}|${params.sort}|${params.open}|${params.reliable}|${params.pay}|${gpsPoint?.lat},${gpsPoint?.lon}`;
   const data = gpsMode && gpsData ? gpsData.data : initial;
-  const tilesEnabled = !tilesFailed && (params.tiles ?? !gpsMode);
+  // TILE_CONFIG.enabled is the deployment kill-switch (NEXT_PUBLIC_MAP_TILES_DISABLED at build time): the UI must never claim tiles are on when the build forbids them
+  const tilesEnabled = TILE_CONFIG.enabled && !tilesFailed && (params.tiles ?? !gpsMode);
   const busy = pending || (gpsMode && !!gpsPoint && gpsData?.key !== filtersKey);
   const selectedId = selectedShops[0] ?? null;
 
@@ -518,9 +520,11 @@ export function SellersExplorer({ initial, params, presets }: { initial: Sellers
               <span><span aria-hidden className="me-1 inline-block size-3 rounded-full border-2 border-[#1d4ed8] bg-white align-middle" />نقطه‌ی شروع</span>
             </p>
             <p>نشانگر شماره‌دار: چند فروشگاه با مختصات یکسان ثبت شده‌اند (معمولاً در یک پاساژ)؛ روی آن بزنید تا همه را ببینید.</p>
-            <label className="flex min-h-11 items-center gap-2"><input type="checkbox" className="size-5 rounded text-brand focus:ring-brand" checked={tilesEnabled} disabled={tilesFailed} onChange={(e) => { setTilesFailed(false); go({ tiles: e.target.checked }); }} />
-              نمایش نقشه‌ی خیابانی (بارگذاری کاشی از OpenStreetMap)</label>
-            <p data-testid="tiles-note">{tilesFailed ? "کاشی‌های نقشه بارگذاری نشد؛ نشانگرها روی زمینه‌ی ساده دیده می‌شوند و فهرست کامل است. " : tilesEnabled ? "با روشن بودن نقشه، مرورگر شما کاشی‌ها را از سرور OpenStreetMap می‌گیرد و آن سرور ناحیه‌ی در حال دیدن را می‌بیند. " : "نقشه‌ی خیابانی خاموش است؛ هیچ درخواستی به سرور بیرونی نمی‌رود. "}<span dir="ltr">© OpenStreetMap contributors (ODbL)</span>.</p>
+            {TILE_CONFIG.enabled ? (
+              <label className="flex min-h-11 items-center gap-2"><input type="checkbox" className="size-5 rounded text-brand focus:ring-brand" checked={tilesEnabled} disabled={tilesFailed} onChange={(e) => { setTilesFailed(false); go({ tiles: e.target.checked }); }} />
+                نمایش نقشه‌ی خیابانی (بارگذاری کاشی از OpenStreetMap)</label>
+            ) : null}
+            <p data-testid="tiles-note">{!TILE_CONFIG.enabled ? "نقشه‌ی خیابانی در این استقرار فعال نیست؛ نشانگرها روی زمینه‌ی ساده‌اند و هیچ درخواستی به سرور نقشه نمی‌رود. " : tilesFailed ? "کاشی‌های نقشه بارگذاری نشد؛ نشانگرها روی زمینه‌ی ساده دیده می‌شوند و فهرست کامل است. " : tilesEnabled ? "با روشن بودن نقشه، مرورگر شما کاشی‌ها را از سرور OpenStreetMap می‌گیرد و آن سرور ناحیه‌ی در حال دیدن را می‌بیند. " : "نقشه‌ی خیابانی خاموش است؛ هیچ درخواستی به سرور بیرونی نمی‌رود. "}{TILE_CONFIG.enabled ? <span dir="ltr">© OpenStreetMap contributors (ODbL)</span> : null}</p>
           </div>
         </div>
       </div>

@@ -2,6 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { useState } from "react";
+import { TILE_CONFIG } from "@/lib/map-config";
 import type { AreaRecommendation } from "@/domain/shopping-area";
 import { AreaLeadCard } from "@/components/sellers/area-lead-card";
 
@@ -13,7 +14,7 @@ const NearbyMap = dynamic(() => import("@/components/sellers/nearby-map").then((
 /** Area-only recovery (no product id): shopping-area leads with a map. No sellers, no offers, no stock claims. */
 export function AreaExplorer({ areas, origin }: { areas: AreaRecommendation[]; origin: { lat: number; lon: number; label: string } | null }) {
   const [selected, setSelected] = useState<string | null>(null);
-  const [tiles, setTiles] = useState(true);
+  const [tiles, setTiles] = useState(TILE_CONFIG.enabled);
   return (
     <div className="grid gap-5 lg:grid-cols-[minmax(0,26rem)_minmax(0,1fr)]">
       <ul className="min-w-0 space-y-3" aria-label="مناطق خرید پیشنهادی" data-testid="area-leads">

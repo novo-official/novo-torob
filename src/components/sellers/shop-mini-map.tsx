@@ -2,6 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { useState } from "react";
+import { TILE_CONFIG } from "@/lib/map-config";
 
 const NearbyMap = dynamic(() => import("@/components/sellers/nearby-map").then((m) => m.NearbyMap), {
   ssr: false,
@@ -9,7 +10,7 @@ const NearbyMap = dynamic(() => import("@/components/sellers/nearby-map").then((
 });
 
 export function ShopMiniMap({ shop }: { shop: { id: string; name: string; lat: number; lon: number } }) {
-  const [tiles, setTiles] = useState(true);
+  const [tiles, setTiles] = useState(TILE_CONFIG.enabled);
   return (
     <div className="space-y-2">
       <div className="h-64">
